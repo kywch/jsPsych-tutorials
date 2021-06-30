@@ -60,11 +60,11 @@
 <script>
     /* Change 4: Defining necessary variables for saving the results */
     // experimental session-defining variables
-    var task_name = "hello-world";
+    var task_name = "gonogo";
     var sbj_id = "test01";
 
     // YOU MUST GET YOUR OWN DROPBOX ACCESS TOKEN
-    var dropbox_access_token = '<PUT YOUR Dropbox ACCESS TOKEN HERE>';
+    var dropbox_access_token = 'CmppJuI53skAAAAAAAAAAUa1om5wjwJmLz45GU8etZk1k9hgCL_VNJWo1TxGN_zL';
 
     // my preference is to include the task and sbj_id in the file name
     var save_filename = '/' + task_name + '/' + task_name + '_' + sbj_id;
@@ -127,7 +127,6 @@
 
         /* Change 6: Sending the results file upon completion */
         on_finish: function () {
-            save_data_json();
             save_data_csv();
         }
     })
