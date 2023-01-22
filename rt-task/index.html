@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://kywch.github.io/jsPsych-in-Qualtrics/rt-task/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Embedding Reaction-Time Task - jsPsych in Qualtrics Tutorial Series</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Embedding Reaction-Time Task";
+        var mkdocs_page_input_path = "rt-task.md";
+        var mkdocs_page_url = "/jsPsych-in-Qualtrics/rt-task/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-D3RPWB8SEL"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-D3RPWB8SEL');
+      </script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> jsPsych in Qualtrics Tutorial Series
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 1. The Basics</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../github-pages/">Hosting jsPsych</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../hello-world/">Embedding Hello World!</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../save-php/">Saving Data with PHP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../participants/">Recruiting Participants</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 2. Case studies</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Embedding Reaction-Time Task</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#the-start-demo-simple-rt-taskhtml">The start: demo-simple-rt-task.html</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#hosting-this-task-in-github">Hosting this task in GitHub</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#step-0-create-a-github-account">Step 0. Create a GitHub account</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-1-create-a-new-github-repository">Step 1. Create a new GitHub repository</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-2-add-experiment-files-to-the-repository">Step 2. Add experiment files to the repository</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-3-click-the-settings-button">Step 3. Click the Settings button</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-4-enable-github-pages-for-your-experiment">Step 4. Enable GitHub Pages for your experiment</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#wait-did-you-know">WAIT, did you know?</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#first-transformation-demo-simple-rt-task-transformedhtml-and-rt-task_mainjs">First transformation: demo-simple-rt-task-transformed.html and rt-task_main.js</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#step-1-copy-demo-simple-rt-taskhtml-to-demo-simple-rt-task-transformedhtml">Step 1. Copy demo-simple-rt-task.html to demo-simple-rt-task-transformed.html</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-2-create-a-new-file-rt-task_mainjs">Step 2. Create a new file rt-task_main.js</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-3-cut-and-paste-the-experiment-related-code">Step 3. Cut and paste the experiment-related code</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-4-rt-task_mainjs-use-the-github-hosted-stimuli-images">Step 4. rt-task_main.js: Use the GitHub-hosted stimuli images</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#change-1-adding-the-image-hosting-site">Change 1: Adding the image hosting site</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-2-adding-repo_site-in-instructions">Change 2: Adding repo_site in instructions</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-3-adding-repo_site-in-test_stimuli">Change 3: Adding repo_site in test_stimuli</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-5-demo-simple-rt-task-transformedhtml-import-rt-task_mainjs">Step 5. demo-simple-rt-task-transformed.html: Import rt-task_main.js</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#does-this-work">Does this work?</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-6-upload-demo-simple-rt-task-transformedhtml-and-rt-task_mainjs-to-github">Step 6: Upload demo-simple-rt-task-transformed.html and rt-task_main.js to GitHub</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#second-transformation-demo-simple-rt-task-transformed-with-display-elementhtml">Second transformation: demo-simple-rt-task-transformed-with-display-element.html</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#change-1-using-display_element">Change 1: Using display_element</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#change-2-adding-display_stage-css-and-div">Change 2: Adding display_stage CSS and Div</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#change-3-adding-extra-scripts-for-qualtrics">Change 3: Adding extra scripts for Qualtrics</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#third-transformation-demo-simple-rt-task-qualtricsjs">Third transformation: demo-simple-rt-task-qualtrics.js</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#change-1-hiding-the-next-button">Change 1: Hiding the Next button</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#change-2-defining-and-load-required-resources">Change 2: Defining and load required resources</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#change-3-appending-the-display_stage-div-using-jquery">Change 3: Appending the display_stage Div using jQuery</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#change-4-wrapping-jspsychinit-in-a-function">Change 4: Wrapping jsPsych.init() in a function</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#change-5-summarizing-and-save-the-results-to-qualtrics">Change 5: Summarizing and save the results to Qualtrics</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#change-6-adding-the-clean-up-and-continue-functions">Change 6: Adding the clean up and continue functions</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#finally-embedding-jspsych-in-qualtrics">Finally, embedding jsPsych in Qualtrics</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#step-1-create-a-new-qualtrics-project-and-then-a-new-question">Step 1. Create a new Qualtrics project and then a new question</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-2-open-the-question-javascript-editor-and-copy-paste-the-whole-demo-simple-rt-task-qualtricsjs">Step 2. Open the Question JavaScript editor and copy paste the whole demo-simple-rt-task-qualtrics.js</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-3-open-the-question-html-editor-and-copy-paste-the-portion-of-demo-simple-rt-task-transformed-with-display-elementhtml">Step 3. Open the Question HTML editor and copy paste the portion of demo-simple-rt-task-transformed-with-display-element.html</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-4-create-embedded-data-elements">Step 4. Create Embedded Data elements</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-5-move-set-embedded-data-block-to-the-top-of-survey-flow">Step 5. Move Set Embedded Data block to the top of Survey Flow</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-6-add-a-check-for-the-embedded-data">Step 6. Add a check for the Embedded Data</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-7-publish-and-test">Step 7. Publish and test!</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#do-you-want-to-save-the-trial-by-trial-data">Do you want to save the trial-by-trial data?</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../flanker/">Embedding Flanker Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../choose-and-solve/">Embedding Choose-And-Solve Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../rc-rage/">Embedding Reactive AGression Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../stop-it/">Embedding Stop Signal Task (STOP-IT)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../audio-test/">Embedding Quick Audio Test</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../mood-induction/">Embedding Mood Induction</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">jsPsych in Qualtrics Tutorial Series</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Part 2. Case studies &raquo;</li>
+      <li>Embedding Reaction-Time Task</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="embedding-the-jspsych-simple-reaction-time-task-into-qualtrics">Embedding the jsPsych Simple Reaction Time Task into Qualtrics</h1>
+<p><font color=red><strong>WARNING!! This tutorial series is based on version <code>6.x</code> of jsPsych. Due to extensive changes in jsPsych 7.x and above, many things in this tutorial may not work with jsPsych v7.x and above. You can get <a href="https://github.com/jspsych/jsPsych/releases/download/v6.3.1/jspsych-6.3.1.zip">jsPsych v6.3.1 (the last jsPsych 6.x release) from here</a>. Here, I used <code>v6.1.0</code>, which is not much different from <code>v6.3.1</code></strong></font></p>
+<p>Let's try to embed a more complicated task, <a href="https://www.jspsych.org/6.3/tutorials/rt-task/">the original jsPsych v6.3 Simple Reaction Time Task</a>, to qualtrics. You can first try the task by clicking <a href="https://kywch.github.io/Simple-RT-Task/demo-simple-rt-task.html">HERE</a>.</p>
+<hr />
+<h2 id="the-start-demo-simple-rt-taskhtml">The start: <code>demo-simple-rt-task.html</code></h2>
+<p>The original experiment code, <code>demo-simple-rt-task.html</code> is <a href="https://github.com/kywch/Simple-RT-Task/blob/master/demo-simple-rt-task.html">here</a>. Let's make the code work in a separate folder like <a href="https://www.jspsych.org/tutorials/hello-world/#step-2-create-a-folder-to-store-your-experiment-files">the hello-world example</a>.</p>
+<p>To do so, you need to change the url of jsPsych scripts, stylesheet, and stimuli of the experiment code. In this tutorial, we will change those twice to make the rt-task (1) run on a new folder and (2) use the GitHub-hosted resources.</p>
+<p>First, let's make it run locally. To do so, The jsPsych library, plugins, and stylesheet come from the local folder. As you can see, the <code>demo-simple-rt-task.html</code> in this repository looks at the local <code>jspsych-6.1.0</code> folder for these files.</p>
+<pre><code class="language-html">&lt;script src=&quot;jspsych-6.1.0/jspsych.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js&quot;&gt;&lt;/script&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;jspsych-6.1.0/css/jspsych.css&quot;&gt;&lt;/link&gt;
+</code></pre>
+<p>The experiment also needs stimuli images (see <a href="https://www.jspsych.org/6.3/tutorials/rt-task/#part-3-show-instructions">the original jsPsych v6.3 tutorial</a>). So, you need to create a folder called <code>img</code> in the experiment folder and copy <a href="https://www.jspsych.org/img/blue.png">blue.png</a> and <a href="https://www.jspsych.org/img/orange.png">orange.png</a> into the <code>img</code> folder.</p>
+<p>Your folder should look like this.</p>
+<p><img alt="Simple RT-task folder" src="../img/rt-task-start_RT_task_folder.jpg" /></p>
+<hr />
+<h2 id="hosting-this-task-in-github">Hosting this task in GitHub</h2>
+<p>To use jsPsych in Qualtrics, the jsPsych javascript and CSS files need to be online and loadable from Qualtrics. Creating a GitHub repository for your experiment helps you do so in simple steps.</p>
+<h3 id="step-0-create-a-github-account">Step 0. Create a GitHub account</h3>
+<p>Go to <a href="https://github.com/join">the GitHub site</a> and create your account.</p>
+<h3 id="step-1-create-a-new-github-repository">Step 1. Create a new GitHub repository</h3>
+<p>First, create a repository for your experiment by following <a href="https://help.github.com/en/github/getting-started-with-github/create-a-repo">this <code>Create a repo</code> guide</a>.</p>
+<h3 id="step-2-add-experiment-files-to-the-repository">Step 2. Add experiment files to the repository</h3>
+<p>Upload your experiment files to the repository. The easy way is to drag and drop your files like this <a href="https://help.github.com/en/github/managing-files-in-a-repository/adding-a-file-to-a-repository"><code>Adding a file to a repository</code>guide</a>. Do NOT forget to click the <code>Commit changes</code> button.</p>
+<p>My Simple-RT-Task repository looks like this: <a href='https://github.com/kywch/Simple-RT-Task'>https://github.com/kywch/Simple-RT-Task/</a>.</p>
+<h3 id="step-3-click-the-settings-button">Step 3. Click the Settings button</h3>
+<p>Click the <strong>Settings</strong> button on the repository home page.</p>
+<p><img alt="Click the Settings button" src="../img/github-pages-Step2_Click_the_Settings_button.jpg" /></p>
+<h3 id="step-4-enable-github-pages-for-your-experiment">Step 4. Enable GitHub Pages for your experiment</h3>
+<p>Scroll down and find the <strong>GitHub Pages</strong> section. Select the <strong>Source</strong> to be the <strong>master branch</strong>.</p>
+<p><img alt="Enable GitHub Pages" src="../img/rt-task-hosting_Enable_GitHub_Pages.jpg" /></p>
+<p>Within a few minutes, a website will be available at <code>https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;/</code>. </p>
+<p>How do you know the page is up and running? Well, let's try to access the <code>jspsych.css</code> file by going into <code>https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;/jspsych-6.1.0/css/jspsych.css</code>. For example, <a href='https://kywch.github.io/Simple-RT-Task/jspsych-6.1.0/css/jspsych.css'>https://kywch.github.io/Simple-RT-Task/jspsych-6.1.0/css/jspsych.css</a>.</p>
+<h3 id="wait-did-you-know">WAIT, did you know?</h3>
+<p>Did you know that you also accidentally made your task online that anyone with the Internet can try your task?</p>
+<p>Open your browser and go to <code>https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;/demo-simple-rt-task.html</code>, or try mine: <a href='https://kywch.github.io/Simple-RT-Task/demo-simple-rt-task.html'>https://kywch.github.io/Simple-RT-Task/demo-simple-rt-task.html</a>.</p>
+<p>If your expeirment doesnt' work, (this may sound silly but worked for me) try to turn off and on the GitHub Pages multiple times (i.e., switching the <code>Source</code> to be <code>None</code> and <code>master branch</code>).</p>
+<hr />
+<h2 id="first-transformation-demo-simple-rt-task-transformedhtml-and-rt-task_mainjs">First transformation: <code>demo-simple-rt-task-transformed.html</code> and <code>rt-task_main.js</code></h2>
+<p>I prefer to separate out the experiment-related code from the operation-related code, following <a href="https://expfactory.github.io/experiments/">the Experiment Factory</a> style. If you haven't, please visit <a href="https://expfactory.github.io/experiments/">the Experiment Factory library</a>, which contain a ton of experiments with running demos and their code.</p>
+<p>In the <code>demo-simple-rt-task.html</code>, constructing the <code>timeline</code> can be considered to be experiment-related, and the remaining parts that also appear in <a href="../hello-world/">the Hello-World example</a>, such as loading <code>jspsych.js</code> and <code>jsPsych.init()</code> can be considered to be operation-related. Here, I am separating the experiment-related code and the operation-related code and putting the code into <code>rt-task_main.js</code> and <code>demo-simple-rt-task-transformed.html</code>, respectively, by following steps:</p>
+<h3 id="step-1-copy-demo-simple-rt-taskhtml-to-demo-simple-rt-task-transformedhtml">Step 1. Copy <code>demo-simple-rt-task.html</code> to <code>demo-simple-rt-task-transformed.html</code></h3>
+<h3 id="step-2-create-a-new-file-rt-task_mainjs">Step 2. Create a new file <code>rt-task_main.js</code></h3>
+<p>And open <code>rt-task_main.js</code> in a new editor window.</p>
+<h3 id="step-3-cut-and-paste-the-experiment-related-code">Step 3. Cut and paste the experiment-related code</h3>
+<p>Open <code>demo-simple-rt-task-transformed.html</code>. You should have both <code>rt-task_main.js</code> and <code>demo-simple-rt-task-transformed.html</code> opened.</p>
+<p>Select the code from the <code>/* create timeline */</code> line to the <code>timeline.push(debrief_block);</code> line, <strong>cut the selection</strong>, and paste it to <code>rt-task_main.js</code>. <strong>REPEAT</strong>. The code is being <strong>cut-and-pasted</strong> (NOT copy-pasted). </p>
+<pre><code class="language-js">/* create timeline */
+var timeline = [];
+
+/* define welcome message trial */
+var welcome_block = {
+    type: &quot;html-keyboard-response&quot;,
+    stimulus: &quot;Welcome to the experiment. Press any key to begin.&quot;
+};
+timeline.push(welcome_block);
+
+/* define instructions trial */
+var instructions = {
+    type: &quot;html-keyboard-response&quot;,
+    stimulus: &quot;&lt;p&gt;In this experiment, a circle will appear in the center &quot; +
+        &quot;of the screen.&lt;/p&gt;&lt;p&gt;If the circle is &lt;strong&gt;blue&lt;/strong&gt;, &quot; +
+        &quot;press the letter F on the keyboard as fast as you can.&lt;/p&gt;&quot; +
+        &quot;&lt;p&gt;If the circle is &lt;strong&gt;orange&lt;/strong&gt;, press the letter J &quot; +
+        &quot;as fast as you can.&lt;/p&gt;&quot; +
+        &quot;&lt;div style='width: 700px;'&gt;&quot;+
+        &quot;&lt;div style='float: left;'&gt;&lt;img src='img/blue.png'&gt;&lt;/img&gt;&quot; +
+        &quot;&lt;p class='small'&gt;&lt;strong&gt;Press the F key&lt;/strong&gt;&lt;/p&gt;&lt;/div&gt;&quot; +
+        &quot;&lt;div class='float: right;'&gt;&lt;img src='img/orange.png'&gt;&lt;/img&gt;&quot; +
+        &quot;&lt;p class='small'&gt;&lt;strong&gt;Press the J key&lt;/strong&gt;&lt;/p&gt;&lt;/div&gt;&quot; +
+        &quot;&lt;/div&gt;&quot;+
+        &quot;&lt;p&gt;Press any key to begin.&lt;/p&gt;&quot;,
+    post_trial_gap: 2000
+};
+timeline.push(instructions);
+
+/* test trials */
+
+var test_stimuli = [
+    { stimulus: &quot;img/blue.png&quot;, data: { test_part: 'test', correct_response: 'f' } },
+    { stimulus: &quot;img/orange.png&quot;, data: { test_part: 'test', correct_response: 'j' } }
+];
+
+var fixation = {
+    type: 'html-keyboard-response',
+    stimulus: '&lt;div style=&quot;font-size:60px;&quot;&gt;+&lt;/div&gt;',
+    choices: jsPsych.NO_KEYS,
+    trial_duration: function(){
+    return jsPsych.randomization.sampleWithoutReplacement([250, 500, 750, 1000, 1250, 1500, 1750, 2000], 1)[0];
+    },
+    data: {test_part: 'fixation'}
+}
+
+var test = {
+    type: &quot;image-keyboard-response&quot;,
+    stimulus: jsPsych.timelineVariable('stimulus'),
+    choices: ['f', 'j'],
+    data: jsPsych.timelineVariable('data'),
+    on_finish: function(data){
+    data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response);
+    },
+}
+
+var test_procedure = {
+    timeline: [fixation, test],
+    timeline_variables: test_stimuli,
+    repetitions: 5,
+    randomize_order: true
+}
+timeline.push(test_procedure);
+
+/* define debrief */
+
+var debrief_block = {
+    type: &quot;html-keyboard-response&quot;,
+    stimulus: function() {
+
+    var trials = jsPsych.data.get().filter({test_part: 'test'});
+    var correct_trials = trials.filter({correct: true});
+    var accuracy = Math.round(correct_trials.count() / trials.count() * 100);
+    var rt = Math.round(correct_trials.select('rt').mean());
+
+    return &quot;&lt;p&gt;You responded correctly on &quot;+accuracy+&quot;% of the trials.&lt;/p&gt;&quot;+
+    &quot;&lt;p&gt;Your average response time was &quot;+rt+&quot;ms.&lt;/p&gt;&quot;+
+    &quot;&lt;p&gt;Press any key to complete the experiment. Thank you!&lt;/p&gt;&quot;;
+
+    }
+};
+timeline.push(debrief_block);
+</code></pre>
+<h3 id="step-4-rt-task_mainjs-use-the-github-hosted-stimuli-images">Step 4. <code>rt-task_main.js</code>: Use the GitHub-hosted stimuli images</h3>
+<p>The above code uses the stimuli images in the <code>img</code> folder placed with the experiment html. But since you also put these images in your GitHub repository and made these available through the Internet, you can also use these images. </p>
+<p>The <code>img/blue.png</code> is available at <code>https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;/img/blue.png</code>. For example, <a href='https://kywch.github.io/Simple-RT-Task/img/blue.png'>https://kywch.github.io/Simple-RT-Task/img/blue.png</a>.</p>
+<p>And, the <code>img/orange.png</code> is available at <code>https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;/img/orange.png</code>. For example, <a href='https://kywch.github.io/Simple-RT-Task/img/orange.png'>https://kywch.github.io/Simple-RT-Task/img/orange.png</a>.</p>
+<p>The <code>rt-task_main.js</code> in this tutorial has a few changes to use the GitHub-hosted images. Let's see these changes.</p>
+<h4 id="change-1-adding-the-image-hosting-site">Change 1: Adding the image hosting site</h4>
+<p>The <code>repo_site</code> variable was added to locate the site that hosts stimuli images. You can easily use your repository by changing this line.</p>
+<pre><code class="language-js">// define the site that hosts stimuli images
+// usually https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;/
+var repo_site = &quot;https://kywch.github.io/Simple-RT-Task/&quot;;
+</code></pre>
+<h4 id="change-2-adding-repo_site-in-instructions">Change 2: Adding <code>repo_site</code> in <code>instructions</code></h4>
+<p>The <code>repo_site</code> variable should be added to wherever <code>img/blue.png</code> and <code>img/orange.png</code> are used like the below. The <code>find</code> function really helps in doing so.</p>
+<pre><code class="language-js">var instructions = {
+    type: &quot;html-keyboard-response&quot;,
+    stimulus: &quot;&lt;p&gt;In this experiment, a circle will appear in the center &quot; +
+        &quot;of the screen.&lt;/p&gt;&lt;p&gt;If the circle is &lt;strong&gt;blue&lt;/strong&gt;, &quot; +
+        &quot;press the letter F on the keyboard as fast as you can.&lt;/p&gt;&quot; +
+        &quot;&lt;p&gt;If the circle is &lt;strong&gt;orange&lt;/strong&gt;, press the letter J &quot; +
+        &quot;as fast as you can.&lt;/p&gt;&quot; +
+        &quot;&lt;div style='width: 700px;'&gt;&quot; +
+        &quot;&lt;div style='float: left;'&gt;&lt;img src='&quot; + repo_site + &quot;img/blue.png'&gt;&lt;/img&gt;&quot; + // Change 2: Adding `repo_site` in `instructions`
+        &quot;&lt;p class='small'&gt;&lt;strong&gt;Press the F key&lt;/strong&gt;&lt;/p&gt;&lt;/div&gt;&quot; +
+        &quot;&lt;div class='float: right;'&gt;&lt;img src='&quot; + repo_site + &quot;img/orange.png'&gt;&lt;/img&gt;&quot; + // Change 2: Adding `repo_site` in `instructions`
+        &quot;&lt;p class='small'&gt;&lt;strong&gt;Press the J key&lt;/strong&gt;&lt;/p&gt;&lt;/div&gt;&quot; +
+        &quot;&lt;/div&gt;&quot; +
+        &quot;&lt;p&gt;Press any key to begin.&lt;/p&gt;&quot;,
+    post_trial_gap: 2000
+};
+</code></pre>
+<h4 id="change-3-adding-repo_site-in-test_stimuli">Change 3: Adding <code>repo_site</code> in <code>test_stimuli</code></h4>
+<pre><code class="language-js">var test_stimuli = [{
+        stimulus: repo_site + &quot;img/blue.png&quot;, // Change 3: Adding `repo_site` in `test_stimuli`
+        data: {
+            test_part: 'test',
+            correct_response: 'f'
+        }
+    },
+    {
+        stimulus: repo_site + &quot;img/orange.png&quot;, // Change 3: Adding `repo_site` in `test_stimuli`
+        data: {
+            test_part: 'test',
+            correct_response: 'j'
+        }
+    }
+];
+</code></pre>
+<h3 id="step-5-demo-simple-rt-task-transformedhtml-import-rt-task_mainjs">Step 5. <code>demo-simple-rt-task-transformed.html</code>: Import <code>rt-task_main.js</code></h3>
+<p>Cutting the experiment-related code makes the <code>demo-simple-rt-task-transformed.html</code> file much shorter. To make <code>demo-simple-rt-task-transformed.html</code> work, you need to load <code>rt-task_main.js</code> by using a <code>&lt;script&gt;</code> tag like the other jspsych plugin files (see <a href="https://www.jspsych.org/6.3/tutorials/hello-world/#step-6-use-the-jspsych-html-keyboard-response-plugin-to-print-a-message">the original jsPsych v6.3 tutorial</a>).</p>
+<pre><code class="language-html">&lt;!-- CHANGE: Loading the external main experiment script --&gt;
+&lt;script src=&quot;rt-task_main.js&quot;&gt;&lt;/script&gt; 
+</code></pre>
+<p>After making these changes, don't forget to <strong>SAVE</strong>!</p>
+<h3 id="does-this-work">Does this work?</h3>
+<p>Let's find out by opening <code>demo-simple-rt-task-transformed.html</code> in a browser. </p>
+<h3 id="step-6-upload-demo-simple-rt-task-transformedhtml-and-rt-task_mainjs-to-github">Step 6: Upload <code>demo-simple-rt-task-transformed.html</code> and <code>rt-task_main.js</code> to GitHub</h3>
+<p>If this works, let's upload <code>demo-simple-rt-task-transformed.html</code> and <code>rt-task_main.js</code> to your GitHub repository so that your task also runs over the Internet.</p>
+<p>After uploading both scripts (and waiting for a few minutes), you should be able to access <code>https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;/demo-simple-rt-task-transformed.html</code>. For example, <a href='https://kywch.github.io/Simple-RT-Task/demo-simple-rt-task-transformed.html'>https://kywch.github.io/Simple-RT-Task/demo-simple-rt-task-transformed.html</a>.</p>
+<p>If the above link works, then it also means that the experiment-related code, <code>rt-task_main.js</code>, is also available for Qualtrics to load. You can actually access it by going to <code>https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;/rt-task_main.js</code>. For example, <a href='https://kywch.github.io/Simple-RT-Task/rt-task_main.js'>https://kywch.github.io/Simple-RT-Task/rt-task_main.js</a>.</p>
+<hr />
+<h2 id="second-transformation-demo-simple-rt-task-transformed-with-display-elementhtml">Second transformation: <code>demo-simple-rt-task-transformed-with-display-element.html</code></h2>
+<p>Adding the <code>display_element</code> parameter in the <code>jsPsych.init()</code> and having additional control over the display element is important for embedding jsPsych into Qualtrics. The <code>demo-simple-rt-task-transformed-with-display-element.html</code> file in <a href="https://github.com/kywch/Simple-RT-Task/blob/master/demo-simple-rt-task-transformed-with-display-element.html">this GitHub repository</a> contains three changes from the <code>demo-simple-rt-task-transformed.html</code>. When you open <code>demo-simple-rt-task-transformed-with-display-element.html</code> in a browser, you should see the same reaction time task. </p>
+<p>Let's look at each change.</p>
+<h3 id="change-1-using-display_element">Change 1: Using <code>display_element</code></h3>
+<p>By adding the <code>display_element</code> parameter in the <code>jsPsych.init()</code> like below, jsPsych will render the experiment in the <code>&lt;div&gt;</code> called <code>display_stage</code>, which the current script does not have yet. So, let's add the <code>display_stage</code>.</p>
+<pre><code class="language-js">/* start the experiment */
+jsPsych.init({
+timeline: timeline,
+/* Change 1: Using `display_element` */
+display_element: 'display_stage',
+on_finish: function () {
+    jsPsych.data.displayData();
+}
+});
+</code></pre>
+<h3 id="change-2-adding-display_stage-css-and-div">Change 2: Adding <code>display_stage</code> CSS and Div</h3>
+<p>The <code>display_stage</code> needs below CSS and HTML code after the <code>&lt;body&gt;</code> tag, which also include the <code>display_stage_background</code>. Both are necessary to function well.</p>
+<pre><code class="language-html">&lt;style&gt;
+    #display_stage_background {
+        width: 100vw;
+        background-color: white;
+        z-index: -1;
+    }
+
+    #display_stage {
+        position: fixed;
+        left: 1vw;
+        top: 1vh;
+        height: 98vh;
+        width: 98vw;
+        background-color: white;
+        box-shadow: 1px 1px 1px #999;
+        border-radius: 15px;
+        z-index: 0;
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+&lt;/style&gt;
+
+&lt;div id='display_stage_background'&gt;&lt;/div&gt;
+&lt;div id='display_stage'&gt;&lt;/div&gt;
+</code></pre>
+<h3 id="change-3-adding-extra-scripts-for-qualtrics">Change 3: Adding extra scripts for Qualtrics</h3>
+<p>The below scripts are not necessary to run this reaction time experiment, but you need to copy-paste these in Qualtrics later. </p>
+<p>One critical point is that now we use the jsPsych stylesheet hosted in the GitHub Pages (explained above in the <a href="./#step-4-enable-github-pages-for-your-experiment">Hosting jsPsych</a> section) instead of the CSS file in your computer. This is important because Qualtrics can also access the GitHub-hosted files.</p>
+<pre><code class="language-html">&lt;!-- Change 3: Adding extra scripts for Qualtrics --&gt;
+&lt;!-- jspsych.css should be availble from your GitHub at 
+    https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;/jspsych-6.1.0/css/jspsych.css --&gt;
+&lt;link href=&quot;https://kywch.github.io/Simple-RT-Task/jspsych-6.1.0/css/jspsych.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;&lt;/link&gt;
+
+&lt;div&gt;
+    &lt;span style=&quot;font-size: 24px;&quot;&gt;
+    &lt;br&gt;&lt;br&gt;
+    If you are seeing this message for &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;&lt;b&gt;more than 5 minutes&lt;/b&gt;&lt;/span&gt;,&lt;br&gt;
+    please screen-capture this screen and send the image to us.
+    &lt;br&gt;&lt;br&gt;
+    &lt;span style=&quot;font-size: 28px;&quot;&gt;We are very sorry for the inconvenience.&lt;/span&gt;
+    &lt;/span&gt;
+&lt;/div&gt;
+</code></pre>
+<hr />
+<h2 id="third-transformation-demo-simple-rt-task-qualtricsjs">Third transformation: <code>demo-simple-rt-task-qualtrics.js</code></h2>
+<p>To make your jsPsych experiment work in Qualtrics, you need to add your code to the below skeleton provided by Qualtrics Question JavaScript Editor. For details, see the <a href="https://www.qualtrics.com/support/survey-platform/survey-module/question-options/add-javascript/">Add JavaScript help page</a>.</p>
+<pre><code class="language-js">Qualtrics.SurveyEngine.addOnload(function()
+{
+    /*Place your JavaScript here to run when the page loads*/
+
+});
+
+Qualtrics.SurveyEngine.addOnReady(function()
+{
+    /*Place your JavaScript here to run when the page is fully displayed*/
+
+});
+
+Qualtrics.SurveyEngine.addOnUnload(function()
+{
+    /*Place your JavaScript here to run when the page is unloaded*/
+
+});
+</code></pre>
+<p>The <code>demo-simple-rt-task-qualtrics.js</code> file in <a href="https://github.com/kywch/Simple-RT-Task/blob/master/demo-simple-rt-task.html">this GitHub repository</a> contains several changes from <code>demo-simple-rt-task-transformed-with-display-element.html</code> and can be direclty copy-pasted into the Qualtrics Question JavaScript Editor.</p>
+<p>By separating the experiment-related code from the operation-related code, converting the html file to Qualtrics JavaScript function is pretty much similar to <a href="../hello-world/#second-transformation-qualtricsjs">the Hello-World example</a>.</p>
+<p>Let's look at each change.</p>
+<h3 id="change-1-hiding-the-next-button">Change 1: Hiding the Next button</h3>
+<p>The below javascript code hides the Next button and puts the javascript code in the driving seat.</p>
+<pre><code class="language-js">// Retrieve Qualtrics object and save in qthis
+var qthis = this;
+
+// Hide buttons
+qthis.hideNextButton();
+</code></pre>
+<h3 id="change-2-defining-and-load-required-resources">Change 2: Defining and load required resources</h3>
+<p>The below javascript defines where the necessary files are so that Qualtrics can load these. If you enabled GitHub Pages of your repository, Qualtrics can load the necessary JS, CSS, and image files right away.</p>
+<p>One way to check whether these files are accessilbe is to view the source of <code>demo-simple-rt-task-transformed.html</code> and click the imported scripts. For example of <code>jspsych.js</code>, <a href='https://kywch.github.io/Simple-RT-Task/jspsych-6.1.0/jspsych.js'>https://your-github-username.github.io/your-experiment-name/jspsych-6.1.0/jspsych.js</a>.</p>
+<pre><code class="language-js">var task_github = &quot;https://kywch.github.io/Simple-RT-Task/&quot;; // https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;
+
+// requiredResources must include all the JS files that demo-simple-rt-task-transformed.html uses.
+var requiredResources = [
+    task_github + &quot;jspsych-6.1.0/jspsych.js&quot;,
+    task_github + &quot;jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js&quot;,
+    task_github + &quot;jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js&quot;,
+    task_github + &quot;rt-task_main.js&quot;
+];
+
+function loadScript(idx) {
+    console.log(&quot;Loading &quot;, requiredResources[idx]);
+    jQuery.getScript(requiredResources[idx], function () {
+        if ((idx + 1) &lt; requiredResources.length) {
+            loadScript(idx + 1);
+        } else {
+            initExp();
+        }
+    });
+}
+
+if (window.Qualtrics &amp;&amp; (!window.frameElement || window.frameElement.id !== &quot;mobile-preview-view&quot;)) {
+    loadScript(0);
+}
+</code></pre>
+<h3 id="change-3-appending-the-display_stage-div-using-jquery">Change 3: Appending the display_stage Div using jQuery</h3>
+<p>In Qualtrics, jQuery (loaded by default) is used to append the <code>display_stage_background</code> and <code>display_stage</code> Divs. The CSS for these elements will be added directly to Question HTML later in this tutorial.</p>
+<pre><code class="language-js">// jQuery is loaded in Qualtrics by default
+jQuery(&quot;&lt;div id = 'display_stage_background'&gt;&lt;/div&gt;&quot;).appendTo('body');
+jQuery(&quot;&lt;div id = 'display_stage'&gt;&lt;/div&gt;&quot;).appendTo('body');
+</code></pre>
+<h3 id="change-4-wrapping-jspsychinit-in-a-function">Change 4: Wrapping jsPsych.init() in a function</h3>
+<p>The main experiment codes are wrapped in the <code>initExp</code> function to make sure it runs after all the necessary library and plugin files are loaded (as defined in the <code>loadScript</code> function above).</p>
+<h3 id="change-5-summarizing-and-save-the-results-to-qualtrics">Change 5: Summarizing and save the results to Qualtrics</h3>
+<p><a href="https://www.jspsych.org/6.3/tutorials/rt-task/#part-11-data-aggregation">The original jsPsych v6.3 tutorial</a> shows you how you can process and summarize the experiment results online. <strong>Wouldn't it be great if your experiment results are directly included in your Qualtrics data?</strong> </p>
+<p>Well, you can actually summarize the results online and save those results in <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-flow/standard-elements/embedded-data/">Qualtrics' Embedded Data</a> using the <a href="https://s.qualtrics.com/WRAPI/QuestionAPI/classes/Qualtrics%20JavaScript%20Question%20API.html#method_setEmbeddedData">setEmbeddedData</a> function.</p>
+<p><code>demo-simple-rt-task-qualtrics.js</code> does so when the jsPsych experiment finishes by running the below code (from <a href="https://www.jspsych.org/tutorials/rt-task/#part-11-data-aggregation"><code>debrief_block</code></a>).</p>
+<pre><code class="language-js">jsPsych.init({
+    timeline: timeline,
+    display_element: 'display_stage',
+    on_finish: function (data) {
+        /* Change 5: Summarizing and save the results to Qualtrics */
+        // summarize the results
+        var trials = jsPsych.data.get().filter({
+            test_part: 'test'
+        });
+        var correct_trials = trials.filter({
+            correct: true
+        });
+        var accuracy = Math.round(correct_trials.count() / trials.count() * 100);
+        var rt = Math.round(correct_trials.select('rt').mean());
+
+        // save to qualtrics embedded data
+        Qualtrics.SurveyEngine.setEmbeddedData(&quot;accuracy&quot;, accuracy);
+        Qualtrics.SurveyEngine.setEmbeddedData(&quot;rt&quot;, rt);
+
+        /* Change 6: Adding the clean up and continue functions.*/
+        // clear the stage
+        jQuery('#display_stage').remove();
+        jQuery('#display_stage_background').remove();
+
+        // simulate click on Qualtrics &quot;next&quot; button, making use of the Qualtrics JS API
+        qthis.clickNextButton();
+    }
+});
+</code></pre>
+<h3 id="change-6-adding-the-clean-up-and-continue-functions">Change 6: Adding the clean up and continue functions</h3>
+<p>When the jsPsych ends, <code>display_stage</code> and <code>display_stage_background</code> should be removed. Then, execulte the <code>clickNextButton</code> to simulate clicking the Next button and proceed to the next question.</p>
+<hr />
+<h2 id="finally-embedding-jspsych-in-qualtrics">Finally, embedding jsPsych in Qualtrics</h2>
+<p>Let's log in to Qualtrics and take a look at each step.</p>
+<h3 id="step-1-create-a-new-qualtrics-project-and-then-a-new-question">Step 1. Create a new Qualtrics project and then a new question</h3>
+<p>Create a new Qualtrics project. Then, create a new question and (1) change its format to <strong>Text/Graphic</strong>.</p>
+<p><img alt="Add JavaScript to a Qualtrics question" src="../img/hello-world-qualtrics-Step1_add_javascript_to_question.jpg" /></p>
+<h3 id="step-2-open-the-question-javascript-editor-and-copy-paste-the-whole-demo-simple-rt-task-qualtricsjs">Step 2. Open the Question JavaScript editor and copy paste the whole <code>demo-simple-rt-task-qualtrics.js</code></h3>
+<p>Keep going in the above picture. (2) Click the gear to open the dropdown menu, and then (3) find and click <strong>Add JavaScript</strong>.</p>
+<p><img alt="Open the Question JavaScript editor" src="../img/hello-world-qualtrics-Step2_open_javascript_editor.jpg" /></p>
+<h3 id="step-3-open-the-question-html-editor-and-copy-paste-the-portion-of-demo-simple-rt-task-transformed-with-display-elementhtml">Step 3. Open the Question HTML editor and copy paste the portion of <code>demo-simple-rt-task-transformed-with-display-element.html</code></h3>
+<p>The Change 3 section of the <code>demo-simple-rt-task-transformed-with-display-element.html</code> file contains the link to jsPsych CSS file, the inline styles for <code>display_stage</code> Div, and the error message to be displayed when things go wrong.</p>
+<p>To open the HTML editor, click the <code>HTML View</code> button. </p>
+<p><img alt="Open the Question HTML editor" src="../img/hello-world-qualtrics-Step3_open_question_html_editor.jpg" /></p>
+<p>Then, copy paste the portion of <code>demo-simple-rt-task-transformed-with-display-element.html</code> to the HTML editor, starting from <code>&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;</code> to <code>&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;</code>. </p>
+<pre><code class="language-html">&lt;!-- Change 3: Adding extra scripts for Qualtrics --&gt;
+&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;
+&lt;link href=&quot;https://kywch.github.io/Simple-RT-Task/jspsych-6.1.0/css/jspsych.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;&lt;/link&gt;
+
+&lt;div&gt;
+&lt;span style=&quot;font-size: 24px;&quot;&gt;
+    &lt;br&gt;&lt;br&gt;
+    If you are seeing this message for &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;&lt;b&gt;more than 5
+        minutes&lt;/b&gt;&lt;/span&gt;,&lt;br&gt;
+    please screen-capture this screen and send the image to us.
+    &lt;br&gt;&lt;br&gt;
+    &lt;span style=&quot;font-size: 28px;&quot;&gt;We are very sorry for the inconvenience.&lt;/span&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Change 2: Adding `display_stage` CSS and Div --&gt;
+&lt;style&gt;
+#display_stage_background {
+    width: 100vw;
+    background-color: white;
+    z-index: -1;
+}
+
+#display_stage {
+    position: fixed;
+    left: 1vw;
+    top: 1vh;
+    height: 98vh;
+    width: 98vw;
+    background-color: white;
+    box-shadow: 1px 1px 1px #999;
+    border-radius: 15px;
+    z-index: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+&lt;/style&gt;
+&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;
+</code></pre>
+<p>After copy pasting, you should see something like below.</p>
+<p><img alt="After copy-paste" src="../img/hello-world-qualtrics-Step3_after_copy_paste.jpg" /></p>
+<h3 id="step-4-create-embedded-data-elements">Step 4. Create Embedded Data elements</h3>
+<p>To store the experiment results -- <strong>accuracy</strong> and <strong>rt</strong> -- in Qualtrics, you need to create the Embedded Data elements named <strong>accuracy</strong> and <strong>rt</strong> in your survey by following <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-flow/standard-elements/embedded-data/#CreatingAnEmbeddedDataElement">this Qualtrics tutorial</a>.</p>
+<ol>
+<li>Click <strong>Survey Flow</strong> from the Survey tab</li>
+<li>Click <strong>Add a New Element Here</strong></li>
+<li>Choose <strong>Embedded Data</strong> </li>
+<li>Click <strong>Create New Field or Choose From Dropdown</strong> and type <strong>accuracy</strong></li>
+<li>Click <strong>Set a Value Now</strong> and type -1</li>
+<li>Click <strong>Add a New Field</strong> and type <strong>rt</strong></li>
+<li>Click <strong>Set a Value Now</strong> and type -1</li>
+</ol>
+<h3 id="step-5-move-set-embedded-data-block-to-the-top-of-survey-flow">Step 5. Move <code>Set Embedded Data</code> block to the top of Survey Flow</h3>
+<p>The <code>accuracy</code> and <code>rt</code> fields should be defined before the jsPsych reaction time task, so you need to move the Embedded Data block to the <strong>top</strong> of the Survey Flow.</p>
+<p>Click and hold down <strong>Move</strong> to drag the Embedded Data to the top of the Survey Flow. After this, you should see the Survey Flow like below.</p>
+<p><img alt="Move Embedded Data to the top" src="../img/rt-task-qualtrics-Step5_move_block.jpg" /></p>
+<h3 id="step-6-add-a-check-for-the-embedded-data">Step 6. Add a check for the Embedded Data</h3>
+<p>You should make sure that the experiment results are saved correctly. You can do so by showing the <code>accuracy</code> and <code>rt</code> Embedded Data after the reaction task.</p>
+<ol>
+<li>Click <strong>Add Page Break</strong></li>
+<li>Click <strong>Create a New Question</strong></li>
+<li>Change Question Type to <strong>Text/Graphic</strong></li>
+<li>Type <code>${e://Field/accuracy}</code> and <code>${e://Field/rt}</code> to access these Embedded Data</li>
+</ol>
+<p><img alt="Show Embedded Data" src="../img/rt-task-qualtrics-Step6_show_data.jpg" /></p>
+<h3 id="step-7-publish-and-test">Step 7. Publish and test!</h3>
+<p>Publish the survey by following <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-publishing-versions/#PublishingNew">this Qualtrics tutorial</a>. Then, an anonymous Qualtrics link is generated. If you click this link, you should be able to see the same reaction time task running in Qualtrics. For example, try <a href="https://ssd.az1.qualtrics.com/jfe/form/SV_6hsqwxYekrbzvxP">this Qualtrics link</a>.</p>
+<hr />
+<h2 id="do-you-want-to-save-the-trial-by-trial-data">Do you want to save the trial-by-trial data?</h2>
+<p>Then, you need a server that can receive your data. See the tutorial <a href="../save-php/">Saving data to a web server using PHP</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../participants/" class="btn btn-neutral float-left" title="Recruiting Participants"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../flanker/" class="btn btn-neutral float-right" title="Embedding Flanker Task">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2020-2023 <a href="https://kywch.github.io/" target="_blank">Kyoung Whan Choe</a>. </p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../participants/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../flanker/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

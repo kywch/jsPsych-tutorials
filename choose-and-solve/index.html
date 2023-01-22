@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://kywch.github.io/jsPsych-in-Qualtrics/choose-and-solve/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Embedding Choose-And-Solve Task - jsPsych in Qualtrics Tutorial Series</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Embedding Choose-And-Solve Task";
+        var mkdocs_page_input_path = "choose-and-solve.md";
+        var mkdocs_page_url = "/jsPsych-in-Qualtrics/choose-and-solve/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-D3RPWB8SEL"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-D3RPWB8SEL');
+      </script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> jsPsych in Qualtrics Tutorial Series
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 1. The Basics</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../github-pages/">Hosting jsPsych</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../hello-world/">Embedding Hello World!</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../save-php/">Saving Data with PHP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../participants/">Recruiting Participants</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 2. Case studies</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../rt-task/">Embedding Reaction-Time Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../flanker/">Embedding Flanker Task</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Embedding Choose-And-Solve Task</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#embedding-cast-into-qualtrics">Embedding CAST into Qualtrics</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#hosting-the-cast-scripts-in-github">Hosting the CAST scripts in GitHub</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#embedding-the-task-to-qualtrics">Embedding the task to Qualtrics</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#step-1-create-a-new-qualtrics-project-and-then-a-new-question">Step 1. Create a new Qualtrics project and then a new question</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-2-open-the-question-javascript-editor-and-copy-paste-the-whole-choose-and-solve_qualtricsjs">Step 2. Open the Question JavaScript editor and copy paste the whole choose-and-solve_qualtrics.js</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-3-open-the-question-html-editor-and-copy-paste-the-below-html-code">Step 3. Open the Question HTML editor and copy paste the below html code</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-4-create-embedded-data-elements">Step 4. Create Embedded Data elements</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-5-publish-and-test">Step 5. Publish and test!</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#explaining-the-code">Explaining the code</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#qualtrics-js-code-choose-and-solve_qualtricsjs">Qualtrics js code: choose-and-solve_qualtrics.js</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#change-1-hiding-the-next-button">Change 1: Hiding the Next button</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-2-defining-and-load-required-resources">Change 2: Defining and load required resources</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-3-wrapping-jspsychinit-in-a-function">Change 3: Wrapping jsPsych.init() in a function</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#changes-4-5-summarizing-and-saving-the-session-level-data">Changes 4-5: Summarizing and saving the session-level data</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../rc-rage/">Embedding Reactive AGression Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../stop-it/">Embedding Stop Signal Task (STOP-IT)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../audio-test/">Embedding Quick Audio Test</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../mood-induction/">Embedding Mood Induction</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">jsPsych in Qualtrics Tutorial Series</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Part 2. Case studies &raquo;</li>
+      <li>Embedding Choose-And-Solve Task</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="embedding-choose-and-solve-task-cast-into-qualtrics">Embedding Choose-And-Solve Task (CAST) into Qualtrics</h1>
+<p>The Choose-And-Solve Task <a href="https://advances.sciencemag.org/content/5/11/eaay1062">(Choe et al., 2019)</a> is an effort-based decision-making task to study math anxiety and math avoidance behavior. You can first try the task by clicking <a href="https://kywch.github.io/CAST_jsPsych/choose-and-solve-task.html">HERE</a>.</p>
+<p>The CAST code is freely available at the <a href="https://github.com/kywch/CAST_jsPsych">CAST GitHub repository</a>. You can either directly use these files for your study or fork this repository to customize.</p>
+<p>This tutorial consists of two parts. (1) I will first explain how you can <a href="./#embedding-cast-into-qualtrics">embed CAST in Qualtrics</a>. (2) I will then <a href="./#explaining-the-code">briefly explain the experiment code</a>.</p>
+<hr />
+<h2 id="embedding-cast-into-qualtrics">Embedding CAST into Qualtrics</h2>
+<h3 id="hosting-the-cast-scripts-in-github">Hosting the CAST scripts in GitHub</h3>
+<p>To use jsPsych in Qualtrics, the jsPsych javascript and CSS files need to be online and loadable from Qualtrics. Necessary files are already available online and used in the <a href="https://kywch.github.io/CAST_jsPsych/choose-and-solve-task.html">live demo</a>.</p>
+<p><strong>(OPTIONAL)</strong> However, if you want to create your own version, you can do so by</p>
+<ol>
+<li>Go to the <a href="https://github.com/kywch/CAST_jsPsych">CAST GitHub repository</a>.</li>
+<li>Follow the <a href="../github-pages/">Hosting jsPsych</a> tutorial to fork it to your GitHub repository and make the scripts available online.</li>
+</ol>
+<hr />
+<h3 id="embedding-the-task-to-qualtrics">Embedding the task to Qualtrics</h3>
+<p>Let's log in to Qualtrics and take a look at each step.</p>
+<h4 id="step-1-create-a-new-qualtrics-project-and-then-a-new-question">Step 1. Create a new Qualtrics project and then a new question</h4>
+<p>First, create a new Qualtrics project. Then, create a new question and (1) change its format to <strong>Text/Graphic</strong>.</p>
+<p><img alt="Add JavaScript to a Qualtrics question" src="../img/hello-world-qualtrics-Step1_add_javascript_to_question.jpg" /></p>
+<hr />
+<h4 id="step-2-open-the-question-javascript-editor-and-copy-paste-the-whole-choose-and-solve_qualtricsjs">Step 2. Open the Question JavaScript editor and copy paste the whole <code>choose-and-solve_qualtrics.js</code></h4>
+<p>Keep going in the above picture. (2) Click the gear to open the dropdown menu, and then (3) find and click <strong>Add JavaScript</strong>. </p>
+<p><img alt="Open the Question JavaScript editor" src="../img/hello-world-qualtrics-Step2_open_javascript_editor.jpg" /></p>
+<p>Then copy-paste the whole <a href="https://raw.githubusercontent.com/kywch/CAST_jsPsych/master/choose-and-solve_qualtrics.js"><code>choose-and-solve_qualtrics.js</code> (click to see the code)</a> into the editor. </p>
+<p><font color=red>ALSO CHECK WHETHER THE URL, <code>task_github</code>, IS VALID.</font></p>
+<hr />
+<h4 id="step-3-open-the-question-html-editor-and-copy-paste-the-below-html-code">Step 3. Open the Question HTML editor and copy paste the below html code</h4>
+<p>To put the HTML code that contains the link to jsPsych CSS file, the inline styles for <code>display_stage</code> Div, and the error message to be displayed when things go wrong, open the HTML editor by clicking the <code>HTML View</code> button. </p>
+<p><img alt="Open the Question HTML editor" src="../img/hello-world-qualtrics-Step3_open_question_html_editor.jpg" /></p>
+<p>Then, copy paste the below HTML code to the HTML editor, starting from <code>&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;</code> to <code>&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;</code>. </p>
+<pre><code class="language-html">&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;
+&lt;link href=&quot;https://kywch.github.io/CAST_jsPsych/lib_for_qualtrics/cast.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;&lt;/link&gt;
+&lt;div&gt;
+    &lt;span style=&quot;font-size: 24px;&quot;&gt;
+        &lt;br&gt;&lt;br&gt;
+        If you are seeing this message for &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;
+            &lt;b&gt;more than 5 minutes&lt;/b&gt;&lt;/span&gt;,&lt;br&gt;
+        please screen-capture this screen and send the image to us (YOUR EMAIL).
+        &lt;br&gt;&lt;br&gt;
+        &lt;span style=&quot;font-size: 28px;&quot;&gt;We are very sorry for the inconvenience.&lt;/span&gt;
+    &lt;/span&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+    .display_stage_background {
+        width: 100vw;
+        background-color: white;
+        z-index: -1;
+    }
+
+    .display_stage {
+        position: fixed;
+        left: 1vw;
+        top: 1vh;
+        height: 98vh;
+        width: 98vw;
+        background-color: white;
+        box-shadow: 1px 1px 1px #999;
+        border-radius: 15px;
+        z-index: 0;
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+&lt;/style&gt;
+&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;
+</code></pre>
+<p>After copy pasting, you should see something like below.</p>
+<p><img alt="After copy-paste" src="../img/hello-world-qualtrics-Step3_after_copy_paste.jpg" /></p>
+<hr />
+<h4 id="step-4-create-embedded-data-elements">Step 4. Create Embedded Data elements</h4>
+<p>To store the session-level CAST data, you need to create the below <font color=red><strong>29</strong> Embedded Data elements</font> in your survey.</p>
+<pre><code>    points, bonus
+    easy_math_cnt, easy_acc_math, easy_RT_math 
+    easy_word_cnt, easy_acc_word, easy_RT_word
+    hard_math_cnt, hard_level_math, hard_acc_math, hard_RT_math 
+    hard_word_cnt, hard_level_word, hard_acc_word, hard_RT_word
+    hcp_h2e2_math, hcp_h3e2_math, hcp_h4e2_math, hcp_h5e2_math, hcp_h6e2_math, hcp_h456e2_math
+    hcp_h2e2_word, hcp_h3e2_word, hcp_h4e2_word, hcp_h5e2_word, hcp_h6e2_word, hcp_h456e2_word
+    cnt_per_cond
+</code></pre>
+<p>To do so, follow <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-flow/standard-elements/embedded-data/#CreatingAnEmbeddedDataElement">this Qualtrics tutorial</a>. </p>
+<ol>
+<li>Click <strong>Survey Flow</strong> from the Survey tab</li>
+<li>Click <strong>Add a New Element Here</strong></li>
+<li>Choose <strong>Embedded Data</strong> </li>
+<li>Click <strong>Create New Field or Choose From Dropdown</strong> and type <strong>points</strong></li>
+<li>Click <strong>Add a New Field</strong> and type <strong>bonus</strong></li>
+<li><strong>Repeteadly add <font color=red>the remaining 27 elements</font></strong> (until <code>hcp_h456e2_word</code> and <code>cnt_per_cond</code>).</li>
+<li>Click <strong>Move</strong> of the new blocks you created (<code>Set Embedded Data</code> and <code>Then Branch If</code>) and move these blocks the top of Survey Flow</li>
+</ol>
+<hr />
+<h4 id="step-5-publish-and-test">Step 5. Publish and test!</h4>
+<p>Publish the survey by following <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-publishing-versions/#PublishingNew">this Qualtrics tutorial</a>. Then, an anonymous Qualtrics link is generated. If you click this link, you should be able to see the same CAST running in Qualtrics.</p>
+<hr />
+<h2 id="explaining-the-code">Explaining the code</h2>
+<p>For the basics, please read the <a href="../hello-world/">Hello world tutorial</a>.</p>
+<h3 id="qualtrics-js-code-choose-and-solve_qualtricsjs">Qualtrics js code: choose-and-solve_qualtrics.js</h3>
+<p>To make your jsPsych experiment work in Qualtrics, you need to add your code to the below skeleton provided by Qualtrics Question JavaScript Editor. For details, see the <a href="https://www.qualtrics.com/support/survey-platform/survey-module/question-options/add-javascript/">Add JavaScript help page</a>.</p>
+<pre><code class="language-js">Qualtrics.SurveyEngine.addOnload(function()
+{
+    /*Place your JavaScript here to run when the page loads*/
+
+});
+
+Qualtrics.SurveyEngine.addOnReady(function()
+{
+    /*Place your JavaScript here to run when the page is fully displayed*/
+
+});
+
+Qualtrics.SurveyEngine.addOnUnload(function()
+{
+    /*Place your JavaScript here to run when the page is unloaded*/
+
+});
+</code></pre>
+<p>Let's look at each change.</p>
+<h4 id="change-1-hiding-the-next-button">Change 1: Hiding the Next button</h4>
+<p>The below javascript code hides the Next button and puts the javascript code in the driving seat.</p>
+<pre><code class="language-js">/* Change 1: Hiding the Next button */
+// Retrieve Qualtrics object and save in qthis
+var qthis = this;
+
+// Hide buttons
+qthis.hideNextButton();
+</code></pre>
+<h4 id="change-2-defining-and-load-required-resources">Change 2: Defining and load required resources</h4>
+<p>The below javascript defines where the necessary files are so that Qualtrics can load these. If you enabled GitHub Pages of your repository, Qualtrics can load the necessary JS, CSS, and image files right away.</p>
+<pre><code class="language-js">    /* Change 2: Defining and loading required resources */
+    // `requiredResources` must include all the required JS files
+    var task_github = &quot;https://kywch.github.io/CAST_jsPsych/lib_for_qualtrics/&quot;; // https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;
+    var requiredResources = [
+        task_github + &quot;jquery.min.js&quot;,
+        task_github + &quot;jspsych.js&quot;,
+        task_github + &quot;jspsych-text.js&quot;,
+        task_github + &quot;jspsych-poldrack-instructions.js&quot;,
+        task_github + &quot;jspsych-single-stim-rev.js&quot;,
+        task_github + &quot;poldrack_utils.js&quot;,
+        task_github + &quot;probset.js&quot;,
+        task_github + &quot;practice_problems.js&quot;,
+        task_github + &quot;choose-and-solve_main.js&quot;
+    ];
+
+    function loadScript(idx) {
+        console.log(&quot;Loading &quot;, requiredResources[idx]);
+        jQuery.getScript(requiredResources[idx], function () {
+            if ((idx + 1) &lt; requiredResources.length) {
+                loadScript(idx + 1);
+            } else {
+                initExp();
+            }
+        });
+    }
+
+    if (window.Qualtrics &amp;&amp; (!window.frameElement || window.frameElement.id !== &quot;mobile-preview-view&quot;)) {
+        loadScript(0);
+    }
+
+</code></pre>
+<h4 id="change-3-wrapping-jspsychinit-in-a-function">Change 3: Wrapping jsPsych.init() in a function</h4>
+<p>The main experiment codes are wrapped in the <code>initExp</code> function to make sure it runs after all the necessary library and plugin files are loaded (as defined in the <code>loadScript</code> function above).</p>
+<pre><code class="language-js">    /* Change 3: Wrapping jsPsych.init() in a function */
+    function initExp() {
+
+        // instruction image location
+        var task_instruct_page1 = '&lt;div class = centerbox&gt;&lt;p class = block-text&gt;Welcome to the choose-and-solve task!&lt;/p&gt;&lt;/div&gt;';
+        var task_instruct_page2 =
+            '&lt;div class = centerbox&gt;&lt;p class = block-text&gt;This task consists of four parts.&lt;/p&gt;  ' +
+            '&lt;p class = block-text&gt;Your performance-based cash bonus will be determined in the last block of 140 trials.&lt;/p&gt;' +
+            '&lt;p class = block-text&gt;1. Word practice (12 problems)&lt;/p&gt;' +
+            '&lt;p class = block-text&gt;2. Math practice (12 problems)&lt;/p&gt;' +
+            '&lt;p class = block-text&gt;3. Choose-and-solve practice (28 trials)&lt;/p&gt;' +
+            '&lt;p class = block-text&gt;4. Five blocks of choose-and-solve trials (140 trials)&lt;/p&gt;&lt;/div&gt;'
+        var task_instruct_page = {
+            type: 'poldrack-instructions',
+            data: {
+                exp_stage: 'task_instruction',
+                participant: sbj_id,
+            },
+            pages: [task_instruct_page1, task_instruct_page2],
+            allow_keys: false,
+            show_clickable_nav: true,
+            timing_post_trial: 1000
+        };
+
+        // NOTE that the functions used below are defined in `choose-and-solve_main.js` for readability
+        var maadm_experiment = [];
+        maadm_experiment.push(task_instruct_page);
+        maadm_experiment.push({
+            timeline: sequence_word_practice
+        });
+        maadm_experiment.push({
+            timeline: sequence_math_practice
+        });
+        maadm_experiment.push({
+            timeline: sequence_practice_choice
+        });
+        maadm_experiment.push(enter_mainexp_page);
+        for (var ii = 0; ii &lt; num_block; ii++) {
+            maadm_experiment.push({
+                timeline: generate_main_block(ii)
+            });
+        }
+
+        jsPsych.init({
+            display_element: &quot;getDisplayElement&quot;,
+            timeline: maadm_experiment,
+            fullscreen: true,
+
+});
+</code></pre>
+<h4 id="changes-4-5-summarizing-and-saving-the-session-level-data">Changes 4-5: Summarizing and saving the session-level data</h4>
+<p>This script aggregates and saves the session-level data to Qualtrics Embedded Data to simplify the overall analysis.</p>
+<p>When the jsPsych ends, <code>display_stage</code> and <code>display_stage_background</code> divs are removed. </p>
+<p>After saving, the script executes the <code>clickNextButton</code> to simulate clicking the Next button and proceed to the next question.</p>
+<pre><code class="language-js">on_finish: function () {
+
+    /* Change 4: Summarize the data */
+
+    var cnt_trial_type = {};
+    // for math trials
+    cnt_trial_type[&quot;me0&quot;] = 0; // # of hard math chosen / solved when 2 vs 2
+    cnt_trial_type[&quot;me2&quot;] = 0; //                no choice trials, easy reward 2
+    cnt_trial_type[&quot;mh0&quot;] = 0; // # of hard math chosen / solved when 2 vs 2
+    cnt_trial_type[&quot;mh1&quot;] = 0; //                when 3 vs 2
+    cnt_trial_type[&quot;mh2&quot;] = 0; //                when 4 vs 2
+    cnt_trial_type[&quot;mh3&quot;] = 0; //                when 5 vs 2
+    cnt_trial_type[&quot;mh4&quot;] = 0; //                when 6 vs 2
+    cnt_trial_type[&quot;mh5&quot;] = 0; //                no choice trials, hard reward 5
+    // for word trials
+    cnt_trial_type[&quot;we0&quot;] = 0; // # of hard word chosen / solved when 2 vs 2
+    cnt_trial_type[&quot;we2&quot;] = 0; //                no choice trials, easy reward 2
+    cnt_trial_type[&quot;wh0&quot;] = 0; // # of hard word chosen / solved when 2 vs 2
+    cnt_trial_type[&quot;wh1&quot;] = 0; //                when 3 vs 2
+    cnt_trial_type[&quot;wh2&quot;] = 0; //                when 4 vs 2
+    cnt_trial_type[&quot;wh3&quot;] = 0; //                when 5 vs 2
+    cnt_trial_type[&quot;wh4&quot;] = 0; //                when 6 vs 2
+    cnt_trial_type[&quot;wh5&quot;] = 0; //                no choice trials, hard reward 5
+    // count the me, mh, we, wh trials
+    cnt_trial_type[&quot;me_cnt&quot;] = 0;
+    cnt_trial_type[&quot;mh_cnt&quot;] = 0;
+    cnt_trial_type[&quot;we_cnt&quot;] = 0;
+    cnt_trial_type[&quot;wh_cnt&quot;] = 0;
+    // count correct trials
+    cnt_trial_type[&quot;me_corr&quot;] = 0; // # of correct for easy math
+    cnt_trial_type[&quot;mh_corr&quot;] = 0; //              for hard math
+    cnt_trial_type[&quot;we_corr&quot;] = 0; //              for easy word
+    cnt_trial_type[&quot;wh_corr&quot;] = 0; //              for hard word
+    // adding problem-solving RTs to get the average
+    cnt_trial_type[&quot;me_rt&quot;] = 0;
+    cnt_trial_type[&quot;mh_rt&quot;] = 0;
+    cnt_trial_type[&quot;we_rt&quot;] = 0;
+    cnt_trial_type[&quot;wh_rt&quot;] = 0;
+
+    for (var ii = 0; ii &lt; choice_main.length; ii++) {
+        // counting the # of trial types to get the choice probabilities
+        // all the problem types need to be defined above.
+        cnt_trial_type[choice_main[ii]]++;
+        // add up the # of corrects and RT
+        let curr_type = choice_main[ii].substring(0, 2);
+        cnt_trial_type[curr_type + &quot;_cnt&quot;]++;
+        cnt_trial_type[curr_type + &quot;_corr&quot;] += correct_main[ii];
+        cnt_trial_type[curr_type + &quot;_rt&quot;] += solvetime_main[ii];
+    }
+
+    var mwlevel = {}; // based on history_hard
+    mwlevel[&quot;m&quot;] = 0;
+    mwlevel[&quot;w&quot;] = 0;
+    for (var ii = 0; ii &lt; choice_level.length; ii++) {
+        mwlevel[choice_level[ii][0]] += Number(choice_level[ii][1]);
+    }
+    var rtsum = 0;
+    for (var ii = 0; ii &lt; solvetime_main.length; ii++) {
+        // add all the problem-solving RT to see how much time P spent
+        rtsum += solvetime_main[ii];
+    }
+
+
+    /* Change 5: Saving the trial-level data and finishing up */
+
+    // Overall
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;points&quot;, point_main);
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;bonus&quot;, point_main); // 1 cent/point
+
+    // easy_math_cnt, easy_acc_math, easy_RT_math 
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;easy_math_cnt&quot;, cnt_trial_type[&quot;me_cnt&quot;] );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;easy_acc_math&quot;, (cnt_trial_type[&quot;me_corr&quot;]/cnt_trial_type[&quot;me_cnt&quot;]).toFixed(4) );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;easy_RT_math&quot;, Math.round(cnt_trial_type[&quot;me_rt&quot;]/cnt_trial_type[&quot;me_cnt&quot;]) );
+
+    // easy_word_cnt, easy_acc_word, easy_RT_word
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;easy_word_cnt&quot;, cnt_trial_type[&quot;we_cnt&quot;] );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;easy_acc_word&quot;, (cnt_trial_type[&quot;we_corr&quot;]/cnt_trial_type[&quot;we_cnt&quot;]).toFixed(4) );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;easy_RT_word&quot;, Math.round(cnt_trial_type[&quot;we_rt&quot;]/cnt_trial_type[&quot;we_cnt&quot;]) );
+
+    // hard_math_cnt, hard_level_math, hard_acc_math, hard_RT_math
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hard_math_cnt&quot;, cnt_trial_type[&quot;mh_cnt&quot;] );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hard_level_math&quot;, (mwlevel[&quot;m&quot;]/cnt_trial_type[&quot;mh_cnt&quot;]).toFixed(4) );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hard_acc_math&quot;, (cnt_trial_type[&quot;mh_corr&quot;]/cnt_trial_type[&quot;mh_cnt&quot;]).toFixed(4) );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hard_RT_math&quot;, Math.round(cnt_trial_type[&quot;mh_rt&quot;]/cnt_trial_type[&quot;mh_cnt&quot;]) );
+
+    // hard_word_cnt, hard_level_word, hard_acc_word, hard_RT_word                
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hard_word_cnt&quot;, cnt_trial_type[&quot;wh_cnt&quot;] );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hard_level_word&quot;, (mwlevel[&quot;w&quot;]/cnt_trial_type[&quot;wh_cnt&quot;]).toFixed(4) );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hard_acc_word&quot;, (cnt_trial_type[&quot;wh_corr&quot;]/cnt_trial_type[&quot;wh_cnt&quot;]).toFixed(4) );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hard_RT_word&quot;, Math.round(cnt_trial_type[&quot;wh_rt&quot;]/cnt_trial_type[&quot;wh_cnt&quot;]) );
+
+    // hard choice probabilities of math trials : hcp_h2e2_math, hcp_h3e2_math, hcp_h4e2_math, hcp_h5e2_math, hcp_h6e2_math, hcp_h456e2_math
+    let numPerCond = 2*num_block;
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hcp_h2e2_math&quot;, (cnt_trial_type[&quot;mh0&quot;]/numPerCond).toFixed(4) );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hcp_h3e2_math&quot;, (cnt_trial_type[&quot;mh1&quot;]/numPerCond).toFixed(4) );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hcp_h4e2_math&quot;, (cnt_trial_type[&quot;mh2&quot;]/numPerCond).toFixed(4) );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hcp_h5e2_math&quot;, (cnt_trial_type[&quot;mh3&quot;]/numPerCond).toFixed(4) );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hcp_h6e2_math&quot;, (cnt_trial_type[&quot;mh4&quot;]/numPerCond).toFixed(4) );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hcp_h456e2_math&quot;,
+            ((cnt_trial_type[&quot;mh2&quot;]+cnt_trial_type[&quot;mh3&quot;]+cnt_trial_type[&quot;mh4&quot;])/(3*numPerCond)).toFixed(4) );
+
+    // hard choice probabilities of word trials : hcp_h2e2_word, hcp_h3e2_word, hcp_h4e2_word, hcp_h5e2_word, hcp_h6e2_word, hcp_h456e2_word
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hcp_h2e2_word&quot;, (cnt_trial_type[&quot;wh0&quot;]/numPerCond).toFixed(4) );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hcp_h3e2_word&quot;, (cnt_trial_type[&quot;wh1&quot;]/numPerCond).toFixed(4) );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hcp_h4e2_word&quot;, (cnt_trial_type[&quot;wh2&quot;]/numPerCond).toFixed(4) );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hcp_h5e2_word&quot;, (cnt_trial_type[&quot;wh3&quot;]/numPerCond).toFixed(4) );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hcp_h6e2_word&quot;, (cnt_trial_type[&quot;wh4&quot;]/numPerCond).toFixed(4) );
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;hcp_h456e2_word&quot;,
+            ((cnt_trial_type[&quot;wh2&quot;]+cnt_trial_type[&quot;wh3&quot;]+cnt_trial_type[&quot;wh4&quot;])/(3*numPerCond)).toFixed(4) );
+
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;cnt_per_cond&quot;, numPerCond );
+
+    // finishing up
+    function sleep(time) {
+        return new Promise((resolve) =&gt; setTimeout(resolve, time));
+    }
+
+    sleep(500).then(() =&gt; {
+        // clear the stage
+        jQuery('.display_stage').remove();
+        jQuery('.display_stage_background').remove();
+
+        // simulate click on Qualtrics &quot;next&quot; button, making use of the Qualtrics JS API
+        qthis.clickNextButton();
+    });
+}
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../flanker/" class="btn btn-neutral float-left" title="Embedding Flanker Task"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../rc-rage/" class="btn btn-neutral float-right" title="Embedding Reactive AGression Task">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2020-2023 <a href="https://kywch.github.io/" target="_blank">Kyoung Whan Choe</a>. </p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../flanker/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../rc-rage/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

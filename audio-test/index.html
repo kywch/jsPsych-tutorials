@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://kywch.github.io/jsPsych-in-Qualtrics/audio-test/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Embedding Quick Audio Test - jsPsych in Qualtrics Tutorial Series</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Embedding Quick Audio Test";
+        var mkdocs_page_input_path = "audio-test.md";
+        var mkdocs_page_url = "/jsPsych-in-Qualtrics/audio-test/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-D3RPWB8SEL"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-D3RPWB8SEL');
+      </script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> jsPsych in Qualtrics Tutorial Series
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 1. The Basics</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../github-pages/">Hosting jsPsych</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../hello-world/">Embedding Hello World!</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../save-php/">Saving Data with PHP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../participants/">Recruiting Participants</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 2. Case studies</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../rt-task/">Embedding Reaction-Time Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../flanker/">Embedding Flanker Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../choose-and-solve/">Embedding Choose-And-Solve Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../rc-rage/">Embedding Reactive AGression Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../stop-it/">Embedding Stop Signal Task (STOP-IT)</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Embedding Quick Audio Test</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#embedding-the-quick-audio-test-into-qualtrics">Embedding the Quick Audio Test into Qualtrics</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#hosting-the-quick-audio-test-scripts-in-github">Hosting the Quick Audio Test scripts in GitHub</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#embedding-the-task-to-qualtrics">Embedding the task to Qualtrics</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#step-1-create-a-new-qualtrics-project-and-then-a-new-question">Step 1. Create a new Qualtrics project and then a new question</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-2-open-the-question-javascript-editor-and-copy-paste-the-whole-audio-test-qualtricsjs">Step 2. Open the Question JavaScript editor and copy paste the whole audio-test-qualtrics.js</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-3-open-the-question-html-editor-and-copy-paste-the-below-html-code">Step 3. Open the Question HTML editor and copy paste the below html code</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-4-create-embedded-data-elements">Step 4. Create Embedded Data elements</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-5-publish-and-test">Step 5. Publish and test!</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#explaining-the-code">Explaining the code</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#a-working-demo-in-a-local-browser-audio-test-demohtml">A working demo in a local browser: audio-test-demo.html</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#change-1-using-display_element">Change 1: Using display_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-2-adding-display_stage-css-and-div">Change 2: Adding display_stage CSS and Div</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-3-adding-extra-scripts-for-qualtrics">Change 3: Adding extra scripts for Qualtrics</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#qualtrics-transformation-audio-test-qualtricsjs">Qualtrics transformation: audio-test-qualtrics.js</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#change-1-hiding-the-next-button">Change 1: Hiding the Next button</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-2-defining-and-load-required-resources">Change 2: Defining and load required resources</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-3-appending-the-display_stage-div-using-jquery">Change 3: Appending the display_stage Div using jQuery</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-4-adding-resources-scripts-and-helper-functions">Change 4: Adding resources, scripts, and helper functions</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-5-wrapping-jspsychinit-in-a-function">Change 5: Wrapping jsPsych.init() in a function</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-6-adding-the-clean-up-and-continue-functions">Change 6: Adding the clean up and continue functions</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../mood-induction/">Embedding Mood Induction</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">jsPsych in Qualtrics Tutorial Series</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Part 2. Case studies &raquo;</li>
+      <li>Embedding Quick Audio Test</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="embedding-a-quick-audio-test-into-qualtrics">Embedding a Quick Audio Test into Qualtrics</h1>
+<p>Before running an auditory task (like mood induction or dual n-back), you should make sure participants can listen to sound. To do so, I made a quick audio test using jsPsych. You can first try the test by clicking <a href="https://kywch.github.io/Mood-Induction_jsPsych/audio-test-demo.html">HERE</a>.</p>
+<p>I uploaded the working codes on the <a href="https://github.com/kywch/Mood-Induction_jsPsych">Mood Induction repository</a>. You can either directly use these files or fork this repository to customize.</p>
+<p>This tutorial consists of two parts. (1) I will first explain how you can <a href="./#embedding-the-quick-audio-test-into-qualtrics">embed the Audio Test in Qualtrics</a>. (2) I will then <a href="./#explaining-the-code">explain the experiment code</a>. </p>
+<hr />
+<h2 id="embedding-the-quick-audio-test-into-qualtrics">Embedding the Quick Audio Test into Qualtrics</h2>
+<h3 id="hosting-the-quick-audio-test-scripts-in-github">Hosting the Quick Audio Test scripts in GitHub</h3>
+<p>To use jsPsych in Qualtrics, the jsPsych javascript and CSS files need to be online and loadable from Qualtrics. Creating a GitHub repository for your experiment helps you do so in simple steps.</p>
+<ol>
+<li>Go to the <a href="https://github.com/kywch/Mood-Induction_jsPsych">Mood Induction repository</a>.</li>
+<li>Follow the <a href="../github-pages/">Hosting jsPsych</a> tutorial to fork it to your GitHub repository and make the scripts available online.</li>
+<li>Also make sure that sound files play on your browser.</li>
+</ol>
+<p>When you are done, you can check the online files with your browser by directly going to the <strong>jspsych.js</strong>, <strong>jspsych.css</strong>, <strong>jspsych-fullscreen.js</strong>, and <strong>jspsych-audio-keyboard-with-replay.js</strong>.</p>
+<ul>
+<li><strong>jspsych.js</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/jspsych.js</code>, like <a href='https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/jspsych.js'>https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/jspsych.js</a>.</li>
+<li><strong>jspsych.css</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/css/jspsych.css</code>, like <a href='https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/css/jspsych.css'>https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/css/jspsych.css</a>.</li>
+<li><strong>jspsych-fullscreen.js</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/plugins/jspsych-fullscreen.js</code>, like <a href='https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/plugins/jspsych-fullscreen.js'>https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/plugins/jspsych-fullscreen.js</a>.</li>
+<li><strong>jspsych-audio-keyboard-with-replay.js</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/Mood-Induction_jsPsych/jspsych-audio-keyboard-with-replay.js</code>, like <a href='https://kywch.github.io/Mood-Induction_jsPsych/jspsych-audio-keyboard-with-replay.js'>https://kywch.github.io/Mood-Induction_jsPsych/jspsych-audio-keyboard-with-replay.js</a>.</li>
+</ul>
+<p>Sound files are stored in the <a href="https://github.com/kywch/Mood-Induction_jsPsych/tree/master/audiotest">audiotest folder</a> and should be available online, like <a href='https://kywch.github.io/Mood-Induction_jsPsych/audiotest/c.mp3'>https://kywch.github.io/Mood-Induction_jsPsych/audiotest/c.mp3</a>.</p>
+<hr />
+<h3 id="embedding-the-task-to-qualtrics">Embedding the task to Qualtrics</h3>
+<p>Let's log in to Qualtrics and take a look at each step.</p>
+<h4 id="step-1-create-a-new-qualtrics-project-and-then-a-new-question">Step 1. Create a new Qualtrics project and then a new question</h4>
+<p>First, create a new Qualtrics project. Then, create a new question and (1) change its format to <strong>Text/Graphic</strong>.</p>
+<p><img alt="Add JavaScript to a Qualtrics question" src="../img/hello-world-qualtrics-Step1_add_javascript_to_question.jpg" /></p>
+<hr />
+<h4 id="step-2-open-the-question-javascript-editor-and-copy-paste-the-whole-audio-test-qualtricsjs">Step 2. Open the Question JavaScript editor and copy paste the whole <code>audio-test-qualtrics.js</code></h4>
+<p>Keep going in the above picture. (2) Click the gear to open the dropdown menu, and then (3) find and click <strong>Add JavaScript</strong>. </p>
+<p><img alt="Open the Question JavaScript editor" src="../img/hello-world-qualtrics-Step2_open_javascript_editor.jpg" /></p>
+<p>Then copy-paste the whole <a href="https://raw.githubusercontent.com/kywch/Mood-Induction_jsPsych/master/audio-test-qualtrics.js"><code>audio-test-qualtrics.js</code> (click to see the code)</a> into the editor. </p>
+<p><font color=red>ALSO CHECK WHETHER THE URLs ARE VALID. For example, <code>task_github</code> and <code>audio_url</code>.</font></p>
+<hr />
+<h4 id="step-3-open-the-question-html-editor-and-copy-paste-the-below-html-code">Step 3. Open the Question HTML editor and copy paste the below html code</h4>
+<p>The Change 3 section of the <code>audio-test-demo.html</code> file contains the link to jsPsych CSS file, the inline styles for <code>display_stage</code> Div, and the error message to be displayed when things go wrong.</p>
+<p>To open the HTML editor, click the <code>HTML View</code> button. </p>
+<p><img alt="Open the Question HTML editor" src="../img/hello-world-qualtrics-Step3_open_question_html_editor.jpg" /></p>
+<p>Then, copy paste the portion of <code>audio-test-demo.html</code> to the HTML editor, starting from <code>&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;</code> to <code>&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;</code>. </p>
+<pre><code class="language-html">&lt;!-- Change 3: Adding extra scripts for Qualtrics --&gt;
+&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;
+&lt;link href=&quot;https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/css/jspsych.css&quot; rel=&quot;stylesheet&quot;
+    type=&quot;text/css&quot;&gt;
+&lt;/link&gt;
+&lt;div&gt;
+    &lt;span style=&quot;font-size: 24px;&quot;&gt;
+        &lt;br&gt;&lt;br&gt;
+        If you are seeing this message for &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;
+            &lt;b&gt;more than 5 minutes&lt;/b&gt;&lt;/span&gt;,&lt;br&gt;
+        please screen-capture this screen and send the image to us.
+        &lt;br&gt;&lt;br&gt;
+        &lt;span style=&quot;font-size: 28px;&quot;&gt;We are very sorry for the inconvenience.&lt;/span&gt;
+    &lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Change 2: Adding `display_stage` CSS and Div --&gt;
+&lt;style&gt;
+    #display_stage_background {
+        width: 100vw;
+        background-color: white;
+        z-index: -1;
+    }
+
+    #display_stage {
+        position: fixed;
+        left: 1vw;
+        top: 1vh;
+        height: 98vh;
+        width: 98vw;
+        background-color: white;
+        box-shadow: 1px 1px 1px #999;
+        border-radius: 15px;
+        z-index: 0;
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+
+    #centerbox {
+        width: 80vw;
+        height: 30vh;
+        position: relative;
+        top: 40%;
+        font-size: 20pt;
+        line-height: normal;
+    }
+&lt;/style&gt;
+&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;
+</code></pre>
+<p>After copy pasting, you should see something like below.</p>
+<p><img alt="After copy-paste" src="../img/hello-world-qualtrics-Step3_after_copy_paste.jpg" /></p>
+<hr />
+<h4 id="step-4-create-embedded-data-elements">Step 4. Create Embedded Data elements</h4>
+<p>To store the additional details about this audio test, you need to create the Embedded Data elements named <strong>audio_test_rt</strong> and <strong>audio_test_order</strong> in your survey by following <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-flow/standard-elements/embedded-data/#CreatingAnEmbeddedDataElement">this Qualtrics tutorial</a>. </p>
+<ol>
+<li>Click <strong>Survey Flow</strong> from the Survey tab</li>
+<li>Click <strong>Add a New Element Here</strong></li>
+<li>Choose <strong>Embedded Data</strong> </li>
+<li>Click <strong>Create New Field or Choose From Dropdown</strong> and type <strong>audio_test_rt</strong></li>
+<li>Click <strong>Add a New Field</strong> and type <strong>audio_test_order</strong></li>
+<li>Click <strong>Move</strong> of the new blocks you created (<code>Set Embedded Data</code> and <code>Then Branch If</code>) and move these blocks the top of Survey Flow</li>
+</ol>
+<hr />
+<h4 id="step-5-publish-and-test">Step 5. Publish and test!</h4>
+<p>Publish the survey by following <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-publishing-versions/#PublishingNew">this Qualtrics tutorial</a>. Then, an anonymous Qualtrics link is generated. If you click this link, you should be able to see the same Audio Test running in Qualtrics. For example, try <a href="https://ssd.az1.qualtrics.com/jfe/form/SV_4YjlIFFZpmVxtwV">this Qualtrics link</a>.</p>
+<hr />
+<h2 id="explaining-the-code">Explaining the code</h2>
+<p>For the basics, please read the <a href="../hello-world/">Hello world tutorial</a>.</p>
+<h3 id="a-working-demo-in-a-local-browser-audio-test-demohtml">A working demo in a local browser: audio-test-demo.html</h3>
+<p>Adding the <code>display_element</code> parameter in the <code>jsPsych.init()</code> and having additional control over the display element is important for embedding jsPsych into Qualtrics. The changes in <a href="https://github.com/kywch/Mood-Induction_jsPsych/blob/master/audio-test-demo.html"><code>audio-test-demo.html</code> (click to see the code)</a> are in the same order as in the <a href="../hello-world/">Hello world tutorial</a>. You should be able to run the audio test simply by opening <code>audio-test-demo.html</code> in a browser.</p>
+<p>Let's look at each change.</p>
+<h4 id="change-1-using-display_element">Change 1: Using <code>display_element</code></h4>
+<p>By adding the <code>display_element</code> parameter in the <code>jsPsych.init()</code> like below, jsPsych will render the experiment in the <code>&lt;div&gt;</code> called <code>display_stage</code>, which the current script does not have yet. So, let's add the <code>display_stage</code>.</p>
+<pre><code class="language-js">    /* Change 1: Using `display_element` */
+    jsPsych.init({
+        timeline: timeline,
+        display_element: 'display_stage'
+    })
+</code></pre>
+<h4 id="change-2-adding-display_stage-css-and-div">Change 2: Adding <code>display_stage</code> CSS and Div</h4>
+<p>The <code>display_stage</code> needs below CSS and HTML code after the <code>&lt;body&gt;</code> tag, which also include the <code>display_stage_background</code>. Both are necessary to function well. </p>
+<p>The <code>centerbox</code> is where we put the text prompts. </p>
+<pre><code class="language-html">&lt;!-- Change 2: Adding `display_stage` CSS and Div --&gt;
+&lt;style&gt;
+    #display_stage_background {
+        width: 100vw;
+        background-color: white;
+        z-index: -1;
+    }
+
+    #display_stage {
+        position: fixed;
+        left: 1vw;
+        top: 1vh;
+        height: 98vh;
+        width: 98vw;
+        background-color: white;
+        box-shadow: 1px 1px 1px #999;
+        border-radius: 15px;
+        z-index: 0;
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+
+    #centerbox {
+        width: 80vw;
+        height: 30vh;
+        position: relative;
+        top: 40%;
+        font-size: 20pt;
+        line-height: normal;
+    }
+&lt;/style&gt;
+&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;
+
+&lt;div id='display_stage_background'&gt;&lt;/div&gt;
+&lt;div id='display_stage'&gt;&lt;/div&gt;
+</code></pre>
+<h4 id="change-3-adding-extra-scripts-for-qualtrics">Change 3: Adding extra scripts for Qualtrics</h4>
+<p>The below scripts are not necessary to run this task, but you need to copy-paste these in Qualtrics later. </p>
+<p>One critical point is that now we use the jsPsych stylesheet hosted in the GitHub Pages (explained above in the <a href="../rt-task/#step-4-enable-github-pages-for-your-experiment">Hosting jsPsych</a> section) instead of the CSS file in your computer. This is important because Qualtrics can also access the GitHub-hosted files.</p>
+<pre><code class="language-html">&lt;!-- Change 3: Adding extra scripts for Qualtrics --&gt;
+&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;
+&lt;link href=&quot;https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/css/jspsych.css&quot; rel=&quot;stylesheet&quot;
+    type=&quot;text/css&quot;&gt;
+&lt;/link&gt;
+&lt;div&gt;
+    &lt;span style=&quot;font-size: 24px;&quot;&gt;
+        &lt;br&gt;&lt;br&gt;
+        If you are seeing this message for &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;
+            &lt;b&gt;more than 5 minutes&lt;/b&gt;&lt;/span&gt;,&lt;br&gt;
+        please screen-capture this screen and send the image to us.
+        &lt;br&gt;&lt;br&gt;
+        &lt;span style=&quot;font-size: 28px;&quot;&gt;We are very sorry for the inconvenience.&lt;/span&gt;
+    &lt;/span&gt;
+&lt;/div&gt;
+</code></pre>
+<h3 id="qualtrics-transformation-audio-test-qualtricsjs">Qualtrics transformation: audio-test-qualtrics.js</h3>
+<p>To make your jsPsych experiment work in Qualtrics, you need to add your code to the below skeleton provided by Qualtrics Question JavaScript Editor. For details, see the <a href="https://www.qualtrics.com/support/survey-platform/survey-module/question-options/add-javascript/">Add JavaScript help page</a>.</p>
+<pre><code class="language-js">Qualtrics.SurveyEngine.addOnload(function()
+{
+    /*Place your JavaScript here to run when the page loads*/
+
+});
+
+Qualtrics.SurveyEngine.addOnReady(function()
+{
+    /*Place your JavaScript here to run when the page is fully displayed*/
+
+});
+
+Qualtrics.SurveyEngine.addOnUnload(function()
+{
+    /*Place your JavaScript here to run when the page is unloaded*/
+
+});
+</code></pre>
+<p>Let's look at each change.</p>
+<h4 id="change-1-hiding-the-next-button">Change 1: Hiding the Next button</h4>
+<p>The below javascript code hides the Next button and puts the javascript code in the driving seat.</p>
+<pre><code class="language-js">/* Change 1: Hiding the Next button */
+// Retrieve Qualtrics object and save in qthis
+var qthis = this;
+
+// Hide buttons
+qthis.hideNextButton();
+</code></pre>
+<h4 id="change-2-defining-and-load-required-resources">Change 2: Defining and load required resources</h4>
+<p>The below javascript defines where the necessary files are so that Qualtrics can load these. If you enabled GitHub Pages of your repository, Qualtrics can load the necessary JS, CSS, and image files right away.</p>
+<pre><code class="language-js">/* Change 2: Defining and load required resources */
+// task-related variables
+var audio_test_rt = [];
+var audio_test_order = [];
+
+// requiredResources must include all the required JS files
+var task_github = &quot;https://kywch.github.io/Mood-Induction_jsPsych/&quot;; // https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;
+var requiredResources = [
+    task_github + &quot;jspsych-6.1.0/jspsych.js&quot;,
+    task_github + &quot;jspsych-6.1.0/plugins/jspsych-fullscreen.js&quot;,
+    task_github + &quot;jspsych-audio-keyboard-with-replay.js&quot;
+];
+
+function loadScript(idx) {
+    console.log(&quot;Loading &quot;, requiredResources[idx]);
+    jQuery.getScript(requiredResources[idx], function () {
+        if ((idx + 1) &lt; requiredResources.length) {
+            loadScript(idx + 1);
+        } else {
+            initExp();
+        }
+    });
+}
+
+if (window.Qualtrics &amp;&amp; (!window.frameElement || window.frameElement.id !== &quot;mobile-preview-view&quot;)) {
+    loadScript(0);
+}
+</code></pre>
+<h4 id="change-3-appending-the-display_stage-div-using-jquery">Change 3: Appending the display_stage Div using jQuery</h4>
+<p>In Qualtrics, jQuery (loaded by default) is used to append the <code>display_stage_background</code> and <code>display_stage</code> Divs. The CSS for these elements will be added directly to Question HTML later in this tutorial.</p>
+<pre><code class="language-js">/* Change 3: Appending the display_stage Div using jQuery */
+// jQuery is loaded in Qualtrics by default
+jQuery(&quot;&lt;div id = 'display_stage_background'&gt;&lt;/div&gt;&quot;).appendTo('body');
+jQuery(&quot;&lt;div id = 'display_stage'&gt;&lt;/div&gt;&quot;).appendTo('body');
+</code></pre>
+<h4 id="change-4-adding-resources-scripts-and-helper-functions">Change 4: Adding resources, scripts, and helper functions</h4>
+<pre><code class="language-js">/* Change 4: Adding resouces, scripts, and helper functions */
+var audio_url = 'https://kywch.github.io/Mood-Induction_jsPsych/audiotest/';
+var audio_seed = ['c', 'd', 'g', 'k', 'p', 'q', 't'];
+
+// WARNING: YOU SHOULD MAKE SURE THE OUTPUT URLS ARE CORRECT
+function get_audio_url(audio_url, file_name, file_ext = 'mp3') {
+    return audio_url + file_name + '.' + file_ext;
+}
+
+// generate audiotest trials
+function generate_audiotest_block(audio_url, audio_seed) {
+
+    audio_test_order = jsPsych.randomization.shuffle(audio_seed);
+    let block_audiotest = [];
+    let enter_audiotest_page = {
+        type: 'audio-keyboard-with-replay',
+        prompt: &quot;&lt;div id=centerbox&gt;&lt;p&gt;&quot; +
+            &quot;The task you are about to do requires listening to sounds. Please adjust your sound setting.&lt;br&gt; &quot; +
+            &quot;&lt;p&gt;We will do a simple task to make sure you can hear the sounds. &lt;/p&gt;&quot; +
+            &quot;&lt;p&gt;In the next pages, press the alphabet key associated with the played sound to proceed. &lt;/p&gt; &quot; +
+            &quot;&lt;br&gt;&lt;p&gt;If you are ready, press the &lt;strong&gt;'n'&lt;/strong&gt; key to proceed.&lt;/p&gt;&quot; +
+            &quot;&lt;p&gt;If the key doesn't work, please click the screen and press again.&lt;/p&gt;&lt;/div&gt;&quot;,
+        choices: ['n'],
+    };
+    block_audiotest.push(enter_audiotest_page);
+
+    for (let ii = 0; ii &lt; audio_test_order.length; ii++) {
+        let audiotest_trial = {
+            type: 'audio-keyboard-with-replay',
+            stimulus: get_audio_url(audio_url, audio_test_order[ii]),
+            prompt: &quot;&lt;div id=centerbox&gt;&lt;p&gt;&quot; +
+                &quot;Trial &quot; + (ii + 1) + &quot; / &quot; + audio_test_order.length + &quot; : &quot; +
+                &quot;Please press the alphabet key you just heard.&lt;/p&gt;&quot; +
+                &quot;&lt;br&gt;&lt;p&gt;To replay, press the &lt;strong&gt;'r'&lt;/strong&gt; key. &lt;/p&gt;&lt;/div&gt;&quot;,
+            choices: [audio_test_order[ii]],
+            on_finish: function (data) {
+                audio_test_rt.push(data.rt)
+            }
+        }
+        block_audiotest.push(audiotest_trial);
+    }
+    return {
+        timeline: block_audiotest
+    };
+}
+</code></pre>
+<h4 id="change-5-wrapping-jspsychinit-in-a-function">Change 5: Wrapping jsPsych.init() in a function</h4>
+<p>The main experiment codes are wrapped in the <code>initExp</code> function to make sure it runs after all the necessary library and plugin files are loaded (as defined in the <code>loadScript</code> function above).</p>
+<pre><code class="language-js">/* Change 5: Wrapping jsPsych.init() in a function */
+function initExp() {
+
+    // push all the procedures, which are defined in stop-it_main.js to the overall timeline
+    var timeline = []; // this array stores the events we want to run in the experiment
+
+    // use the full screen
+    // also playing sound only works after an interaction with user, like button press
+    timeline.push({
+        type: 'fullscreen',
+        message: '&lt;p&gt;Audio test will start to play when you press the button below.&lt;/p&gt;&lt;br&gt;',
+        fullscreen_mode: true
+    });
+
+    timeline.push(generate_audiotest_block(audio_url, audio_seed));
+
+    timeline.push({
+        type: 'fullscreen',
+        fullscreen_mode: false
+    });
+
+    jsPsych.init({
+        display_element: 'display_stage',
+        timeline: timeline,
+
+        // see the Change 6
+
+    });
+}
+
+</code></pre>
+<h4 id="change-6-adding-the-clean-up-and-continue-functions">Change 6: Adding the clean up and continue functions</h4>
+<p>When the jsPsych ends, <code>display_stage</code> and <code>display_stage_background</code> should be removed. </p>
+<p>This script also saves additional data (test order and RT) to Qualtrics Embedded Data.</p>
+<p>After saving, the script executes the <code>clickNextButton</code> to simulate clicking the Next button and proceed to the next question.</p>
+<pre><code class="language-js">    on_finish: function () {
+
+        /* Change 6: Adding the clean up and continue functions.*/
+
+        // save the induction-related data to Qualtrics
+        Qualtrics.SurveyEngine.setEmbeddedData(&quot;audio_test_rt&quot;, audio_test_rt.toString().replace(/,/g, ';'));
+        Qualtrics.SurveyEngine.setEmbeddedData(&quot;audio_test_order&quot;, audio_test_order.toString().replace(/,/g, ';'));
+
+        // clear the stage
+        jQuery('#display_stage').remove();
+        jQuery('#display_stage_background').remove();
+
+        // simulate click on Qualtrics &quot;next&quot; button, making use of the Qualtrics JS API
+        qthis.clickNextButton();
+    }
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../stop-it/" class="btn btn-neutral float-left" title="Embedding Stop Signal Task (STOP-IT)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../mood-induction/" class="btn btn-neutral float-right" title="Embedding Mood Induction">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2020-2023 <a href="https://kywch.github.io/" target="_blank">Kyoung Whan Choe</a>. </p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../stop-it/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../mood-induction/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

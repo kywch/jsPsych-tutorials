@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://kywch.github.io/jsPsych-in-Qualtrics/rc-rage/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Embedding Reactive AGression Task - jsPsych in Qualtrics Tutorial Series</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Embedding Reactive AGression Task";
+        var mkdocs_page_input_path = "rc-rage.md";
+        var mkdocs_page_url = "/jsPsych-in-Qualtrics/rc-rage/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-D3RPWB8SEL"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-D3RPWB8SEL');
+      </script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> jsPsych in Qualtrics Tutorial Series
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 1. The Basics</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../github-pages/">Hosting jsPsych</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../hello-world/">Embedding Hello World!</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../save-php/">Saving Data with PHP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../participants/">Recruiting Participants</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 2. Case studies</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../rt-task/">Embedding Reaction-Time Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../flanker/">Embedding Flanker Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../choose-and-solve/">Embedding Choose-And-Solve Task</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Embedding Reactive AGression Task</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#embedding-rc-rage-into-qualtrics">Embedding RC-RAGE into Qualtrics</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#hosting-the-rc-rage-scripts-in-github">Hosting the RC-RAGE scripts in GitHub</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#embedding-the-task-to-qualtrics">Embedding the task to Qualtrics</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#step-1-create-a-new-qualtrics-project-and-then-a-new-question">Step 1. Create a new Qualtrics project and then a new question</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-2-open-the-question-javascript-editor-and-copy-paste-the-whole-rc-rage-qualtricsjs">Step 2. Open the Question JavaScript editor and copy paste the whole rc-rage-qualtrics.js</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-3-open-the-question-html-editor-and-copy-paste-the-below-html-code">Step 3. Open the Question HTML editor and copy paste the below html code</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-4-create-embedded-data-elements">Step 4. Create Embedded Data elements</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-5-publish-and-test">Step 5. Publish and test!</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#explaining-the-code">Explaining the code</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#a-working-demo-in-a-local-browser-rc-rage-demohtml">A working demo in a local browser: rc-rage-demo.html</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#step-1-define-and-load-required-resources">Step 1. Define and load required resources</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-2-add-display_stage-css-div-and-extra-scripts-for-qualtrics">Step 2: Add display_stage CSS, DIV, and extra scripts for Qualtrics</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-3-define-the-experiment-flow">Step 3: Define the experiment flow</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-4-show-the-aggregate-session-level-data">Step 4: Show the aggregate session-level data</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-5-run-the-experiment">Step 5: Run the experiment</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#qualtrics-transformation-rc-rage-qualtricsjs">Qualtrics transformation: rc-rage-qualtrics.js</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#change-1-hiding-the-next-button">Change 1: Hiding the Next button</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-2-defining-and-load-required-resources">Change 2: Defining and load required resources</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-3-appending-the-display_stage-div-using-jquery">Change 3: Appending the display_stage Div using jQuery</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-4-wrapping-jspsychinit-in-a-function">Change 4: Wrapping jsPsych.init() in a function</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#changes-5-6-summarizing-and-saving-the-results-then-finishing-the-study">Changes 5-6: Summarizing and saving the results, then finishing the study</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../stop-it/">Embedding Stop Signal Task (STOP-IT)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../audio-test/">Embedding Quick Audio Test</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../mood-induction/">Embedding Mood Induction</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">jsPsych in Qualtrics Tutorial Series</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Part 2. Case studies &raquo;</li>
+      <li>Embedding Reactive AGression Task</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="embedding-reactive-agression-task-rc-rage-into-qualtrics">Embedding Reactive AGression Task (RC-RAGE) into Qualtrics</h1>
+<p>An improved costly-reactive-aggression paradigm, called <strong>Retaliate or Carry-on: Reactive AGression Experiment (RC-RAGE)</strong>, by <a href="https://psyarxiv.com/kw3by/">Meidenbauer, Choe, Bakkour, Inzlicht &amp; Berman (2021)</a> was implemented using jsPsych. You can first try the task by clicking <a href="https://kywch.github.io/RC-RAGE_jsPsych/rc-rage-demo.html">HERE</a>.</p>
+<p>The RC-RAGE code is freely available at the <a href="https://github.com/kywch/RC-RAGE_jsPsych">RC-RAGE GitHub repository</a>. You can either directly use these files for your study or fork this repository to customize.</p>
+<p>This tutorial consists of two parts. (1) I will first explain how you can <a href="./#embedding-rc-rage-into-qualtrics">embed RC-RAGE in Qualtrics</a>. (2) I will then <a href="./#explaining-the-code">explain the experiment code</a>.</p>
+<hr />
+<h2 id="embedding-rc-rage-into-qualtrics">Embedding RC-RAGE into Qualtrics</h2>
+<h3 id="hosting-the-rc-rage-scripts-in-github">Hosting the RC-RAGE scripts in GitHub</h3>
+<p>To use jsPsych in Qualtrics, the jsPsych javascript and CSS files need to be online and loadable from Qualtrics. Creating a GitHub repository for your experiment helps you do so in simple steps.</p>
+<ol>
+<li>Go to the <a href="https://github.com/kywch/RC-RAGE_jsPsych">RC-RAGE GitHub repository</a>.</li>
+<li>Follow the <a href="../github-pages/">Hosting jsPsych</a> tutorial to fork it to your GitHub repository and make the scripts available online.</li>
+<li>Also make sure that sound files play on your browser.</li>
+</ol>
+<p>When you are done, you can check the online files with your browser by directly going to the <strong>jspsych.js</strong>, <strong>rc-rage.css</strong>, <strong>jspsych-fullscreen.js</strong>, and <strong>rc-rage_main.js</strong>.</p>
+<ul>
+<li><strong>jspsych.js</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/RC-RAGE_jsPsych/lib/jspsych-6.1.0/jspsych.js</code>, like <a href='https://kywch.github.io/RC-RAGE_jsPsych/lib/jspsych-6.1.0/jspsych.js'>https://kywch.github.io/RC-RAGE_jsPsych/lib/jspsych-6.1.0/jspsych.js</a>.</li>
+<li><strong>rc-rage.css</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/RC-RAGE_jsPsych/lib/jspsych-6.1.0/css/jspsych.css</code>, like <a href='https://kywch.github.io/RC-RAGE_jsPsych/lib/jspsych-6.1.0/css/jspsych.css'>https://kywch.github.io/RC-RAGE_jsPsych/lib/jspsych-6.1.0/css/jspsych.css</a>.</li>
+<li><strong>jspsych-fullscreen.js</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/RC-RAGE_jsPsych/lib/jspsych-6.1.0/plugins/jspsych-fullscreen.js</code>, like <a href='https://kywch.github.io/RC-RAGE_jsPsych/lib/jspsych-6.1.0/plugins/jspsych-fullscreen.js'>https://kywch.github.io/RC-RAGE_jsPsych/lib/jspsych-6.1.0/plugins/jspsych-fullscreen.js</a>.</li>
+<li><strong>rc-rage_main.js</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/RC-RAGE_jsPsych/lib/jspsych-mood-induction.js</code>, like <a href='https://kywch.github.io/RC-RAGE_jsPsych/lib/rc-rage_main.js'>https://kywch.github.io/RC-RAGE_jsPsych/lib/rc-rage_main.js</a>.</li>
+</ul>
+<p>Sound files are stored in the <a href="https://github.com/kywch/RC-RAGE_jsPsych/tree/master/sounds">sounds folder</a> and should be available to play online.</p>
+<hr />
+<h3 id="embedding-the-task-to-qualtrics">Embedding the task to Qualtrics</h3>
+<p>Let's log in to Qualtrics and take a look at each step.</p>
+<h4 id="step-1-create-a-new-qualtrics-project-and-then-a-new-question">Step 1. Create a new Qualtrics project and then a new question</h4>
+<p>First, create a new Qualtrics project. Then, create a new question and (1) change its format to <strong>Text/Graphic</strong>.</p>
+<p><img alt="Add JavaScript to a Qualtrics question" src="../img/hello-world-qualtrics-Step1_add_javascript_to_question.jpg" /></p>
+<hr />
+<h4 id="step-2-open-the-question-javascript-editor-and-copy-paste-the-whole-rc-rage-qualtricsjs">Step 2. Open the Question JavaScript editor and copy paste the whole <code>rc-rage-qualtrics.js</code></h4>
+<p>Keep going in the above picture. (2) Click the gear to open the dropdown menu, and then (3) find and click <strong>Add JavaScript</strong>. </p>
+<p><img alt="Open the Question JavaScript editor" src="../img/hello-world-qualtrics-Step2_open_javascript_editor.jpg" /></p>
+<p>Then copy-paste the whole <a href="https://raw.githubusercontent.com/kywch/RC-RAGE_jsPsych/master/rc-rage-qualtrics.js"><code>rc-rage-qualtrics.js</code> (click to see the code)</a> into the editor. </p>
+<p><font color=red>ALSO CHECK WHETHER THE URL, <code>task_github</code>, IS VALID.</font></p>
+<hr />
+<h4 id="step-3-open-the-question-html-editor-and-copy-paste-the-below-html-code">Step 3. Open the Question HTML editor and copy paste the below html code</h4>
+<p>The Change 3 section of the <code>rc-rage-demo.html</code> file contains the link to jsPsych CSS file, the inline styles for <code>display_stage</code> Div, and the error message to be displayed when things go wrong.</p>
+<p>To open the HTML editor, click the <code>HTML View</code> button. </p>
+<p><img alt="Open the Question HTML editor" src="../img/hello-world-qualtrics-Step3_open_question_html_editor.jpg" /></p>
+<p>Then, copy paste the portion of <code>rc-rage-demo.html</code> to the HTML editor, starting from <code>&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;</code> to <code>&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;</code>. </p>
+<pre><code class="language-html">&lt;!-- Step 2: Add `display_stage` CSS, DIV, and extra scripts for Qualtrics --&gt;
+&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;
+&lt;link href=&quot;https://kywch.github.io/RC-RAGE_jsPsych/lib/rc-rage.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;
+&lt;/link&gt;
+&lt;div&gt;
+&lt;span style=&quot;font-size: 24px;&quot;&gt;
+    &lt;br&gt;&lt;br&gt;
+    If you are seeing this message for &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;
+    &lt;b&gt;more than 5 minutes&lt;/b&gt;&lt;/span&gt;,&lt;br&gt;
+    please screen-capture this screen and send the image to us.
+    &lt;br&gt;&lt;br&gt;
+    &lt;span style=&quot;font-size: 28px;&quot;&gt;We are very sorry for the inconvenience.&lt;/span&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+#display_stage_background {
+    width: 100vw;
+    background-color: white;
+    z-index: -1;
+}
+
+#display_stage {
+    position: fixed;
+    left: 1vw;
+    top: 1vh;
+    height: 98vh;
+    width: 98vw;
+    background-color: white;
+    box-shadow: 1px 1px 1px #999;
+    border-radius: 15px;
+    z-index: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+&lt;/style&gt;
+&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;
+</code></pre>
+<p>After copy pasting, you should see something like below.</p>
+<p><img alt="After copy-paste" src="../img/hello-world-qualtrics-Step3_after_copy_paste.jpg" /></p>
+<hr />
+<h4 id="step-4-create-embedded-data-elements">Step 4. Create Embedded Data elements</h4>
+<p>To store the addition details about this audio test, you need to create the Embedded Data elements named <strong>bonus</strong>, <strong>click_cnt</strong>, <strong>finished_trial_cnt</strong>, <strong>provoked_cnt</strong>, <strong>kill_cnt</strong>, <strong>planned_trial</strong>, and <strong>wasted_click_history</strong> in your survey by following <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-flow/standard-elements/embedded-data/#CreatingAnEmbeddedDataElement">this Qualtrics tutorial</a>. </p>
+<ol>
+<li>Click <strong>Survey Flow</strong> from the Survey tab</li>
+<li>Click <strong>Add a New Element Here</strong></li>
+<li>Choose <strong>Embedded Data</strong> </li>
+<li>Click <strong>Create New Field or Choose From Dropdown</strong> and type <strong>bonus</strong></li>
+<li>Click <strong>Add a New Field</strong> and type <strong>click_cnt</strong></li>
+<li>Click <strong>Add a New Field</strong> and type <strong>finished_trial_cnt</strong></li>
+<li>Click <strong>Add a New Field</strong> and type <strong>provoked_cnt</strong></li>
+<li>Click <strong>Add a New Field</strong> and type <strong>kill_cnt</strong></li>
+<li>Click <strong>Add a New Field</strong> and type <strong>planned_trial</strong></li>
+<li>Click <strong>Add a New Field</strong> and type <strong>wasted_click_history</strong></li>
+<li>Click <strong>Add a New Field</strong> and type <strong>trial_data</strong></li>
+<li>Click <strong>Move</strong> of the new blocks you created (<code>Set Embedded Data</code> and <code>Then Branch If</code>) and move these blocks the top of Survey Flow</li>
+</ol>
+<hr />
+<h4 id="step-5-publish-and-test">Step 5. Publish and test!</h4>
+<p>Publish the survey by following <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-publishing-versions/#PublishingNew">this Qualtrics tutorial</a>. Then, an anonymous Qualtrics link is generated. If you click this link, you should be able to see the same Audio Test running in Qualtrics. For example, try <a href="https://ssd.az1.qualtrics.com/jfe/form/SV_3kNgHLdkjIfOa4R">this Qualtrics link</a>.</p>
+<hr />
+<h2 id="explaining-the-code">Explaining the code</h2>
+<p>For the basics, please read the <a href="../hello-world/">Hello world tutorial</a>.</p>
+<h3 id="a-working-demo-in-a-local-browser-rc-rage-demohtml">A working demo in a local browser: rc-rage-demo.html</h3>
+<p>You should be able to run RC-RAGE simply by opening <code>rc-rage-demo.html</code> in a browser (with all other files downloaded in put into the folder like the GitHub repo).</p>
+<p>I broke down the html file into 5 steps/parts. Let's look at each step.</p>
+<h4 id="step-1-define-and-load-required-resources">Step 1. Define and load required resources</h4>
+<p>RC-RAGE uses jQuery, so it should be loaded. Also, the below scripts load all the necessary files.</p>
+<pre><code class="language-html">&lt;!-- Step 1. Define and load required resources --&gt;
+&lt;script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'&gt;&lt;/script&gt;
+&lt;script src='lib/jspsych-6.1.0/jspsych.js'&gt;&lt;/script&gt;
+&lt;script src='lib/jspsych-6.1.0/plugins/jspsych-fullscreen.js'&gt;&lt;/script&gt;
+&lt;script src='lib/jspsych-6.1.0/plugins/jspsych-instructions.js'&gt;&lt;/script&gt;
+&lt;script src='lib/jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js'&gt;&lt;/script&gt;
+&lt;script src='lib/jspsych-audio-keyboard-with-replay.js'&gt;&lt;/script&gt;
+&lt;script src='lib/jspsych-rc-rage.js'&gt;&lt;/script&gt;
+&lt;script src='lib/rc-rage_main.js'&gt;&lt;/script&gt;
+</code></pre>
+<h4 id="step-2-add-display_stage-css-div-and-extra-scripts-for-qualtrics">Step 2: Add <code>display_stage</code> CSS, DIV, and extra scripts for Qualtrics</h4>
+<p>The <code>display_stage</code> needs below CSS and HTML code after the <code>&lt;body&gt;</code> tag, which also include the <code>display_stage_background</code>. Both are necessary to function well. </p>
+<pre><code class="language-html">&lt;!-- Step 2: Add `display_stage` CSS, DIV, and extra scripts for Qualtrics --&gt;
+&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;
+&lt;link href=&quot;https://kywch.github.io/RC-RAGE_jsPsych/lib/rc-rage.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;&lt;/link&gt;
+&lt;div&gt;
+&lt;span style=&quot;font-size: 24px;&quot;&gt;
+    &lt;br&gt;&lt;br&gt;
+    If you are seeing this message for &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;
+    &lt;b&gt;more than 5 minutes&lt;/b&gt;&lt;/span&gt;,&lt;br&gt;
+    please screen-capture this screen and send the image to us.
+    &lt;br&gt;&lt;br&gt;
+    &lt;span style=&quot;font-size: 28px;&quot;&gt;We are very sorry for the inconvenience.&lt;/span&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+#display_stage_background {
+    width: 100vw;
+    background-color: white;
+    z-index: -1;
+}
+
+#display_stage {
+    position: fixed;
+    left: 1vw;
+    top: 1vh;
+    height: 98vh;
+    width: 98vw;
+    background-color: white;
+    box-shadow: 1px 1px 1px #999;
+    border-radius: 15px;
+    z-index: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+&lt;/style&gt;
+&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;
+
+&lt;div id='display_stage_background'&gt;&lt;/div&gt;
+&lt;div id='display_stage'&gt;&lt;/div&gt;
+</code></pre>
+<h4 id="step-3-define-the-experiment-flow">Step 3: Define the experiment flow</h4>
+<p>The below scripts construct an experiment session using the functions defined in the <code>rc-rage_main.js</code> file, which are <code>get_instruction_imglist</code>, <code>generate_instruction_block</code>, <code>generate_practice_block</code>, and <code>generate_main_block</code>. Please see the <a href="https://github.com/kywch/RC-RAGE_jsPsych/blob/master/lib/rc-rage_main.js">rc-rage_main.js (click to see the code)</a> for their definitions.</p>
+<pre><code class="language-js">    /* Step 3: Define the experiment flow */
+    // NOTE that the functions used below are defined in `rc-rage_main.js` for readability
+    var instr_url = 'instruction/';
+    var instr_imglist = get_instruction_imglist(instr_url, 30);
+
+    var jspsych_session = [];
+
+    // use the full screen
+    jspsych_session.push({
+    type: 'fullscreen',
+    fullscreen_mode: true
+    });
+
+    jspsych_session.push({
+    timeline: generate_instruction_block(instr_imglist)
+    });
+
+    jspsych_session.push({
+    timeline: generate_practice_block()
+    });
+
+    jspsych_session.push({
+    timeline: generate_main_block()
+    });
+</code></pre>
+<h4 id="step-4-show-the-aggregate-session-level-data">Step 4: Show the aggregate session-level data</h4>
+<p>To aggregate session-level data eaily, rc-rage_main.js has defined <code>main_score</code>, <code>main_seq</code>, <code>click_history</code>, and <code>wasted_click_history</code>. The below script takes advantage of these variables rather than going through the all raw data and shows the aggregated results for debugging. In the actual study, we only showed the bonus amount.</p>
+<pre><code class="language-js">/* Step 4: Show the aggregate session-level data */
+// NOTE that main_score, main_seq, click_history, wasted_click_history are defined in rc-rage_main.js
+// The below lines take advantage of these rather than going through the raw data
+jspsych_session.push({
+type: &quot;html-keyboard-response&quot;,
+stimulus: function () {
+
+    // performance-based bonus in dollar (in string)
+    let bonus = (main_score / 100).toFixed(2);
+
+    // the trial sequence (specifies when the robber appears)
+    let trial_seq = main_seq;
+    trial_seq.forEach(function (item, ii) {
+    if (item &gt; 1000) trial_seq[ii] = -1; // robber did not appear
+    });
+    trial_seq = trial_seq.toString().replace(/,/g, ';');
+
+    // participants' click counts for each trial
+    let click_cnt = click_history.reduce(function (a, b) {
+    return (a + b);
+    }).toString();
+
+    // completed trials (within the time limit)
+    var comp_trial_cnt = wasted_click_history.filter(x =&gt; x &gt;= 0).length;
+
+    // the number of trials, in which the robber appeared
+    var provoked_cnt = main_seq.slice(0, comp_trial_cnt).filter(x =&gt; x &gt; 0).length;
+
+    // the number of trials, in which the robber was killed by retailation
+    var kill_cnt = wasted_click_history.filter(x =&gt; x &gt; 0).length;
+
+    return &quot;&lt;div class = centerbox&gt;&lt;p&gt;&lt;p&gt;&quot; +
+    &quot;&lt;p class = block-text&gt;Your performance-based bonus: $&quot; + bonus + &quot;&lt;/p&gt;&quot; +
+    &quot;&lt;p class = block-text&gt;Number of completed trials: &quot; + comp_trial_cnt + &quot; out of &quot; + main_seq.length
+    .toString() + &quot;&lt;/p&gt;&quot; +
+    &quot;&lt;p class = block-text&gt;Number of provocations: &quot; + provoked_cnt + &quot;&lt;/p&gt;&quot; +
+    &quot;&lt;p class = block-text&gt;Number of retaliations: &quot; + kill_cnt + &quot;&lt;/p&gt;&quot; +
+    &quot;&lt;p class = block-text&gt;Press any key to complete the experiment. Thank you!&lt;/p&gt;&lt;/div&gt;&quot;;
+}
+});
+</code></pre>
+<h4 id="step-5-run-the-experiment">Step 5: Run the experiment</h4>
+<pre><code class="language-js">/* Step 5: Run the experiment. */
+jsPsych.init({
+
+display_element: 'display_stage',
+timeline: jspsych_session,
+preload_images: instr_imglist,
+
+exclusions: { // browser window needs to have these dimensions, if not, participants get the chance to maximize their window, if they don't support this resolution when maximized they can't particiate.
+    min_width: 1000,
+    min_height: 700
+}
+});
+</code></pre>
+<hr />
+<h3 id="qualtrics-transformation-rc-rage-qualtricsjs">Qualtrics transformation: rc-rage-qualtrics.js</h3>
+<p>To make your jsPsych experiment work in Qualtrics, you need to add your code to the below skeleton provided by Qualtrics Question JavaScript Editor. For details, see the <a href="https://www.qualtrics.com/support/survey-platform/survey-module/question-options/add-javascript/">Add JavaScript help page</a>.</p>
+<pre><code class="language-js">Qualtrics.SurveyEngine.addOnload(function()
+{
+    /*Place your JavaScript here to run when the page loads*/
+
+});
+
+Qualtrics.SurveyEngine.addOnReady(function()
+{
+    /*Place your JavaScript here to run when the page is fully displayed*/
+
+});
+
+Qualtrics.SurveyEngine.addOnUnload(function()
+{
+    /*Place your JavaScript here to run when the page is unloaded*/
+
+});
+</code></pre>
+<p>Let's look at each change.</p>
+<h4 id="change-1-hiding-the-next-button">Change 1: Hiding the Next button</h4>
+<p>The below javascript code hides the Next button and puts the javascript code in the driving seat.</p>
+<pre><code class="language-js">/* Change 1: Hiding the Next button */
+// Retrieve Qualtrics object and save in qthis
+var qthis = this;
+
+// Hide buttons
+qthis.hideNextButton();
+</code></pre>
+<h4 id="change-2-defining-and-load-required-resources">Change 2: Defining and load required resources</h4>
+<p>The below javascript defines where the necessary files are so that Qualtrics can load these. If you enabled GitHub Pages of your repository, Qualtrics can load the necessary JS, CSS, and image files right away.</p>
+<pre><code class="language-js">    /* Change 2: Defining and loading required resources */
+    // `requiredResources` must include all the required JS files
+    var task_github = &quot;https://kywch.github.io/RC-RAGE_jsPsych/&quot;; // https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;
+    var requiredResources = [
+        task_github + &quot;lib/jspsych-6.1.0/jspsych.js&quot;,
+        task_github + &quot;lib/jspsych-6.1.0/plugins/jspsych-fullscreen.js&quot;,
+        task_github + &quot;lib/jspsych-6.1.0/plugins/jspsych-instructions.js&quot;,
+        task_github + &quot;lib/jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js&quot;,
+        task_github + &quot;lib/jspsych-audio-keyboard-with-replay.js&quot;,
+        task_github + &quot;lib/jspsych-rc-rage.js&quot;,
+        task_github + &quot;lib/rc-rage_main.js&quot;
+    ];
+
+    function loadScript(idx) {
+        console.log(&quot;Loading &quot;, requiredResources[idx]);
+        jQuery.getScript(requiredResources[idx], function () {
+            if ((idx + 1) &lt; requiredResources.length) {
+                loadScript(idx + 1);
+            } else {
+                initExp();
+            }
+        });
+    }
+
+    if (window.Qualtrics &amp;&amp; (!window.frameElement || window.frameElement.id !== &quot;mobile-preview-view&quot;)) {
+        loadScript(0);
+    }
+
+</code></pre>
+<h4 id="change-3-appending-the-display_stage-div-using-jquery">Change 3: Appending the display_stage Div using jQuery</h4>
+<p>In Qualtrics, jQuery (loaded by default) is used to append the <code>display_stage_background</code> and <code>display_stage</code> Divs. The CSS for these elements will be added directly to Question HTML later in this tutorial.</p>
+<pre><code class="language-js">/* Change 3: Appending the display_stage Div using jQuery */
+// jQuery is loaded in Qualtrics by default
+jQuery(&quot;&lt;div id = 'display_stage_background'&gt;&lt;/div&gt;&quot;).appendTo('body');
+jQuery(&quot;&lt;div id = 'display_stage'&gt;&lt;/div&gt;&quot;).appendTo('body');
+</code></pre>
+<h4 id="change-4-wrapping-jspsychinit-in-a-function">Change 4: Wrapping jsPsych.init() in a function</h4>
+<p>The main experiment codes are wrapped in the <code>initExp</code> function to make sure it runs after all the necessary library and plugin files are loaded (as defined in the <code>loadScript</code> function above).</p>
+<pre><code class="language-js">/* Change 4: Wrapping jsPsych.init() in a function */
+function initExp() {
+
+    // these are to pre-load instruction images 
+    var instr_url = task_github + 'instruction/';
+    var instr_imglist = get_instruction_imglist(instr_url, 30);
+
+    // push all the procedures, which are defined in stop-it_main.js to the overall timeline
+    var jspsych_session = []; // this array stores the events we want to run in the experiment
+
+    // use the full screen
+    jspsych_session.push({
+        type: 'fullscreen',
+        fullscreen_mode: true
+    });
+
+    jspsych_session.push({
+        timeline: generate_instruction_block(instr_imglist)
+    });
+
+    jspsych_session.push({
+        timeline: generate_practice_block()
+    });
+
+    jspsych_session.push({
+        timeline: generate_main_block()
+    });
+
+    // exit the full screen
+    jspsych_session.push({
+        type: 'fullscreen',
+        fullscreen_mode: false
+    });
+
+    jsPsych.init({
+        display_element: 'display_stage',
+        timeline: jspsych_session,
+        preload_images: instr_imglist,
+
+        exclusions: { // browser window needs to have these dimensions, if not, participants get the chance to maximize their window, if they don't support this resolution when maximized they can't particiate.
+            min_width: 1000,
+            min_height: 700
+        },
+
+    // see the Change 5
+
+});
+</code></pre>
+<h4 id="changes-5-6-summarizing-and-saving-the-results-then-finishing-the-study">Changes 5-6: Summarizing and saving the results, then finishing the study</h4>
+<p>This script saves additional data (script order and spent time)) to Qualtrics Embedded Data to simplify the analysis.</p>
+<p>The <code>trial_data</code> is a csv-like string with space (' ') as the delimiter and semicolor (';') as the newline character. The columns are: trial, steal_timing, finish_code, click_cnt, extra_click, points, rt, time_remain. This string can be turned into the csv format by this python command. Please see <a href="https://colab.research.google.com/github/kywch/RC-RAGE_jsPsych/blob/master/read_data.ipynb">this google colab page</a> for a working example.</p>
+<pre><code class="language-python"># python code
+result_csv = result_string.strip().replace(';', '\n').replace(' ', ',')
+</code></pre>
+<p>When the jsPsych ends, <code>display_stage</code> and <code>display_stage_background</code> should be removed. </p>
+<p>After saving, the script executes the <code>clickNextButton</code> to simulate clicking the Next button and proceed to the next question.</p>
+<pre><code class="language-js">on_finish: function () {
+
+    /* Change 5: Summarizing and saving the results, then finishing the study */
+
+    // NOTE that main_score, main_seq, click_history, wasted_click_history
+    // are all alreday defined in rc-rage_main.js
+    // The below lines take advantage of these variables rather than going through the raw data
+
+    // performance-based bonus in dollar (in string)
+    let bonus = (main_score / 100).toFixed(2);
+
+    // the trial sequence (specifies when the robber appears)
+    let trial_seq = main_seq;
+    trial_seq.forEach(function (item, ii) {
+        if (item &gt; 1000) trial_seq[ii] = -1; // robber did not appear
+    });
+    trial_seq = trial_seq.toString().replace(/,/g, ';');
+
+    // participants' click counts for each trial
+    let click_cnt = click_history.reduce(function (a, b) {
+        return (a + b);
+    }).toString();
+
+    // completed trials (within the time limit)
+    var comp_trial_cnt = wasted_click_history.filter(x =&gt; x &gt;= 0).length;
+
+    // the number of trials, in which the robber appeared
+    var provoked_cnt = main_seq.slice(0, comp_trial_cnt).filter(x =&gt; x &gt; 0).length;
+
+    // the number of trials, in which the robber was killed by retailation
+    var kill_cnt = wasted_click_history.filter(x =&gt; x &gt; 0).length;
+
+    // save the session-level data to Qualtrics
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;bonus&quot;, bonus);
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;click_cnt&quot;, click_cnt);
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;finished_trial_cnt&quot;, comp_trial_cnt);
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;provoked_cnt&quot;, provoked_cnt);
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;kill_cnt&quot;, kill_cnt);
+
+    // the simple trial-level data
+    // NOTE that detailed trial-level data are not saved here, but it can be done.                
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;planned_trial&quot;, trial_seq);
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;wasted_click_history&quot;, wasted_click_history.toString().replace(/,/g, ';'));
+
+    /* Change 6: Saving the trial-level data and finishing up */
+    // save the data
+    Qualtrics.SurveyEngine.setEmbeddedData(&quot;trial_data&quot;, result_string);
+
+    function sleep(time) {
+        return new Promise((resolve) =&gt; setTimeout(resolve, time));
+    }
+
+    sleep(500).then(() =&gt; {
+        saved_string = Qualtrics.SurveyEngine.getEmbeddedData(&quot;trial_data&quot;);
+        //console.log(saved_string);
+        if (result_string !== saved_string) {
+            console.log('There was a problem with saving data. Trying again...')
+            // try to save it once more, but no guarantee
+            Qualtrics.SurveyEngine.setEmbeddedData(&quot;trial_data&quot;, result_string);
+        } else {
+            console.log('Save was successful.')
+        }
+    });
+
+    sleep(500).then(() =&gt; {
+        // clear the stage
+        jQuery('#display_stage').remove();
+        jQuery('#display_stage_background').remove();
+
+        // simulate click on Qualtrics &quot;next&quot; button, making use of the Qualtrics JS API
+        qthis.clickNextButton();
+    });                                    
+
+}
+});
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../choose-and-solve/" class="btn btn-neutral float-left" title="Embedding Choose-And-Solve Task"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../stop-it/" class="btn btn-neutral float-right" title="Embedding Stop Signal Task (STOP-IT)">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2020-2023 <a href="https://kywch.github.io/" target="_blank">Kyoung Whan Choe</a>. </p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../choose-and-solve/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../stop-it/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

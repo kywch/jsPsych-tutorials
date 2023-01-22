@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://kywch.github.io/jsPsych-in-Qualtrics/github-pages/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Hosting jsPsych - jsPsych in Qualtrics Tutorial Series</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Hosting jsPsych";
+        var mkdocs_page_input_path = "github-pages.md";
+        var mkdocs_page_url = "/jsPsych-in-Qualtrics/github-pages/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-D3RPWB8SEL"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-D3RPWB8SEL');
+      </script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> jsPsych in Qualtrics Tutorial Series
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 1. The Basics</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Hosting jsPsych</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#step-0-create-a-github-account">Step 0. Create a GitHub account</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#step-1-fork-the-old-jspsych-repository-note-im-not-using-the-latestofficial-version">Step 1. Fork the (old) jsPsych repository (NOTE: I'm NOT using the latest/official version!)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#step-2-click-the-settings-button">Step 2. Click the Settings button</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#step-3-enable-github-pages-for-the-jspsych-repository">Step 3. Enable GitHub Pages for the jsPsych repository</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#and-you-are-done">And, you are done.</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#but-wait-this-is-not-the-only-way">BUT WAIT! This is not the only way.</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../hello-world/">Embedding Hello World!</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../save-php/">Saving Data with PHP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../participants/">Recruiting Participants</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 2. Case studies</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../rt-task/">Embedding Reaction-Time Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../flanker/">Embedding Flanker Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../choose-and-solve/">Embedding Choose-And-Solve Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../rc-rage/">Embedding Reactive AGression Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../stop-it/">Embedding Stop Signal Task (STOP-IT)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../audio-test/">Embedding Quick Audio Test</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../mood-induction/">Embedding Mood Induction</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">jsPsych in Qualtrics Tutorial Series</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Part 1. The Basics &raquo;</li>
+      <li>Hosting jsPsych</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="making-jspsych-files-loadable-in-qualtrics">Making jsPsych files loadable in Qualtrics</h1>
+<p>To use jsPsych in Qualtrics, the jsPsych javascript and CSS files need to be online and loadable from Qualtrics. <a href="https://pages.github.com/">GitHub Pages</a> allows you to do so with only three steps (if you have a GitHub account).</p>
+<p>I will use these GitHub-hosted scripts in the following tutorials, so please complete this step.</p>
+<p><font color=red><strong>Please NOTE!! This tutorial series is based on version <code>6.x</code> of jsPsych. Due to extensive changes in jsPsych 7.x and above, many things in this tutorial may not work with jsPsych v7.x and above. So, I instead use the <code>6.1.0 version</code> below, <a href="https://github.com/kywch/jsPsych">which I forked previously</a>.</strong></font></p>
+<hr />
+<h2 id="step-0-create-a-github-account">Step 0. Create a GitHub account</h2>
+<p>Go to <a href="https://github.com/join">the GitHub site</a> and create your account.</p>
+<hr />
+<h2 id="step-1-fork-the-old-jspsych-repository-note-im-not-using-the-latestofficial-version">Step 1. Fork the (old) jsPsych repository (NOTE: I'm NOT using the latest/official version!)</h2>
+<p>Go to <a href="https://github.com/kywch/jsPsych">my previously-forked jsPsych v6.1.0 repository</a> and click the <code>Fork</code> button to copy the repo to your account.</p>
+<p><img alt="Fork the jsPsych repository" src="../img/github-pages-Step1_Fork_the_jsPsych_repo.jpg" /></p>
+<hr />
+<h2 id="step-2-click-the-settings-button">Step 2. Click the Settings button</h2>
+<p>The whole jsPsych repository has been copied to your account, which should be accessible at <code>https://github.com/&lt;your-github-username&gt;/jsPsych/</code>. For example, <a href='https://github.com/kywch/jsPsych/'>https://github.com/kywch/jsPsych/</a>.</p>
+<p>Go to your copy of the jsPsych repository and click the <strong>Settings</strong> button on the home page.</p>
+<p><img alt="Click the Settings button" src="../img/github-pages-Step2_Click_the_Settings_button.jpg" /></p>
+<hr />
+<h2 id="step-3-enable-github-pages-for-the-jspsych-repository">Step 3. Enable GitHub Pages for the jsPsych repository</h2>
+<p>Scroll down and find the <strong>GitHub Pages</strong> section. Select the <strong>Source</strong> to be the <strong>master branch</strong>.</p>
+<p>Within a few minutes, a website will be available at <code>https://&lt;your-github-username&gt;.github.io/jsPsych/</code>. For example, <a href='https://kywch.github.io/jsPsych/'>https://kywch.github.io/jsPsych/</a>.</p>
+<p><img alt="Enable GitHub Pages" src="../img/github-pages-Step3_Enable_GitHub_Pages.jpg" /></p>
+<hr />
+<h2 id="and-you-are-done">And, you are done.</h2>
+<p>You can check with your browser by directly going to the <strong>jspsych.js</strong>, <strong>jspsych.css</strong>, and <strong>jspsych-html-keyboard-response.js</strong>.</p>
+<ul>
+<li><strong>jspsych.js</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/jsPsych/jspsych.js</code>, like <a href='https://kywch.github.io/jsPsych/jspsych.js'>https://kywch.github.io/jsPsych/jspsych.js</a>.</li>
+<li><strong>jspsych.css</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/jsPsych/css/jspsych.css</code>, like <a href='https://kywch.github.io/jsPsych/css/jspsych.css'>https://kywch.github.io/jsPsych/css/jspsych.css</a>.</li>
+<li><strong>jspsych-html-keyboard-response.js</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/jsPsych/plugins/jspsych-html-keyboard-response.js</code>, like <a href='https://kywch.github.io/jsPsych/plugins/jspsych-html-keyboard-response.js'>https://kywch.github.io/jsPsych/plugins/jspsych-html-keyboard-response.js</a>.</li>
+</ul>
+<hr />
+<h2 id="but-wait-this-is-not-the-only-way">BUT WAIT! This is not the only way.</h2>
+<p>There are two more ways to make your files loadable in Qualtrics.</p>
+<ul>
+<li>Creating your experiment GitHub repostory <strong>(preferred)</strong>, like the <a href="../rt-task/#hosting-this-task-in-github">Reaction-Time Task</a> tutorial.</li>
+<li>Borrowing files from public GitHub repository, like the <a href="../flanker/#using-files-in-public-github-repositories">Flanker Task</a> tutorial</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Introduction"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../hello-world/" class="btn btn-neutral float-right" title="Embedding Hello World!">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2020-2023 <a href="https://kywch.github.io/" target="_blank">Kyoung Whan Choe</a>. </p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../hello-world/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

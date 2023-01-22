@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://kywch.github.io/jsPsych-in-Qualtrics/save-dropbox/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Saving jsPsych data to your Dropbox folder - jsPsych in Qualtrics Tutorial Series</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Saving jsPsych data to your Dropbox folder";
+        var mkdocs_page_input_path = "save-dropbox.md";
+        var mkdocs_page_url = "/jsPsych-in-Qualtrics/save-dropbox/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-D3RPWB8SEL"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-D3RPWB8SEL');
+      </script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> jsPsych in Qualtrics Tutorial Series
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 1. The Basics</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../github-pages/">Hosting jsPsych</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../hello-world/">Embedding Hello World!</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../save-php/">Saving Data with PHP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../participants/">Recruiting Participants</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 2. Case studies</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../rt-task/">Embedding Reaction-Time Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../flanker/">Embedding Flanker Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../choose-and-solve/">Embedding Choose-And-Solve Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../rc-rage/">Embedding Reactive AGression Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../stop-it/">Embedding Stop Signal Task (STOP-IT)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../audio-test/">Embedding Quick Audio Test</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../mood-induction/">Embedding Mood Induction</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">jsPsych in Qualtrics Tutorial Series</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Saving jsPsych data to your Dropbox folder</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="saving-jspsych-data-to-your-dropbox-folder">Saving jsPsych data to your Dropbox folder</h1>
+<p>Did you know Dropbox can also act like a server for saving your files? 
+You can save each participant's data file <strong>without access to a web server!</strong></p>
+<p><strong><font color=red>WARNING</font>: Dropbox will retire the creation of long-lived access tokens on <font color=red>September 30th, 2021</font>. After that, this tutorial <font color=red>WILL NOT</font> work. So, please plan your experiments accordingly.</strong> See <a href="https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens">the Dropbox announcement</a>.</p>
+<hr />
+<h2 id="step-0-get-a-dropbox-account">Step 0. Get a Dropbox account</h2>
+<p>Go to <a href="https://db.tt/2ppjkYTQ">the Dropbox site</a> and create a free account.</p>
+<hr />
+<h2 id="step-1-create-a-dropbox-app-for-saving-files">Step 1. Create a Dropbox app for saving files</h2>
+<p>Go to <a href="https://www.dropbox.com/developers/apps/create">the Dropbox App console</a> and sign in, if necessary.</p>
+<p>Once you see a screen like below, (1) select <code>Scoped access</code>, (2) select <code>App folder</code>, and (3) name your app. 
+I named my app <code>SaveMyExperimentData</code>. When you are done, click <code>Create app</code>.</p>
+<p><img alt="Create a Dropbox app" src="../img/save-dropbox-Step1_app_console.jpg" /></p>
+<hr />
+<h2 id="step-2-give-the-necessary-permisions-for-uploading-files">Step 2. Give the necessary permisions for uploading files</h2>
+<p>If your app is created successfully, you will see the tabs: <code>Settings</code>, <code>Permissions</code>, <code>Branding</code>, and <code>Analytics</code>. </p>
+<p>Click the <strong><code>Permissions</code></strong> tab. </p>
+<p>Go to <code>Files and folders</code> section and check the <code>files.metadata.write</code>, <code>files.content.write</code>, <code>files.content.read</code> boxes like below to allow file uploads.</p>
+<p><img alt="Give file write permissions" src="../img/save-dropbox-Step2_give_permissions.jpg" /></p>
+<hr />
+<h2 id="step-3-get-the-dropbox-access-token">Step 3. Get the Dropbox access token</h2>
+<p>Then click the <code>Settings</code> tab, and you will see a screen like below.</p>
+<ol>
+<li>Scroll down to find <code>Access token expiration</code> and set it to <strong>No expiration</strong>. If you don't change the expiration, this key will expire in 4 hours, and expiration, your experiment <strong>CANNOT</strong> upload files to Dropbox.</li>
+<li>Then, go to <code>Generate access token</code> and click the button to get the token. If you generate the key first, then you may have to repeat the whole step because permissions and expiration cannot be changed after the token has been generated.</li>
+</ol>
+<p><img alt="Get the access token" src="../img/save-dropbox-Step3_access_token.jpg" /></p>
+<p><strong><font color=red>WARNING:</font> Do NOT share this access token with anyone, 
+including sharing your code, etc.
+<font color=red>With this code, anyone can access or delete your Dropbox files and abuse your Dropbox account.</font>.</strong>
+So I suggest you two things when you finish your data collection. </p>
+<ol>
+<li><strong>Invalidate the access code</strong> by deleting the app (see the <a href="./#step-8-unlink-your-dropbox-app">Step 8</a> below). When you delete your app, saved files in your folder remains intact. </li>
+<li><strong>Replace the access code with blank</strong> in your source code, as I did in this tutorial, so that you do not accidentally publish your access code. </li>
+</ol>
+<hr />
+<h2 id="step-4-add-the-save-function-to-the-experiment-html-script">Step 4. Add the save function to the experiment HTML script</h2>
+<p>The Dropbox side work is done. Now, you need to add scripts to send the result file when an experiment session is done.</p>
+<p>The <code>experiment-with-display-element-save-dropbox.html</code> file in <a href="https://github.com/kywch/jsPsych-in-Qualtrics/blob/master/hello-world/experiment-with-display-element-save-dropbox.html">this GitHub repository</a> contains three additional changes from <code>experiment-with-display-element.html</code>. When you open <code>experiment-with-display-element-save-dropbox.html</code> in a browser, you should see the same "Hello world!". </p>
+<p><strong>In addtion, you will find new json and csv files in your Dropbox folder under <code>Apps/&lt;your-app-name&gt;</code>, 
+for example, <code>Apps/SaveMyExperimentData</code>.</strong></p>
+<p>We start from <code>experiment-with-display-element.html</code>, which you can see from <a href="../hello-world/#first-transformation-experiment-with-display-elementhtml">the Hello World! tutorial</a>. Let's look at these additional change.</p>
+<h3 id="change-4-defining-necessary-variables-for-saving-the-results">Change 4: Defining necessary variables for saving the results</h3>
+<p>You can set <code>task_name</code> and <code>sbj_id</code> as you like. However, you must provide a correct <code>dropbox_access_token</code>.</p>
+<pre><code class="language-js">// experimental session-defining variables
+var task_name = &quot;hello-world&quot;;
+var sbj_id = &quot;test01&quot;;
+
+// YOU MUST GET YOUR OWN DROPBOX ACCESS TOKEN
+var dropbox_access_token = '&lt;PUT YOUR Dropbox ACCESS TOKEN HERE&gt;';
+
+// my preference is to include the task and sbj_id in the file name
+var save_filename = '/' + task_name + '/' + task_name + '_' + sbj_id;
+</code></pre>
+<h3 id="change-5-defining-save-functions-using-dropbox-api">Change 5. Defining save functions using Dropbox API</h3>
+<p>You must load the Dropbox API to use it.</p>
+<pre><code class="language-html">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/dropbox.js/4.0.30/Dropbox-sdk.min.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>You can use either the JSON or CSV format, whichever convenient for you. The save functions look like this.</p>
+<pre><code class="language-js">/* Change 5: Defining save functions using Dropbox API */
+function save_data_json() {
+    try {
+        var dbx = new Dropbox.Dropbox({
+            fetch: fetch,
+            accessToken: dropbox_access_token
+        });
+        dbx.filesUpload({
+                path: save_filename + '.json',
+                mode: 'overwrite',
+                mute: true,
+                contents: jsPsych.data.get().json()
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+    } catch (err) {
+        console.log(&quot;Save data function failed.&quot;, err);
+    }
+}
+
+function save_data_csv() {
+    try {
+        var dbx = new Dropbox.Dropbox({
+            accessToken: dropbox_access_token
+        });
+        dbx.filesUpload({
+                path: save_filename + '.csv',
+                mode: 'overwrite',
+                mute: true,
+                contents: jsPsych.data.get().csv()
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+    } catch (err) {
+        console.log(&quot;Save data function failed.&quot;, err);
+    }        
+}
+</code></pre>
+<h3 id="change-6-sending-the-results-file-upon-completion">Change 6: Sending the results file upon completion</h3>
+<p>The <code>on_finish</code> callback can be declared in the <code>jsPsych.init</code> method. 
+For details, see <a href="https://www.jspsych.org/overview/callbacks/#on_finish-experiment">the original jsPsych tutorial</a>.
+The callback will trigger once all trials in the experiment have been run, so it is a great place to call save functions.</p>
+<p><strong>NOTE: Here, both <code>save_data_json()</code> and <code>save_data_csv()</code> were called to show how these can be used. Choose one.</strong></p>
+<pre><code class="language-js">    jsPsych.init({
+        timeline: [hello_trial],
+        display_element: 'display_stage',
+
+        /* Change 6: Sending the results file upon completion */
+        on_finish: function() {
+            save_data_json();
+            save_data_csv();
+        }
+    })
+</code></pre>
+<h3 id="putting-it-all-together">Putting it all together</h3>
+<p>So the <code>experiment-with-display-element-save-dropbox.html</code> code looks like this. This html file should save the result files to your server.</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+    &lt;title&gt;My experiment&lt;/title&gt;
+    &lt;!-- Change 5: Defining save functions using Dropbox API --&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/dropbox.js/4.0.30/Dropbox-sdk.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;jspsych-6.1.0/jspsych.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js&quot;&gt;&lt;/script&gt;
+    &lt;link href=&quot;jspsych-6.1.0/css/jspsych.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;
+    &lt;/link&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;!-- Change 3: Adding extra scripts for Qualtrics --&gt;
+    &lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;
+    &lt;link href=&quot;https://kywch.github.io/jsPsych/css/jspsych.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;
+    &lt;/link&gt;
+    &lt;div&gt;
+        &lt;span style=&quot;font-size: 24px;&quot;&gt;
+            &lt;br&gt;&lt;br&gt;
+            If you are seeing this message for &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;&lt;b&gt;more than 5
+                    minutes&lt;/b&gt;&lt;/span&gt;,&lt;br&gt;
+            please screen-capture this screen and send the image to us.
+            &lt;br&gt;&lt;br&gt;
+            &lt;span style=&quot;font-size: 28px;&quot;&gt;We are very sorry for the inconvenience.&lt;/span&gt;
+        &lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Change 2: Adding `display_stage` CSS and Div --&gt;
+    &lt;style&gt;
+        #display_stage_background {
+            width: 100vw;
+            background-color: white;
+            z-index: -1;
+        }
+
+        #display_stage {
+            position: fixed;
+            left: 1vw;
+            top: 1vh;
+            height: 98vh;
+            width: 98vw;
+            background-color: white;
+            box-shadow: 1px 1px 1px #999;
+            border-radius: 15px;
+            z-index: 0;
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+    &lt;/style&gt;
+    &lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;
+
+    &lt;div id='display_stage_background'&gt;&lt;/div&gt;
+    &lt;div id='display_stage'&gt;&lt;/div&gt;
+
+&lt;/body&gt;
+
+&lt;script&gt;
+    /* Change 4: Defining necessary variables for saving the results */
+    // experimental session-defining variables
+    var task_name = &quot;hello-world&quot;;
+    var sbj_id = &quot;test01&quot;;
+
+    // YOU MUST GET YOUR OWN DROPBOX ACCESS TOKEN
+    var dropbox_access_token = '&lt;PUT YOUR Dropbox ACCESS TOKEN HERE&gt;';
+
+    // my preference is to include the task and sbj_id in the file name
+    var save_filename = '/' + task_name + '/' + task_name + '_' + sbj_id;
+
+    /* Change 5: Defining save functions using Dropbox API */
+    function save_data_json() {
+        try {
+            var dbx = new Dropbox.Dropbox({
+                accessToken: dropbox_access_token
+            });
+            dbx.filesUpload({
+                    path: save_filename + '.json',
+                    mode: 'overwrite',
+                    mute: true,
+                    contents: jsPsych.data.get().json()
+                })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+        } catch (err) {
+            console.log(&quot;Save data function failed.&quot;, err);
+        }
+    }
+
+    function save_data_csv() {
+        try {
+            var dbx = new Dropbox.Dropbox({
+                accessToken: dropbox_access_token
+            });
+            dbx.filesUpload({
+                    path: save_filename + '.csv',
+                    mode: 'overwrite',
+                    mute: true,
+                    contents: jsPsych.data.get().csv()
+                })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+        } catch (err) {
+            console.log(&quot;Save data function failed.&quot;, err);
+        }        
+    }
+
+    var hello_trial = {
+        type: 'html-keyboard-response',
+        stimulus: 'Hello world!'
+    }
+
+    /* Change 1: Using `display_element` */
+    jsPsych.init({
+        timeline: [hello_trial],
+        display_element: 'display_stage',
+
+        /* Change 6: Sending the results file upon completion */
+        on_finish: function () {
+            save_data_json();
+            save_data_csv();
+        }
+    })
+&lt;/script&gt;
+
+&lt;/html&gt;
+</code></pre>
+<hr />
+<h2 id="step-5-add-participand-id-to-qualtrics">Step 5. Add Participand ID to Qualtrics</h2>
+<p>Let's log in to Qualtrics. The basics of embedding jsPsych experiment into Qualtrics is explained in the <a href="../hello-world/#finally-embedding-jspsych-in-qualtrics">Embedding Hello World!</a> page. </p>
+<p>However, if you want to save the experiment data elsewhere, you must have the Participant ID so that you can link Qualtrics data and the experiment file later.
+In Qualtrics, you can keep or assign the participant ID using <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-flow/standard-elements/embedded-data/#CreatingAnEmbeddedDataElement">Embedded Data elements</a>.</p>
+<p>The below steps will create the Embedded Data called <code>workerId</code>, which will hold the Participant ID. The value of <code>workerId</code> can be set from the Qualtrics survey URL (for details, see <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-flow/standard-elements/embedded-data/#SettingValuesFromTheSurveyURL">Qualtrics.com: Setting values from the Survey URL</a> and <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-flow/standard-elements/passing-information-through-query-strings/">Qualtrics.com: Passing information through query string</a>). However, if <code>workerId</code> is not set, then Qualtrics will automatically generate a random Participant ID, ranging from PID10000 - PID99999, and use this ID to save data.</p>
+<p>Setting the name of participant ID variable depends on how you recruit your participants (see the <a href="../participants/">Recruiting Participants</a> section). I set its name to be <code>workerId</code> because I have been using <a href="https://www.cloudresearch.com/">Cloudresearch/TurkPrime</a> with Amazon MTurk, 
+and <a href="https://www.cloudresearch.com/resources/blog/workerid-and-all-mturk-fields-sent-to-qualtrics/">Cloudresearch uses <code>workerId</code> to automatically add Mturk Worker ID</a>. 
+However, other services suggest different field name -- for example, <a href="https://researcher-help.prolific.co/hc/en-gb/articles/360009220993-Recording-participants-Prolific-IDs-in-your-study-survey">Prolific suggests <code>PROLIFIC_PID</code></a> -- so please follow the Qualtrics integration guide from the participant recruiting service you are using.</p>
+<ol>
+<li>Click <strong>Survey Flow</strong> from the Survey tab</li>
+<li>Click <strong>Add a New Element Here</strong></li>
+<li>Choose <strong>Embedded Data</strong> </li>
+<li>Click <strong>Create New Field or Choose From Dropdown</strong> and type <strong>workerId</strong>. <em><font color=red>WARNING: These fields are case sensitive. The I in Id is capitalized. All other letters are lower case.</font></em></li>
+<li>Click <strong>Add Below</strong> on this Set Embedded Data block</li>
+<li>Choose <strong>Branch</strong></li>
+<li>Click <strong>Add a Condition</strong></li>
+<li>Click <strong>Question</strong> --&gt; choose <strong>Embedded Data</strong></li>
+<li>Type in <strong>workerId</strong></li>
+<li>Click <strong>Is Equal to</strong> --&gt; choose <strong>Is Empty</strong></li>
+<li>Click <strong>Add a New Element Here</strong> under the Branch block</li>
+<li>Choose <strong>Embedded Data</strong></li>
+<li>Click <strong>Create New Field or Choose From Dropdown</strong> and type <strong>workerId</strong>.</li>
+<li>CLick <strong>Set a Value Now</strong></li>
+<li>Type in <strong>PID${rand://int/10000:99999}</strong> --&gt; This generates a random Participant ID between PID10000 and PID99999. For details, see <a href="https://www.qualtrics.com/support/survey-platform/common-use-cases-rc/assigning-randomized-ids-to-respondents/">Qualtrics.com: Assigning Randomized IDs to Respondents</a>.</li>
+<li>Click <strong>Move</strong> of the new blocks you created (<code>Set Embedded Data</code> and <code>Then Branch If</code>) and move these blocks the top of Survey Flow</li>
+</ol>
+<p>After these steps, you should see a screen like below.</p>
+<p><img alt="Add Participant ID to Qualtrics" src="../img/save-php-Step6_participant_id.jpg" /></p>
+<hr />
+<h2 id="step-6-use-the-save-function-from-qualtrics">Step 6. Use the save function from Qualtrics</h2>
+<p>The <code>qualtrics-save-dropbox.js</code> file in <a href="https://github.com/kywch/jsPsych-in-Qualtrics/blob/master/hello-world/qualtrics-save-php.js">this GitHub repository</a> contains additional changes from <code>qualtrics.js</code> and <code>experiment-with-display-element-save-dropbox.html</code> and can be direclty copy-pasted into the Qualtrics Question JavaScript Editor.</p>
+<p>We start from <code>qualtrics.js</code>, which you can see from <a href="../hello-world/#second-transformation-qualtricsjs">the Hello World! tutorial</a>. 
+Let's look at these additional change.</p>
+<h3 id="change-6-loading-the-dropbox-api">Change 6: Loading the Dropbox API</h3>
+<p>Add the Dropbox API library <code>https://cdnjs.cloudflare.com/ajax/libs/dropbox.js/4.0.30/Dropbox-sdk.min.js</code>
+to <code>requiredResources</code> like below so that Qualtrics loads the Dropbox API.</p>
+<pre><code class="language-js">var requiredResources = [
+    'https://cdnjs.cloudflare.com/ajax/libs/dropbox.js/4.0.30/Dropbox-sdk.min.js', // Change 6: Loading the Dropbox API
+    jslib_url + &quot;jspsych.js&quot;,
+    jslib_url + &quot;plugins/jspsych-html-keyboard-response.js&quot;
+];
+</code></pre>
+<h3 id="change-7-adding-necessary-variables-and-functions-for-saving-the-results">Change 7: Adding necessary variables and functions for saving the results</h3>
+<p>The below javascript defines necessary variables and functions for saving the results.
+Importantly, this script will grab the Participant ID from the Embedded Data <code>workerId</code>, using the piped text <code>${e://Field/workerId}</code>, 
+and put it in the data file name.</p>
+<p><strong>IMPORTANT: You must also provide a correct <code>dropbox_access_token</code>.</strong> </p>
+<pre><code class="language-js">// experimental session-defining variables
+var task_name = &quot;hello-world&quot;;
+var sbj_id = &quot;${e://Field/workerId}&quot;;
+
+// YOU MUST GET YOUR OWN DROPBOX ACCESS TOKEN
+var dropbox_access_token = '&lt;PUT YOUR Dropbox ACCESS TOKEN HERE&gt;';
+
+// my preference is to include the task and sbj_id in the file name
+var save_filename = '/' + task_name + '/' + task_name + '_' + sbj_id;
+
+function save_data_json() {
+    try {
+        var dbx = new Dropbox.Dropbox({
+            accessToken: dropbox_access_token
+        });
+        dbx.filesUpload({
+                path: save_filename + '.json',
+                mode: 'overwrite',
+                mute: true,
+                contents: jsPsych.data.get().json()
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+    } catch (err) {
+        console.log(&quot;Save data function failed.&quot;, err);
+    }
+}
+
+function save_data_csv() {
+    try {
+        var dbx = new Dropbox.Dropbox({
+            accessToken: dropbox_access_token
+        });
+        dbx.filesUpload({
+                path: save_filename + '.csv',
+                mode: 'overwrite',
+                mute: true,
+                contents: jsPsych.data.get().csv()
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+    } catch (err) {
+        console.log(&quot;Save data function failed.&quot;, err);
+    }        
+}
+</code></pre>
+<h3 id="change-8-calling-the-save-function-choose-one">Change 8: Calling the save function -- CHOOSE ONE!</h3>
+<p>The save function was added inside <code>on_finish</code>, which is called once all trials in the experiment have been run.</p>
+<p>The participant ID, <code>sbj_id</code>, was added to the data itself, so that you can match the data file even when the file name is changed.</p>
+<p><strong>NOTE: Here, both <code>save_data_json()</code> and <code>save_data_csv()</code> were called to show how these can be used. Choose one.</strong></p>
+<pre><code class="language-js">jsPsych.init({
+    timeline: [hello_trial],
+    display_element: 'display_stage',
+
+    /* Change 5: Adding the clean up and continue functions.*/
+    on_finish: function (data) {
+
+        /* Change 8: Calling the save function -- CHOOSE ONE! */
+        // include the participant ID in the data
+        // this must be done before saving
+        jsPsych.data.get().addToLast({participant: sbj_id});        
+        save_data_json();
+        save_data_csv();
+
+        // clear the stage
+        jQuery('display_stage').remove();
+        jQuery('display_stage_background').remove();
+
+        // simulate click on Qualtrics &quot;next&quot; button, making use of the Qualtrics JS API
+        qthis.clickNextButton();
+    }
+});
+</code></pre>
+<h3 id="putting-it-all-together_1">Putting it all together</h3>
+<p>So the <code>qualtrics-save-dropbox.js</code> code looks like this. Embed this script in Qualtrics by following <a href="../hello-world/#finally-embedding-jspsych-in-qualtrics">these steps</a> and see whether your save function works.</p>
+<pre><code class="language-js">Qualtrics.SurveyEngine.addOnload(function () {
+
+    /*Place your JavaScript here to run when the page loads*/
+
+    /* Change 1: Hiding the Next button */
+    // Retrieve Qualtrics object and save in qthis
+    var qthis = this;
+
+    // Hide buttons
+    qthis.hideNextButton();
+
+    /* Change 2: Defining and loading required resources */
+    var jslib_url = &quot;https://kywch.github.io/jsPsych/&quot;;
+
+    // the below urls must be accessible with your browser
+    // for example, https://kywch.github.io/jsPsych/jspsych.js
+    var requiredResources = [
+        'https://cdnjs.cloudflare.com/ajax/libs/dropbox.js/4.0.30/Dropbox-sdk.min.js', // Change 6: Loading the Dropbox API
+        jslib_url + &quot;jspsych.js&quot;,
+        jslib_url + &quot;plugins/jspsych-html-keyboard-response.js&quot;
+    ];
+
+    function loadScript(idx) {
+        console.log(&quot;Loading &quot;, requiredResources[idx]);
+        jQuery.getScript(requiredResources[idx], function () {
+            if ((idx + 1) &lt; requiredResources.length) {
+                loadScript(idx + 1);
+            } else {
+                initExp();
+            }
+        });
+    }
+
+    if (window.Qualtrics &amp;&amp; (!window.frameElement || window.frameElement.id !== &quot;mobile-preview-view&quot;)) {
+        loadScript(0);
+    }
+
+    /* Change 3: Appending the display_stage Div using jQuery */
+    // jQuery is loaded in Qualtrics by default
+    jQuery(&quot;&lt;div id = 'display_stage_background'&gt;&lt;/div&gt;&quot;).appendTo('body');
+    jQuery(&quot;&lt;div id = 'display_stage'&gt;&lt;/div&gt;&quot;).appendTo('body');
+
+    /* Change 7: Adding necessary variables and functions for saving the results */
+    // experimental session-defining variables
+    var task_name = &quot;hello-world&quot;;
+    var sbj_id = &quot;${e://Field/workerId}&quot;;
+
+    // YOU MUST GET YOUR OWN DROPBOX ACCESS TOKEN
+    var dropbox_access_token = '&lt;PUT YOUR Dropbox ACCESS TOKEN HERE&gt;';
+
+    // my preference is to include the task and sbj_id in the file name
+    var save_filename = '/' + task_name + '/' + task_name + '_' + sbj_id;
+
+    function save_data_json() {
+        try {
+            var dbx = new Dropbox.Dropbox({
+                accessToken: dropbox_access_token
+            });
+            dbx.filesUpload({
+                    path: save_filename + '.json',
+                    mode: 'overwrite',
+                    mute: true,
+                    contents: jsPsych.data.get().json()
+                })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+        } catch (err) {
+            console.log(&quot;Save data function failed.&quot;, err);
+        }
+    }
+
+    function save_data_csv() {
+        try {
+            var dbx = new Dropbox.Dropbox({
+                accessToken: dropbox_access_token
+            });
+            dbx.filesUpload({
+                    path: save_filename + '.csv',
+                    mode: 'overwrite',
+                    mute: true,
+                    contents: jsPsych.data.get().csv()
+                })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+        } catch (err) {
+            console.log(&quot;Save data function failed.&quot;, err);
+        }        
+    }
+
+    /* Change 4: Wraping jsPsych.init() in a function */
+    function initExp() {
+
+        var hello_trial = {
+            type: 'html-keyboard-response',
+            stimulus: 'Hello world!'
+        }
+
+        jsPsych.init({
+            timeline: [hello_trial],
+            display_element: 'display_stage',
+
+            /* Change 5: Adding the clean up and continue functions.*/
+            on_finish: function (data) {
+
+                /* Change 8: Calling the save function -- CHOOSE ONE! */
+                // include the participant ID in the data
+                // this must be done before saving
+                jsPsych.data.get().addToLast({participant: sbj_id});
+
+                save_data_json();
+                save_data_csv();
+
+                // clear the stage
+                jQuery('display_stage').remove();
+                jQuery('display_stage_background').remove();
+
+                // simulate click on Qualtrics &quot;next&quot; button, making use of the Qualtrics JS API
+                qthis.clickNextButton();
+            }
+        });
+    }
+});
+
+Qualtrics.SurveyEngine.addOnReady(function () {
+    /*Place your JavaScript here to run when the page is fully displayed*/
+
+});
+
+Qualtrics.SurveyEngine.addOnUnload(function () {
+    /*Place your JavaScript here to run when the page is unloaded*/
+
+});
+</code></pre>
+<hr />
+<h2 id="step-7-download-the-data-you-already-have-them">Step 7. Download the data? You already have them!</h2>
+<p>When an experimental session finishes, its file will instantly delivered to your Dropbox folder. </p>
+<p>Isn't it nice?</p>
+<hr />
+<h2 id="step-8-unlink-your-dropbox-app">Step 8. Unlink your Dropbox app</h2>
+<p>As I mentioned in the <a href="#step-2-get-the-dropbox-access-token">Step 2</a>, 
+the Dropbox access token you have is dangerous because anyone with the code can
+access or delete your Dropbox files and abuse your Dropbox account.</p>
+<p>So it is safe to delete the app after your data collection is done.
+However, <strong>the saved files in your Dropbox folder remains intact,</strong> so you don't need to worry.</p>
+<p>Deleting the app is very simple. Go to <a href="https://www.dropbox.com/developers/apps/">the Dropbox App console</a>, 
+click your app, scroll down, and click the <code>Delete app</code> button.</p>
+<p><img alt="Unlink the Dropbox app" src="../img/save-dropbox-Step6_unlink_app.jpg" /></p>
+<p>After this step, your Dropbox is safe.</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2020-2023 <a href="https://kywch.github.io/" target="_blank">Kyoung Whan Choe</a>. </p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

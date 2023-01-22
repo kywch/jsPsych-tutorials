@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="Step-by-step tutorials and examples on adding jsPsych cognitive tasks to Qualtrics" /><link rel="canonical" href="https://kywch.github.io/jsPsych-in-Qualtrics/" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>jsPsych in Qualtrics Tutorial Series</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Introduction";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = "/jsPsych-in-Qualtrics/";
+      </script>
+    
+    <script src="js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-D3RPWB8SEL"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-D3RPWB8SEL');
+      </script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> jsPsych in Qualtrics Tutorial Series
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href=".">Introduction</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 1. The Basics</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="github-pages/">Hosting jsPsych</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="hello-world/">Embedding Hello World!</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="save-php/">Saving Data with PHP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="participants/">Recruiting Participants</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 2. Case studies</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="rt-task/">Embedding Reaction-Time Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="flanker/">Embedding Flanker Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="choose-and-solve/">Embedding Choose-And-Solve Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="rc-rage/">Embedding Reactive AGression Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="stop-it/">Embedding Stop Signal Task (STOP-IT)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="audio-test/">Embedding Quick Audio Test</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="mood-induction/">Embedding Mood Induction</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">jsPsych in Qualtrics Tutorial Series</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Introduction</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="welcome-to-the-jspsych-in-qualtrics-tutorial-series">Welcome to the jsPsych in Qualtrics Tutorial Series</h1>
+<p><font color=red><strong>WARNING!! This tutorial series is based on version <code>6.x</code> of jsPsych. Due to extensive changes in jsPsych 7.x and above, many things in this tutorial won't work. However, you can still download <a href="https://github.com/jspsych/jsPsych/releases/download/v6.3.1/jspsych-6.3.1.zip">jsPsych v6.3.1 (the last jsPsych 6.x release)</a> and use it for your projects.</strong></font></p>
+<p>Hello, I am <a href="https://kywch.github.io">Kyoung Whan</a> and have used jsPsych within Qualtrics extensively in my research. 
+For example, I developed the <a href="https://kywch.github.io/CAST_jsPsych/">Choose-And-Solve Task</a> with jsPsych, 
+ran the task using Qualtrics with math attitude surveys, and published a paper, 
+titled <strong>"Calculated avoidance: Math anxiety predicts math avoidance in effort-based decision-making"</strong> 
+<a href="https://advances.sciencemag.org/content/5/11/eaay1062">(Choe et al., 2019, <em>Science Advances</em>)</a>.</p>
+<p>The purpose of this tutorial series is to provide an easy-to-follow guide to Qualtrics users (e.g., many social and psychological science researchers) on embedding jsPsych-based behavioral experiments into Qualtrics so that they could study interesting individual differences, correlating questionnaires vs. behavioral/cognitive measures. </p>
+<p>This tutorial assumes that readers are familiar with Qualtrics and have a basic understanding of HTML, CSS, JavaScript, and GitHub.
+For the beginners, I try to find and link good external resources (like below), so <strong>please do not give up and give it a try</strong>.</p>
+<p>If you are looking for Qualtrics tutorials, there are other excellent tutorials available, as well as Qualtrics' official support page. For example,</p>
+<ul>
+<li><a href="https://csulb.libguides.com/qualtrics/">CSULB Qualtrics Guide</a></li>
+</ul>
+<p>If you are looking for jsPsych v6.x tutorial, the best place to start is <a href="https://www.jspsych.org/6.3/tutorials/hello-world/">the jsPsych v6.3 Hello World! tutorial</a>. Also check out these resources:</p>
+<ul>
+<li><a href="https://www.youtube.com/playlist?list=PLnfo1lBY1P2Mf_o6rV5wiqqn92Mw3UTGh">The YouTube tutorial from Josh de Leeuw</a></li>
+<li><a href="https://kennysmithed.github.io/oels2021/"><em>Online Experiments for Language Scientists</em> by Kenny Smith and Alisdair Tullo</a></li>
+</ul>
+<h2>jsPsych in Qualtrics Tutorial Series</h2>
+
+<p>If you have suggestions, shoot me an email to  <code>choe_DOT_kyoung_AT_gmail_DOT_com</code>. Thanks!</p>
+<p>Unfortunately, <font color=red><strong>this tutorial series is no longer actively maintained</strong></font> (last update, 11/25/2021), as I moved to the industry. Still, I hope this helps fellow researchers.</p>
+<p><strong>Part 1. The Basics: Launching an online study and saving the data</strong></p>
+<ul>
+<li><a href="github-pages/">Making jsPsych files loadable in Qualtrics</a></li>
+<li><a href="hello-world/">The famous Hello World! example</a></li>
+<li><a href="rt-task/">Reaction Time Task (from the jsPsych tutorial)</a></li>
+<li><a href="save-php/">Saving jsPsych data to a server using PHP</a></li>
+<li><a href="participants/">Recruiting participants for your study</a></li>
+</ul>
+<p><strong>Part 2. Case studies: Embedding existing jsPsych experiments into Qualtrics</strong></p>
+<ul>
+<li><a href="flanker/">Flanker Task (from the jsPsych demo)</a></li>
+<li><a href="choose-and-solve/">Choose-And-Solve Task (CAST; Choe et al., 2019)</a></li>
+<li><a href="rc-rage/">Retaliate or Carry-on: Reactive AGgression Experiment (RC-RAGE; Meidenbauer et al., 2021)</a></li>
+<li><a href="stop-it/">Stop Signal Task (STOP-IT; Verbruggen et al., 2019)</a></li>
+<li><a href="audio-test/">Quick Audio Test (recommeded before any auditory study)</a></li>
+<li><a href="mood-induction/">Mood Induction (Mayer et al. 1995; Marzillier &amp; Davey 2005)</a></li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="github-pages/" class="btn btn-neutral float-right" title="Hosting jsPsych">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2020-2023 <a href="https://kywch.github.io/" target="_blank">Kyoung Whan Choe</a>. </p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+      <span><a href="github-pages/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme_extra.js" defer></script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.4.2
+Build Date UTC : 2023-01-22 22:13:44.381778+00:00
+-->

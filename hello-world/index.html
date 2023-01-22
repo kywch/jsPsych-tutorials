@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://kywch.github.io/jsPsych-in-Qualtrics/hello-world/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Embedding Hello World! - jsPsych in Qualtrics Tutorial Series</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Embedding Hello World!";
+        var mkdocs_page_input_path = "hello-world.md";
+        var mkdocs_page_url = "/jsPsych-in-Qualtrics/hello-world/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-D3RPWB8SEL"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-D3RPWB8SEL');
+      </script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> jsPsych in Qualtrics Tutorial Series
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 1. The Basics</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../github-pages/">Hosting jsPsych</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Embedding Hello World!</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#the-start-experimenthtml">The start: experiment.html</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#first-transformation-experiment-with-display-elementhtml">First transformation: experiment-with-display-element.html</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#change-1-using-display_element">Change 1: Using display_element</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#change-2-adding-display_stage-css-and-div">Change 2: Adding display_stage CSS and Div</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#change-3-adding-extra-scripts-for-qualtrics">Change 3: Adding extra scripts for Qualtrics</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#putting-it-all-together">Putting it all together</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#second-transformation-qualtricsjs">Second transformation: qualtrics.js</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#change-1-hiding-the-next-button">Change 1: Hiding the Next button</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#change-2-defining-and-load-required-resources">Change 2: Defining and load required resources</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#change-3-appending-the-display_stage-div-using-jquery">Change 3: Appending the display_stage Div using jQuery</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#change-4-wrapping-jspsychinit-in-a-function">Change 4: Wrapping jsPsych.init() in a function</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#change-5-adding-the-clean-up-and-continue-functions">Change 5: Adding the clean up and continue functions</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#putting-it-all-together_1">Putting it all together</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#finally-embedding-jspsych-in-qualtrics">Finally, embedding jsPsych in Qualtrics</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#step-1-create-a-new-qualtrics-project-and-then-a-new-question">Step 1. Create a new Qualtrics project and then a new question</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-2-open-the-question-javascript-editor-and-copy-paste-the-whole-qualtricsjs">Step 2. Open the Question JavaScript editor and copy paste the whole qualtrics.js</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-3-open-the-question-html-editor-and-copy-paste-the-portion-of-experiment-with-display-elementhtml">Step 3. Open the Question HTML editor and copy paste the portion of experiment-with-display-element.html</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-4-publish-and-test">Step 4. Publish and test!</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#do-you-want-to-save-the-trial-by-trial-results">Do you want to save the trial-by-trial results?</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../save-php/">Saving Data with PHP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../participants/">Recruiting Participants</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 2. Case studies</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../rt-task/">Embedding Reaction-Time Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../flanker/">Embedding Flanker Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../choose-and-solve/">Embedding Choose-And-Solve Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../rc-rage/">Embedding Reactive AGression Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../stop-it/">Embedding Stop Signal Task (STOP-IT)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../audio-test/">Embedding Quick Audio Test</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../mood-induction/">Embedding Mood Induction</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">jsPsych in Qualtrics Tutorial Series</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Part 1. The Basics &raquo;</li>
+      <li>Embedding Hello World!</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="embedding-the-jspsych-hello-world-experiment-into-qualtrics">Embedding the jsPsych "Hello world" experiment into Qualtrics</h1>
+<p><font color=red><strong>WARNING!! This tutorial series is based on version <code>6.x</code> of jsPsych. Due to extensive changes in jsPsych 7.x and above, many things in this tutorial may not work with jsPsych v7.x and above. You can get <a href="https://github.com/jspsych/jsPsych/releases/download/v6.3.1/jspsych-6.3.1.zip">jsPsych v6.3.1 (the last jsPsych 6.x release) from here</a>.</strong></font></p>
+<p>Let's start from <a href="https://www.jspsych.org/6.3/tutorials/hello-world/">the original jsPsych v6.3 "Hello world!" example</a> and embed it to qualtrics. To do so, you need to use the <code>display_element</code> option, which was briefly mentioned in <a href="https://www.jspsych.org/overview/experiment-options/#controlling-where-jspsych-renders-on-the-page">the jsPsych tutorial</a>. </p>
+<hr />
+<h2 id="the-start-experimenthtml">The start: <code>experiment.html</code></h2>
+<p>After completing <a href="https://www.jspsych.org/6.3/tutorials/hello-world/">the original jsPsych v6.3 "Hello world!" example</a>, your folder should look like this.</p>
+<p><img alt="Hello-world folder" src="https://www.jspsych.org/6.3/img/folder-with-html.png" /></p>
+<p>When you open <code>experiment.html</code> using your programming-friendly text editor, such as <a href="https://atom.io">Atom</a> or <a href="https://code.visualstudio.com/">VSCode</a>, you should see the html code like below.</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;My experiment&lt;/title&gt;
+        &lt;script src=&quot;jspsych-6.0.5/jspsych.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js&quot;&gt;&lt;/script&gt;
+        &lt;link href=&quot;jspsych-6.0.5/css/jspsych.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;&lt;/link&gt;
+    &lt;/head&gt;
+    &lt;body&gt;&lt;/body&gt;
+    &lt;script&gt;
+
+    var hello_trial = {
+        type: 'html-keyboard-response',
+        stimulus: 'Hello world!'
+    }
+
+    jsPsych.init({
+        timeline: [hello_trial]
+    })
+
+    &lt;/script&gt;
+&lt;/html&gt;
+</code></pre>
+<p>When you open <code>experiment.html</code> in a browser, you should see "Hello world!" printed on the screen, and if you press a key on the keyboard, the text should disappear (ending the trial).</p>
+<hr />
+<h2 id="first-transformation-experiment-with-display-elementhtml">First transformation: <code>experiment-with-display-element.html</code></h2>
+<p>Adding the <code>display_element</code> parameter in the <code>jsPsych.init()</code> and having additional control over the display element is important for embedding jsPsych into Qualtrics. The <code>experiment-with-display-element.html</code> file in <a href="https://github.com/kywch/jsPsych-in-Qualtrics/blob/master/hello-world/experiment-with-display-element.html">the tutorial GitHub repository</a> contains three changes from the <code>experiment.html</code>. When you open <code>experiment-with-display-element.html</code> in a browser, you should see the same "Hello world!". </p>
+<p>Let's look at each change.</p>
+<h3 id="change-1-using-display_element">Change 1: Using <code>display_element</code></h3>
+<p>By adding the <code>display_element</code> parameter in the <code>jsPsych.init()</code> like below, jsPsych will render the experiment in the '<div>' called <code>display_stage</code>, which the current script does not have yet. So, let's add the <code>display_stage</code>.</p>
+<pre><code class="language-html">jsPsych.init({
+    timeline: [hello_trial],
+    display_element: 'display_stage'
+})
+</code></pre>
+<h3 id="change-2-adding-display_stage-css-and-div">Change 2: Adding <code>display_stage</code> CSS and Div</h3>
+<p>The <code>display_stage</code> needs below CSS and HTML code after the <code>&lt;body&gt;</code> tag, which also include the <code>display_stage_background</code>. Both are necessary to function well.</p>
+<pre><code class="language-html">&lt;style&gt;
+    #display_stage_background {
+        width: 100vw;
+        background-color: white;
+        z-index: -1;
+    }
+
+    #display_stage {
+        position: fixed;
+        left: 1vw;
+        top: 1vh;
+        height: 98vh;
+        width: 98vw;
+        background-color: white;
+        box-shadow: 1px 1px 1px #999;
+        border-radius: 15px;
+        z-index: 0;
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+&lt;/style&gt;
+
+&lt;div id='display_stage_background'&gt;&lt;/div&gt;
+&lt;div id='display_stage'&gt;&lt;/div&gt;
+</code></pre>
+<h3 id="change-3-adding-extra-scripts-for-qualtrics">Change 3: Adding extra scripts for Qualtrics</h3>
+<p>The below scripts are not necessary to run this hello-world experiment, but you need to copy-paste these in Qualtrics later. </p>
+<p>One critical point is that now we use the jsPsych stylesheet hosted in the GitHub Pages (explained in the <a href="../github-pages/">Hosting jsPsych</a> section) instead of the CSS file in your computer. This is important because Qualtrics can also access the GitHub-hosted files.</p>
+<pre><code class="language-html">&lt;!-- Change 3: Adding extra scripts for Qualtrics --&gt;
+&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;
+&lt;link href=&quot;https://kywch.github.io/jsPsych/css/jspsych.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;&lt;/link&gt;
+&lt;div&gt;
+    &lt;span style=&quot;font-size: 24px;&quot;&gt;
+        &lt;br&gt;&lt;br&gt;
+        If you are seeing this message for &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;&lt;b&gt;more than 5 minutes&lt;/b&gt;&lt;/span&gt;,&lt;br&gt;
+        please screen-capture this screen and send the image to us.
+        &lt;br&gt;&lt;br&gt;
+        &lt;span style=&quot;font-size: 28px;&quot;&gt;We are very sorry for the inconvenience.&lt;/span&gt;
+    &lt;/span&gt;
+&lt;/div&gt;
+</code></pre>
+<h3 id="putting-it-all-together">Putting it all together</h3>
+<p>So the <code>experiment-with-display-element.html</code> code looks like this.</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+    &lt;title&gt;My experiment&lt;/title&gt;
+    &lt;script src=&quot;jspsych-6.1.0/jspsych.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js&quot;&gt;&lt;/script&gt;
+    &lt;link href=&quot;jspsych-6.1.0/css/jspsych.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;&lt;/link&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;!-- Change 3: Adding extra scripts for Qualtrics --&gt;
+    &lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;
+    &lt;link href=&quot;https://kywch.github.io/jsPsych/css/jspsych.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;&lt;/link&gt;
+    &lt;div&gt;
+        &lt;span style=&quot;font-size: 24px;&quot;&gt;
+            &lt;br&gt;&lt;br&gt;
+            If you are seeing this message for &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;&lt;b&gt;more than 5 minutes&lt;/b&gt;&lt;/span&gt;,&lt;br&gt;
+            please screen-capture this screen and send the image to us.
+            &lt;br&gt;&lt;br&gt;
+            &lt;span style=&quot;font-size: 28px;&quot;&gt;We are very sorry for the inconvenience.&lt;/span&gt;
+        &lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Change 2: Adding `display_stage` CSS and Div --&gt;
+    &lt;style&gt;
+        #display_stage_background {
+            width: 100vw;
+            background-color: white;
+            z-index: -1;
+        }
+
+        #display_stage {
+            position: fixed;
+            left: 1vw;
+            top: 1vh;
+            height: 98vh;
+            width: 98vw;
+            background-color: white;
+            box-shadow: 1px 1px 1px #999;
+            border-radius: 15px;
+            z-index: 0;
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+    &lt;/style&gt;
+    &lt;!-- COPY PASTE UP TO QUALTRICS TO HERE --&gt;
+
+    &lt;div id='display_stage_background'&gt;&lt;/div&gt;
+    &lt;div id='display_stage'&gt;&lt;/div&gt;
+
+&lt;/body&gt;
+
+&lt;script&gt;
+    var hello_trial = {
+        type: 'html-keyboard-response',
+        stimulus: 'Hello world!'
+    }
+
+    /* Change 1: Using `display_element` */
+    jsPsych.init({
+        timeline: [hello_trial],
+        display_element: 'display_stage'
+    })
+&lt;/script&gt;
+
+&lt;/html&gt;
+</code></pre>
+<hr />
+<h2 id="second-transformation-qualtricsjs">Second transformation: <code>qualtrics.js</code></h2>
+<p>To make your jsPsych experiment work in Qualtrics, you need to add your code to the below skeleton provided by Qualtrics Question JavaScript Editor. For details, see the <a href="https://www.qualtrics.com/support/survey-platform/survey-module/question-options/add-javascript/">Add JavaScript help page</a>.</p>
+<pre><code class="language-js">Qualtrics.SurveyEngine.addOnload(function()
+{
+    /*Place your JavaScript here to run when the page loads*/
+
+});
+
+Qualtrics.SurveyEngine.addOnReady(function()
+{
+    /*Place your JavaScript here to run when the page is fully displayed*/
+
+});
+
+Qualtrics.SurveyEngine.addOnUnload(function()
+{
+    /*Place your JavaScript here to run when the page is unloaded*/
+
+});
+</code></pre>
+<p>The <code>qualtrics.js</code> file in <a href="https://github.com/kywch/jsPsych-in-Qualtrics/blob/master/hello-world/qualtrics.js">the tutorial GitHub repository</a> contains several changes from <code>experiment-with-display-element.html</code> and can be direclty copy-pasted into the Qualtrics Question JavaScript Editor.</p>
+<p>Let's look at each change.</p>
+<h3 id="change-1-hiding-the-next-button">Change 1: Hiding the Next button</h3>
+<p>The below javascript code hides the Next button and puts the javascript code in the driving seat.</p>
+<pre><code class="language-js">// Retrieve Qualtrics object and save in qthis
+var qthis = this;
+
+// Hide buttons
+qthis.hideNextButton();
+</code></pre>
+<h3 id="change-2-defining-and-load-required-resources">Change 2: Defining and load required resources</h3>
+<p>The below javascript defines where the necessary files are so that Qualtrics can load these.</p>
+<p>After <a href="../github-pages/">Making jsPsych files loadable in Qualtrics</a>, you should be able to put your github page url at <code>jslib_url</code>.</p>
+<pre><code class="language-js">var jslib_url = &quot;https://kywch.github.io/jsPsych/&quot;; // &quot;https://&lt;your-github-username&gt;.github.io/jsPsych/&quot;
+
+// the below urls must be accessible with your browser
+// for example, https://kywch.github.io/jsPsych/jspsych.js
+var requiredResources = [
+    jslib_url + &quot;jspsych.js&quot;,
+    jslib_url + &quot;plugins/jspsych-html-keyboard-response.js&quot;
+];
+
+function loadScript(idx) {
+    console.log(&quot;Loading &quot;, requiredResources[idx]);
+    jQuery.getScript(requiredResources[idx], function () {
+        if ((idx + 1) &lt; requiredResources.length) {
+            loadScript(idx + 1);
+        } else {
+            initExp();
+        }
+    });
+}
+
+if (window.Qualtrics &amp;&amp; (!window.frameElement || window.frameElement.id !== &quot;mobile-preview-view&quot;)) {
+    loadScript(0);
+}
+</code></pre>
+<h3 id="change-3-appending-the-display_stage-div-using-jquery">Change 3: Appending the display_stage Div using jQuery</h3>
+<p>In Qualtrics, jQuery (loaded by default) is used to append the <code>display_stage_background</code> and <code>display_stage</code> Divs. The CSS for these elements will be added directly to Question HTML later in this tutorial.</p>
+<pre><code class="language-js">// jQuery is loaded in Qualtrics by default
+jQuery(&quot;&lt;div id = 'display_stage_background'&gt;&lt;/div&gt;&quot;).appendTo('body');
+jQuery(&quot;&lt;div id = 'display_stage'&gt;&lt;/div&gt;&quot;).appendTo('body');
+</code></pre>
+<h3 id="change-4-wrapping-jspsychinit-in-a-function">Change 4: Wrapping jsPsych.init() in a function</h3>
+<p>The main experiment codes are wrapped in the <code>initExp</code> function to make sure it runs after all the necessary library and plugin files are loaded (as defined in the <code>loadScript</code> function above).</p>
+<pre><code class="language-js">function initExp() {
+
+    var hello_trial = {
+        type: 'html-keyboard-response',
+        stimulus: 'Hello world!'
+    }
+
+    jsPsych.init({
+        timeline: [hello_trial],
+        display_element: 'display_stage',
+    });
+}
+</code></pre>
+<h3 id="change-5-adding-the-clean-up-and-continue-functions">Change 5: Adding the clean up and continue functions</h3>
+<p>When the jsPsych ends, <code>display_stage</code> and <code>display_stage_background</code> should be removed. Then, execulte the <code>clickNextButton</code> to simulate clicking the Next button and proceed to the next question.</p>
+<pre><code class="language-js">on_finish: function (data) {
+    // clear the stage
+    jQuery('#display_stage').remove();
+    jQuery('#display_stage_background').remove();
+
+    // simulate click on Qualtrics &quot;next&quot; button, making use of the Qualtrics JS API
+    qthis.clickNextButton();
+}
+</code></pre>
+<h3 id="putting-it-all-together_1">Putting it all together</h3>
+<p>So the <code>qualtrics.js</code> code looks like this.</p>
+<pre><code class="language-js">Qualtrics.SurveyEngine.addOnload(function () {
+
+    /*Place your JavaScript here to run when the page loads*/
+
+    /* Change 2: Hiding the Next button */
+    // Retrieve Qualtrics object and save in qthis
+    var qthis = this;
+
+    // Hide buttons
+    qthis.hideNextButton();
+
+    /* Change 3: Defining and load required resources */
+    var jslib_url = &quot;https://kywch.github.io/jsPsych/&quot;;
+
+    // the below urls must be accessible with your browser
+    // for example, https://kywch.github.io/jsPsych/jspsych.js
+    var requiredResources = [
+        jslib_url + &quot;jspsych.js&quot;,
+        jslib_url + &quot;plugins/jspsych-html-keyboard-response.js&quot;
+    ];
+
+    function loadScript(idx) {
+        console.log(&quot;Loading &quot;, requiredResources[idx]);
+        jQuery.getScript(requiredResources[idx], function () {
+            if ((idx + 1) &lt; requiredResources.length) {
+                loadScript(idx + 1);
+            } else {
+                initExp();
+            }
+        });
+    }
+
+    if (window.Qualtrics &amp;&amp; (!window.frameElement || window.frameElement.id !== &quot;mobile-preview-view&quot;)) {
+        loadScript(0);
+    }
+
+    /* Change 4: Appending the display_stage Div using jQuery */
+    // jQuery is loaded in Qualtrics by default
+    jQuery(&quot;&lt;div id = 'display_stage_background'&gt;&lt;/div&gt;&quot;).appendTo('body');
+    jQuery(&quot;&lt;div id = 'display_stage'&gt;&lt;/div&gt;&quot;).appendTo('body');
+
+
+    /* Change 5: Wrapping jsPsych.init() in a function */
+    function initExp() {
+
+        var hello_trial = {
+            type: 'html-keyboard-response',
+            stimulus: 'Hello world!'
+        }
+
+        jsPsych.init({
+            timeline: [hello_trial],
+            display_element: 'display_stage',
+
+            /* Change 6: Adding the clean up and continue functions.*/
+            on_finish: function (data) {
+                // clear the stage
+                jQuery('#display_stage').remove();
+                jQuery('#display_stage_background').remove();
+
+                // simulate click on Qualtrics &quot;next&quot; button, making use of the Qualtrics JS API
+                qthis.clickNextButton();
+            }
+        });
+    }
+});
+
+Qualtrics.SurveyEngine.addOnReady(function () {
+    /*Place your JavaScript here to run when the page is fully displayed*/
+
+});
+
+Qualtrics.SurveyEngine.addOnUnload(function () {
+    /*Place your JavaScript here to run when the page is unloaded*/
+
+});
+</code></pre>
+<hr />
+<h2 id="finally-embedding-jspsych-in-qualtrics">Finally, embedding jsPsych in Qualtrics</h2>
+<p>Let's log in to Qualtrics and take a look at each step.</p>
+<h3 id="step-1-create-a-new-qualtrics-project-and-then-a-new-question">Step 1. Create a new Qualtrics project and then a new question</h3>
+<p>First, create a new Qualtrics project. Then, create a new question and (1) change its format to <strong>Text/Graphic</strong>.</p>
+<p><img alt="Add JavaScript to a Qualtrics question" src="../img/hello-world-qualtrics-Step1_add_javascript_to_question.jpg" /></p>
+<h3 id="step-2-open-the-question-javascript-editor-and-copy-paste-the-whole-qualtricsjs">Step 2. Open the Question JavaScript editor and copy paste the whole <code>qualtrics.js</code></h3>
+<p>Keep going in the above picture. (2) Click the gear to open the dropdown menu, and then (3) find and click <strong>Add JavaScript</strong>.</p>
+<p><img alt="Open the Question JavaScript editor" src="../img/hello-world-qualtrics-Step2_open_javascript_editor.jpg" /></p>
+<h3 id="step-3-open-the-question-html-editor-and-copy-paste-the-portion-of-experiment-with-display-elementhtml">Step 3. Open the Question HTML editor and copy paste the portion of <code>experiment-with-display-element.html</code></h3>
+<p>The Change 3 section of the <code>experiment-with-display-element.html</code> file contains the link to jsPsych CSS file, the inline styles for <code>display_stage</code> Div, and the error message to be displayed when things go wrong.</p>
+<p>To open the HTML editor, click the <code>HTML View</code> button. </p>
+<p><img alt="Open the Question HTML editor" src="../img/hello-world-qualtrics-Step3_open_question_html_editor.jpg" /></p>
+<p>Then, copy paste the portion of <code>experiment-with-display-element.html</code> to the HTML editor, starting from <code>&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;</code> to <code>&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;</code>. </p>
+<pre><code class="language-html">&lt;!-- Change 3: Adding extra scripts for Qualtrics --&gt;
+&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;
+&lt;link href=&quot;https://kywch.github.io/jsPsych/css/jspsych.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;&lt;/link&gt;
+
+&lt;div&gt;
+&lt;span style=&quot;font-size: 24px;&quot;&gt;
+    &lt;br&gt;&lt;br&gt;
+    If you are seeing this message for &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;&lt;b&gt;more than 5
+        minutes&lt;/b&gt;&lt;/span&gt;,&lt;br&gt;
+    please screen-capture this screen and send the image to us.
+    &lt;br&gt;&lt;br&gt;
+    &lt;span style=&quot;font-size: 28px;&quot;&gt;We are very sorry for the inconvenience.&lt;/span&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Change 2: Adding `display_stage` CSS and Div --&gt;
+&lt;style&gt;
+#display_stage_background {
+    width: 100vw;
+    background-color: white;
+    z-index: -1;
+}
+
+#display_stage {
+    position: fixed;
+    left: 1vw;
+    top: 1vh;
+    height: 98vh;
+    width: 98vw;
+    background-color: white;
+    box-shadow: 1px 1px 1px #999;
+    border-radius: 15px;
+    z-index: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+&lt;/style&gt;
+&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;
+</code></pre>
+<p>After copy pasting, you should see something like below.</p>
+<p><img alt="After copy-paste" src="../img/hello-world-qualtrics-Step3_after_copy_paste.jpg" /></p>
+<h3 id="step-4-publish-and-test">Step 4. Publish and test!</h3>
+<p>Publish the survey by following <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-publishing-versions/#PublishingNew">this Qualtrics tutorial</a>. Then, an anonymous Qualtrics link is generated. If you click this link, you should be able to see "Hello World!" in Qualtrics. For example, here is <a href="https://ssd.az1.qualtrics.com/jfe/form/SV_ehvC3v9MYG83YMJ">a just another Hello-World Qualtrics survey</a>.</p>
+<hr />
+<h2 id="do-you-want-to-save-the-trial-by-trial-results">Do you want to save the trial-by-trial results?</h2>
+<p>Then, you need a server that can receive your data. See the tutorial <a href="../save-php/">Saving data to a web server using PHP</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../github-pages/" class="btn btn-neutral float-left" title="Hosting jsPsych"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../save-php/" class="btn btn-neutral float-right" title="Saving Data with PHP">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2020-2023 <a href="https://kywch.github.io/" target="_blank">Kyoung Whan Choe</a>. </p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../github-pages/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../save-php/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

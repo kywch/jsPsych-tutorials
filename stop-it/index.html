@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://kywch.github.io/jsPsych-in-Qualtrics/stop-it/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Embedding Stop Signal Task (STOP-IT) - jsPsych in Qualtrics Tutorial Series</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Embedding Stop Signal Task (STOP-IT)";
+        var mkdocs_page_input_path = "stop-it.md";
+        var mkdocs_page_url = "/jsPsych-in-Qualtrics/stop-it/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-D3RPWB8SEL"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-D3RPWB8SEL');
+      </script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> jsPsych in Qualtrics Tutorial Series
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 1. The Basics</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../github-pages/">Hosting jsPsych</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../hello-world/">Embedding Hello World!</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../save-php/">Saving Data with PHP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../participants/">Recruiting Participants</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 2. Case studies</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../rt-task/">Embedding Reaction-Time Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../flanker/">Embedding Flanker Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../choose-and-solve/">Embedding Choose-And-Solve Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../rc-rage/">Embedding Reactive AGression Task</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Embedding Stop Signal Task (STOP-IT)</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#embedding-the-stop-it-stop-signal-task-into-qualtrics_1">Embedding the STOP-IT Stop Signal Task into Qualtrics</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#hosting-the-stop-it-scripts-in-github">Hosting the STOP-IT scripts in GitHub</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#preparing-the-dropbox-to-save-your-files">Preparing the Dropbox to save your files</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#embedding-the-task-to-qualtrics">Embedding the task to Qualtrics</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#step-1-create-a-new-qualtrics-project-and-then-a-new-question">Step 1. Create a new Qualtrics project and then a new question</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-2-open-the-question-javascript-editor-and-copy-paste-the-whole-experiment-transformed-qualtricsjs">Step 2. Open the Question JavaScript editor and copy paste the whole experiment-transformed-qualtrics.js</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-3-open-the-question-html-editor-and-copy-paste-the-below-html-code">Step 3. Open the Question HTML editor and copy paste the below html code</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-4-create-embedded-data-elements">Step 4. Create Embedded Data elements</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-5-publish-and-test">Step 5. Publish and test!</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#explaining-the-code-changes">Explaining the code changes</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#using-the-github-hosted-images-configurationexperiment_variablesjs">Using the GitHub-hosted images: configuration/experiment_variables.js</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#first-transformation-experiment-transformed-firsthtml-and-stop-it_mainjs">First transformation: experiment-transformed-first.html and stop-it_main.js</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#second-transformation-display_element-experiment-transformed-secondhtml">Second transformation (display_element): experiment-transformed-second.html</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#change-1-using-display_element">Change 1: Using display_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-2-adding-display_stage-css-and-div">Change 2: Adding display_stage CSS and Div</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-3-adding-extra-scripts-for-qualtrics">Change 3: Adding extra scripts for Qualtrics</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#third-transformation-save-to-php-experiment-transformed-thirdhtml">Third transformation (save to PHP): experiment-transformed-third.html</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#change-4-5-defining-necessary-variables-and-functions-for-saving-the-results">Change 4-5: Defining necessary variables and functions for saving the results</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-6-sending-the-results-file-upon-completion">Change 6: Sending the results file upon completion</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#fourth-transformation-experiment-transformed-qualtricsjs">Fourth transformation: experiment-transformed-qualtrics.js</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#change-1-hiding-the-next-button">Change 1: Hiding the Next button</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-2-defining-and-load-required-resources">Change 2: Defining and load required resources</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-3-appending-the-display_stage-div-using-jquery">Change 3: Appending the display_stage Div using jQuery</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-4-adding-save-and-helper-functions">Change 4: Adding save and helper functions</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-5-wrapping-jspsychinit-in-a-function">Change 5: Wrapping jsPsych.init() in a function</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-6-adding-the-clean-up-and-continue-functions">Change 6: Adding the clean up and continue functions</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../audio-test/">Embedding Quick Audio Test</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../mood-induction/">Embedding Mood Induction</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">jsPsych in Qualtrics Tutorial Series</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Part 2. Case studies &raquo;</li>
+      <li>Embedding Stop Signal Task (STOP-IT)</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="embedding-the-stop-it-stop-signal-task-into-qualtrics">Embedding the STOP-IT Stop Signal Task into Qualtrics</h1>
+<p>Let's embed <a href="https://github.com/fredvbrug/STOP-IT">the Stop Signal Task by Verbruggen et al., 2019</a>, <code>the jsPsych_version</code> into Qualtrics. You can first try the task by clicking <a href="https://kywch.github.io/STOP-IT/jsPsych_version/experiment-transformed-first.html">HERE</a>.</p>
+<p>I adapted the original scripts to make the task work in Qualtrics and put these into <a href="https://github.com/kywch/STOP-IT/">my STOP-IT repository</a>. So, it'd be easier for you to fork <a href="https://github.com/kywch/STOP-IT/">my STOP-IT repository</a> and start from there.</p>
+<p>This version of the Stop Signal Task needs to save the trial-by-trial data for analysis, so I'm saving the data file to a PHP web server, following the <a href="../save-php/">Saving Data with PHP</a>. Verbruggen et al. (2019) also provided <a href="https://github.com/fredvbrug/STOP-IT/blob/master/jsPsych_version/README-ANALYZE-IT-JS.md">the analysis script</a>, so please have a look.</p>
+<p>This tutorial consists of two parts. (1) I will first explain how you can <a href="./#embedding-the-stop-signal-task">embed the Stop Signal Task in Qualtrics</a>. (2) I will then <a href="./#explaining-the-code-changes">explain the changes I made to the original experiment code</a>. </p>
+<hr />
+<h2 id="embedding-the-stop-it-stop-signal-task-into-qualtrics_1">Embedding the STOP-IT Stop Signal Task into Qualtrics</h2>
+<h3 id="hosting-the-stop-it-scripts-in-github">Hosting the STOP-IT scripts in GitHub</h3>
+<p>To use jsPsych in Qualtrics, the jsPsych javascript and CSS files need to be online and loadable from Qualtrics. Creating a GitHub repository for your experiment helps you do so in simple steps.</p>
+<ol>
+<li>Go to the <a href="https://github.com/kywch/STOP-IT/">my STOP-IT repository</a>.</li>
+<li>Follow the <a href="../github-pages/">Hosting jsPsych</a> tutorial to fork it to your GitHub repository and make the scripts available online.</li>
+</ol>
+<p>When you are done, you can check the online files with your browser by directly going to the <strong>jspsych.js</strong>, <strong>jspsych.css</strong>, <strong>jspsych-html-keyboard-response.js</strong>, and <strong>stop-it_main.js</strong>.</p>
+<ul>
+<li><strong>jspsych.js</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/STOP-IT/jsPsych_version/js/jspsych-6.0.5/jspsych.js</code>, like <a href='https://kywch.github.io/STOP-IT/jsPsych_version/js/jspsych-6.0.5/jspsych.js'>https://kywch.github.io/STOP-IT/jsPsych_version/js/jspsych-6.0.5/jspsych.js</a>.</li>
+<li><strong>jspsych.css</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/STOP-IT/jsPsych_version/js/jspsych-6.0.5/css/jspsych.css</code>, like <a href='https://kywch.github.io/STOP-IT/jsPsych_version/js/jspsych-6.0.5/css/jspsych.css'>https://kywch.github.io/STOP-IT/jsPsych_version/js/jspsych-6.0.5/css/jspsych.css</a>.</li>
+<li><strong>jspsych-html-keyboard-response.js</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/STOP-IT/jsPsych_version/js/jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js</code>, like <a href='https://kywch.github.io/STOP-IT/jsPsych_version/js/jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js'>https://kywch.github.io/STOP-IT/jsPsych_version/js/jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js</a>.</li>
+<li><strong>stop-it_main.js</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/STOP-IT/jsPsych_version/stop-it_main.js</code>, like <a href='https://kywch.github.io/STOP-IT/jsPsych_version/stop-it_main.js'>https://kywch.github.io/STOP-IT/jsPsych_version/stop-it_main.js</a>.</li>
+</ul>
+<hr />
+<h3 id="preparing-the-dropbox-to-save-your-files">Preparing the Dropbox to save your files</h3>
+<p>To analyze the Stop Signal Task data, you need the trial-by-trial data file, which you can get these by <a href="../save-php/">using a web server and PHP</a>. Please read it and <strong>prepare a url for save</strong>. Once you have the url, find the line <code>var save_url = "&lt;PUT YOUR SAVE URL HERE&gt;";</code> in <code>experiment-transformed-qualtrics.js</code> and replace <code>&lt;PUT YOUR SAVE URL HERE&gt;</code> with the url.</p>
+<p><strong>For the save function to work properly, it must start with <code>https://</code>.</strong></p>
+<hr />
+<h3 id="embedding-the-task-to-qualtrics">Embedding the task to Qualtrics</h3>
+<p>Let's log in to Qualtrics and take a look at each step.</p>
+<h4 id="step-1-create-a-new-qualtrics-project-and-then-a-new-question">Step 1. Create a new Qualtrics project and then a new question</h4>
+<p>First, create a new Qualtrics project. Then, create a new question and (1) change its format to <strong>Text/Graphic</strong>.</p>
+<p><img alt="Add JavaScript to a Qualtrics question" src="../img/hello-world-qualtrics-Step1_add_javascript_to_question.jpg" /></p>
+<hr />
+<h4 id="step-2-open-the-question-javascript-editor-and-copy-paste-the-whole-experiment-transformed-qualtricsjs">Step 2. Open the Question JavaScript editor and copy paste the whole <code>experiment-transformed-qualtrics.js</code></h4>
+<p>Keep going in the above picture. (2) Click the gear to open the dropdown menu, and then (3) find and click <strong>Add JavaScript</strong>. </p>
+<p><img alt="Open the Question JavaScript editor" src="../img/hello-world-qualtrics-Step2_open_javascript_editor.jpg" /></p>
+<p>Then copy-paste the whole <a href="https://raw.githubusercontent.com/kywch/STOP-IT/master/jsPsych_version/experiment-transformed-qualtrics.js"><code>experiment-transformed-qualtrics.js</code> (click to see the code)</a> into the editor. </p>
+<p><font color=red>YOU MUST PUT THE SAVE URL that begins with https:// INTO THE CODE.</font></p>
+<hr />
+<h4 id="step-3-open-the-question-html-editor-and-copy-paste-the-below-html-code">Step 3. Open the Question HTML editor and copy paste the below html code</h4>
+<p>The Change 3 section of the <code>experiment-transformed-third.html</code> file contains the link to jsPsych CSS file, the inline styles for <code>display_stage</code> Div, and the error message to be displayed when things go wrong.</p>
+<p>To open the HTML editor, click the <code>HTML View</code> button. </p>
+<p><img alt="Open the Question HTML editor" src="../img/hello-world-qualtrics-Step3_open_question_html_editor.jpg" /></p>
+<p>Then, copy paste the portion of <code>experiment-transformed-third.html</code> to the HTML editor, starting from <code>&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;</code> to <code>&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;</code>. </p>
+<pre><code class="language-html">&lt;!-- Change 3: Adding extra scripts for Qualtrics --&gt;
+&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;
+&lt;link href=&quot;https://kywch.github.io/STOP-IT/jsPsych_version/js/jspsych-6.0.5/css/jspsych.css&quot; rel=&quot;stylesheet&quot;
+type=&quot;text/css&quot;&gt;
+&lt;/link&gt;
+&lt;div&gt;
+&lt;span style=&quot;font-size: 24px;&quot;&gt;
+    &lt;br&gt;&lt;br&gt;
+    If you are seeing this message for &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;&lt;b&gt;more than 5
+        minutes&lt;/b&gt;&lt;/span&gt;,&lt;br&gt;
+    please screen-capture this screen and send the image to us.
+    &lt;br&gt;&lt;br&gt;
+    &lt;span style=&quot;font-size: 28px;&quot;&gt;We are very sorry for the inconvenience.&lt;/span&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Change 2: Adding `display_stage` CSS and Div --&gt;
+&lt;style&gt;
+#display_stage_background {
+    width: 100vw;
+    background-color: white;
+    z-index: -1;
+}
+
+#display_stage {
+    position: fixed;
+    left: 1vw;
+    top: 1vh;
+    height: 98vh;
+    width: 98vw;
+    background-color: white;
+    box-shadow: 1px 1px 1px #999;
+    border-radius: 15px;
+    z-index: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+&lt;/style&gt;
+&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;
+</code></pre>
+<p>After copy pasting, you should see something like below.</p>
+<p><img alt="After copy-paste" src="../img/hello-world-qualtrics-Step3_after_copy_paste.jpg" /></p>
+<hr />
+<h4 id="step-4-create-embedded-data-elements">Step 4. Create Embedded Data elements</h4>
+<p>To store the experiment results with the participant's ID, you need to create the Embedded Data elements named <strong>workerId</strong> in your survey by following <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-flow/standard-elements/embedded-data/#CreatingAnEmbeddedDataElement">this Qualtrics tutorial</a>. </p>
+<p>Why do I use the name <strong>workerId</strong>? For an answer, please read the <a href="../participants/">Recruiting Participants</a> section.</p>
+<ol>
+<li>Click <strong>Survey Flow</strong> from the Survey tab</li>
+<li>Click <strong>Add a New Element Here</strong></li>
+<li>Choose <strong>Embedded Data</strong> </li>
+<li>Click <strong>Create New Field or Choose From Dropdown</strong> and type <strong>workerId</strong></li>
+<li>Click <strong>Move</strong> of the new blocks you created (<code>Set Embedded Data</code> and <code>Then Branch If</code>) and move these blocks the top of Survey Flow</li>
+</ol>
+<hr />
+<h4 id="step-5-publish-and-test">Step 5. Publish and test!</h4>
+<p>Publish the survey by following <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-publishing-versions/#PublishingNew">this Qualtrics tutorial</a>. Then, an anonymous Qualtrics link is generated. If you click this link, you should be able to see the same STOP-IT Stop Signal Task running in Qualtrics. For example, try <a href="https://ssd.az1.qualtrics.com/jfe/form/SV_aYwyeXayENSq125">this Qualtrics link</a>.</p>
+<p><font color=red>DOUBLE CHECK WHETHER THE TRIAL-BY-TRIAL DATA IS SAVED TO YOUR DROPBOX.</font></p>
+<hr />
+<h2 id="explaining-the-code-changes">Explaining the code changes</h2>
+<h3 id="using-the-github-hosted-images-configurationexperiment_variablesjs">Using the GitHub-hosted images: configuration/experiment_variables.js</h3>
+<p>The original STOP-IT task uses the stimuli images in the <code>images</code> folder placed with the experiment html. But since these images are available online once you enable your GitHub Pages, you can use these images. </p>
+<p>For example, the <code>images/fix.png</code> is available at <code>https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;/jsPsych_version/images/fix.png</code>. For example, <a href='https://kywch.github.io/STOP-IT/jsPsych_version/images/fix.png'>https://kywch.github.io/STOP-IT/jsPsych_version/images/fix.png</a>.</p>
+<p>So, I modifed the <code>fix_stim</code>, <code>go_stim1</code>, <code>go_stim2</code>, <code>stop_stim1</code>, and <code>stop_stim2</code> variables in the <code>configuration/experiment_variables.js</code> by adding the <code>repo_site</code> variable like below.</p>
+<pre><code class="language-js">// define the site that hosts stimuli images
+// usually https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;/
+var repo_site = 'https://kywch.github.io/STOP-IT/jsPsych_version/';
+
+// locate the stimuli that will be used in the experiment
+var fix_stim = repo_site + 'images/fix.png';
+var go_stim1 = repo_site + 'images/go_left.png';
+var go_stim2 = repo_site + 'images/go_right.png';
+var stop_stim1 = repo_site + 'images/stop_left.png';
+var stop_stim2 = repo_site + 'images/stop_right.png';
+</code></pre>
+<p>Please compare <a href="https://github.com/fredvbrug/STOP-IT/blob/master/jsPsych_version/configuration/experiment_variables.js">the original <strong>experiment_variables.js</strong> (click to see the code)</a> vs. <a href="https://github.com/kywch/STOP-IT/blob/master/jsPsych_version/configuration/experiment_variables.js">the modified <strong>experiment_variables.js</strong> (click the see the code)</a>.</p>
+<hr />
+<h3 id="first-transformation-experiment-transformed-firsthtml-and-stop-it_mainjs">First transformation: experiment-transformed-first.html and stop-it_main.js</h3>
+<p>I prefer to separate out the experiment-related code from the operation-related code, following <a href="https://expfactory.github.io/experiments/">the Experiment Factory</a> style. If you haven't, please visit <a href="https://expfactory.github.io/experiments/">the Experiment Factory library</a>, which contain a ton of experiments with running demos and their code.</p>
+<p>In the <a href="https://github.com/kywch/STOP-IT/blob/master/jsPsych_version/experiment.html"><code>experiment.html</code> (click to see the code)</a>, defining the components that go into the <code>timeline</code> can be considered to be experiment-related, and the remaining parts that also appear in <a href="../hello-world/">the Hello-World example</a>, such as loading <code>jspsych.js</code> and <code>jsPsych.init()</code> can be considered to be operation-related. So, I separated the experiment-related code and the operation-related code and putting the code into <a href="https://github.com/kywch/STOP-IT/blob/master/jsPsych_version/stop-it_main.js"><code>stop-it_main.js</code> (click to see the code)</a> and <a href="https://github.com/kywch/STOP-IT/blob/master/jsPsych_version/experiment-transformed-first.html"><code>experiment-transformed-first.html</code> (click to see the code)</a>, respectively. </p>
+<p>In addition, the original STOP-IT code includes the consent, participant_id, gender pages, etc, but these pages can be better handled by Qualtrics. So, I took these pages out and isolated the stop signal task. Please take a moment to look at the <a href="https://raw.githubusercontent.com/kywch/STOP-IT/master/jsPsych_version/stop-it_main.js"><code>stop-it_main.js</code> (click to see the code)</a> and <a href="https://raw.githubusercontent.com/kywch/STOP-IT/master/jsPsych_version/experiment-transformed-first.html"><code>experiment-transformed-first.html</code> (click to see the code)</a> files and compare these to the original <a href="https://raw.githubusercontent.com/kywch/STOP-IT/master/jsPsych_version/experiment.html"><code>experiment.html</code> (click to see the code)</a>.</p>
+<p>Double click both <code>experiment.html</code> and <code>experiment-transformed-first.html</code> in your local folder and see if these work well.</p>
+<hr />
+<h3 id="second-transformation-display_element-experiment-transformed-secondhtml">Second transformation (display_element): experiment-transformed-second.html</h3>
+<p>Adding the <code>display_element</code> parameter in the <code>jsPsych.init()</code> and having additional control over the display element is important for embedding jsPsych into Qualtrics. The <a href="https://github.com/kywch/STOP-IT/blob/master/jsPsych_version/experiment-transformed-second.html"><code>experiment-transformed-second.html</code> (click to see the code)</a> contains three changes from the <a href="https://github.com/kywch/STOP-IT/blob/master/jsPsych_version/experiment-transformed-first.html"><code>experiment-transformed-first.html</code> (click to see the code)</a>. When you open <code>experiment-transformed-second.html</code> in a browser, you should see the same Stop Signal Task. </p>
+<p>Let's look at each change.</p>
+<h4 id="change-1-using-display_element">Change 1: Using <code>display_element</code></h4>
+<p>By adding the <code>display_element</code> parameter in the <code>jsPsych.init()</code> like below, jsPsych will render the experiment in the <code>&lt;div&gt;</code> called <code>display_stage</code>, which the current script does not have yet. So, let's add the <code>display_stage</code>.</p>
+<pre><code class="language-js">  // run the experiment!
+  jsPsych.init({
+
+    /* Change 1: Using `display_element` */
+    display_element: 'display_stage',
+
+    timeline: timeline,
+
+    preload_images: [fix_stim, go_stim1, go_stim2, stop_stim1, stop_stim2],
+</code></pre>
+<h4 id="change-2-adding-display_stage-css-and-div">Change 2: Adding <code>display_stage</code> CSS and Div</h4>
+<p>The <code>display_stage</code> needs below CSS and HTML code after the <code>&lt;body&gt;</code> tag, which also include the <code>display_stage_background</code>. Both are necessary to function well.</p>
+<pre><code class="language-html">&lt;!-- Change 2: Adding `display_stage` CSS and Div --&gt;
+&lt;style&gt;
+#display_stage_background {
+    width: 100vw;
+    background-color: white;
+    z-index: -1;
+}
+
+#display_stage {
+    position: fixed;
+    left: 1vw;
+    top: 1vh;
+    height: 98vh;
+    width: 98vw;
+    background-color: white;
+    box-shadow: 1px 1px 1px #999;
+    border-radius: 15px;
+    z-index: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+&lt;/style&gt;
+&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;
+
+&lt;div id='display_stage_background'&gt;&lt;/div&gt;
+&lt;div id='display_stage'&gt;&lt;/div&gt;
+</code></pre>
+<h4 id="change-3-adding-extra-scripts-for-qualtrics">Change 3: Adding extra scripts for Qualtrics</h4>
+<p>The below scripts are not necessary to run this task, but you need to copy-paste these in Qualtrics later. </p>
+<p>One critical point is that now we use the jsPsych stylesheet hosted in the GitHub Pages (explained above in the <a href="../rt-task/#step-4-enable-github-pages-for-your-experiment">Hosting jsPsych</a> section) instead of the CSS file in your computer. This is important because Qualtrics can also access the GitHub-hosted files.</p>
+<pre><code class="language-html">&lt;!-- Change 3: Adding extra scripts for Qualtrics --&gt;
+&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;
+&lt;link href=&quot;https://kywch.github.io/STOP-IT/jsPsych_version/js/jspsych-6.0.5/css/jspsych.css&quot; rel=&quot;stylesheet&quot;
+type=&quot;text/css&quot;&gt;
+&lt;/link&gt;
+&lt;div&gt;
+&lt;span style=&quot;font-size: 24px;&quot;&gt;
+    &lt;br&gt;&lt;br&gt;
+    If you are seeing this message for &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;&lt;b&gt;more than 5
+        minutes&lt;/b&gt;&lt;/span&gt;,&lt;br&gt;
+    please screen-capture this screen and send the image to us.
+    &lt;br&gt;&lt;br&gt;
+    &lt;span style=&quot;font-size: 28px;&quot;&gt;We are very sorry for the inconvenience.&lt;/span&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+</code></pre>
+<hr />
+<h3 id="third-transformation-save-to-php-experiment-transformed-thirdhtml">Third transformation (save to PHP): experiment-transformed-third.html</h3>
+<p>To make <a href="https://github.com/kywch/STOP-IT/blob/master/jsPsych_version/experiment-transformed-third.html"><code>experiment-transformed-third.html</code> (click to see the code)</a> work and save the trial-by-trial data file, you should set up your Dropbox App and get your <strong>Dropbox access token</strong>. To do so, see <a href="./#preparing-the-dropbox-to-save-your-files">the above instructions</a>.</p>
+<p>The <a href="https://github.com/kywch/STOP-IT/blob/master/jsPsych_version/experiment-transformed-third.html"><code>experiment-transformed-third.html</code> (click to see the code)</a> contains three additional changes from <a href="https://github.com/kywch/STOP-IT/blob/master/jsPsych_version/experiment-transformed-second.html"><code>experiment-transformed-second.html</code> (click to see the code)</a>. Let's look at these additional change.</p>
+<h4 id="change-4-5-defining-necessary-variables-and-functions-for-saving-the-results">Change 4-5: Defining necessary variables and functions for saving the results</h4>
+<p>You can set <code>task_id</code> and/or <code>data_dir</code> as you like. However, you must provide a correct <code>save_url</code>.</p>
+<pre><code class="language-js">// you must put your save_data php url here.
+// like https://users.rcc.uchicago.edu/~kywch/exp_data/save_data.php
+var save_url = &quot;&lt;PUT YOUR SAVE URL HERE&gt;&quot;;
+
+function save_data(data_dir, file_name) {
+    var selected_data = filter_data();
+    console.log(&quot;Save data function called.&quot;);
+    try {
+        jQuery.ajax({
+            type: 'post',
+            cache: false,
+            url: save_url,
+            data: {
+                data_dir: data_dir,
+                file_name: file_name + '.csv', // the file type should be added
+                exp_data: selected_data.csv()
+            }
+        });
+    } catch (err) {
+        console.log(&quot;Save data function failed.&quot;, err);
+    }
+}
+</code></pre>
+<p>Also, <code>sbj_id</code>, and thus <code>file_name</code>, must be unique. Otherwise, you will lose the data. That's why the random number is used when <code>sbj_id</code> is empty.</p>
+<pre><code class="language-js">// experimental session-defining variables
+flag_debug = true;
+task_id = &quot;STOP-IT&quot;;
+sbj_id = &quot;${e://Field/workerId}&quot;;
+if (!sbj_id.trim()) {
+    sbj_id = Math.random().toString(36).slice(-6);
+    try {
+        Qualtrics.SurveyEngine.setEmbeddedData(&quot;workerId&quot;, sbj_id);
+    } catch (err) {
+        console.log('Warning: ', err);
+    }
+}
+
+// PHP-based data save function
+// save_data needs data_dir and file_name
+// my preference is to include the task id/name and sbj_id in the file name
+var data_dir = task_id;
+var file_name = task_id + '_' + sbj_id + '.csv';
+</code></pre>
+<h4 id="change-6-sending-the-results-file-upon-completion">Change 6: Sending the results file upon completion</h4>
+<p>The <code>on_finish</code> callback can be declared in the <code>jsPsych.init</code> method. 
+For details, see <a href="https://www.jspsych.org/overview/callbacks/#on_finish-experiment">the original jsPsych tutorial</a>.
+The callback will trigger once all trials in the experiment have been run, so it is a great place to call save functions.</p>
+<pre><code class="language-js">    /* Change 6: Sending the results file upon completion */
+
+    on_finish: function () {
+        save_data(data_dir, file_name);
+    },
+
+</code></pre>
+<h3 id="fourth-transformation-experiment-transformed-qualtricsjs">Fourth transformation: experiment-transformed-qualtrics.js</h3>
+<p>To make your jsPsych experiment work in Qualtrics, you need to add your code to the below skeleton provided by Qualtrics Question JavaScript Editor. For details, see the <a href="https://www.qualtrics.com/support/survey-platform/survey-module/question-options/add-javascript/">Add JavaScript help page</a>.</p>
+<pre><code class="language-js">Qualtrics.SurveyEngine.addOnload(function()
+{
+    /*Place your JavaScript here to run when the page loads*/
+
+});
+
+Qualtrics.SurveyEngine.addOnReady(function()
+{
+    /*Place your JavaScript here to run when the page is fully displayed*/
+
+});
+
+Qualtrics.SurveyEngine.addOnUnload(function()
+{
+    /*Place your JavaScript here to run when the page is unloaded*/
+
+});
+</code></pre>
+<p>Let's look at each change.</p>
+<h4 id="change-1-hiding-the-next-button">Change 1: Hiding the Next button</h4>
+<p>The below javascript code hides the Next button and puts the javascript code in the driving seat.</p>
+<pre><code class="language-js">/* Change 1: Hiding the Next button */
+// Retrieve Qualtrics object and save in qthis
+var qthis = this;
+
+// Hide buttons
+qthis.hideNextButton();
+</code></pre>
+<h4 id="change-2-defining-and-load-required-resources">Change 2: Defining and load required resources</h4>
+<p>The below javascript defines where the necessary files are so that Qualtrics can load these. If you enabled GitHub Pages of your repository, Qualtrics can load the necessary JS, CSS, and image files right away.</p>
+<pre><code class="language-js">/* Change 2: Defining and load required resources */
+var task_github = &quot;https://kywch.github.io/STOP-IT/jsPsych_version/&quot;; // https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;
+
+// requiredResources must include all the JS files that demo-simple-rt-task-transformed.html uses.
+var requiredResources = [
+    &quot;https://cdnjs.cloudflare.com/ajax/libs/dropbox.js/4.0.30/Dropbox-sdk.min.js&quot;,
+    task_github + &quot;js/jspsych-6.0.5/jspsych.js&quot;,
+    task_github + &quot;js/jspsych-6.0.5/plugins/jspsych-instructions.js&quot;,
+    task_github + &quot;js/jspsych-6.0.5/plugins/jspsych-fullscreen.js&quot;,
+    task_github + &quot;js/jspsych-6.0.5/plugins/jspsych-call-function.js&quot;,
+    task_github + &quot;js/jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js&quot;,
+    task_github + &quot;js/jspsych-detect-held-down-keys.js&quot;,
+    task_github + &quot;js/custom-stop-signal-plugin.js&quot;,
+    task_github + &quot;js/sprintf.js&quot;,
+    task_github + &quot;configuration/experiment_variables.js&quot;,
+    task_github + &quot;configuration/text_variables.js&quot;,
+    task_github + &quot;stop-it_main.js&quot;
+];
+
+function loadScript(idx) {
+    console.log(&quot;Loading &quot;, requiredResources[idx]);
+    jQuery.getScript(requiredResources[idx], function () {
+        if ((idx + 1) &lt; requiredResources.length) {
+            loadScript(idx + 1);
+        } else {
+            initExp();
+        }
+    });
+}
+
+if (window.Qualtrics &amp;&amp; (!window.frameElement || window.frameElement.id !== &quot;mobile-preview-view&quot;)) {
+    loadScript(0);
+}
+</code></pre>
+<h4 id="change-3-appending-the-display_stage-div-using-jquery">Change 3: Appending the display_stage Div using jQuery</h4>
+<p>In Qualtrics, jQuery (loaded by default) is used to append the <code>display_stage_background</code> and <code>display_stage</code> Divs. The CSS for these elements will be added directly to Question HTML later in this tutorial.</p>
+<pre><code class="language-js">/* Change 3: Appending the display_stage Div using jQuery */
+// jQuery is loaded in Qualtrics by default
+jQuery(&quot;&lt;div id = 'display_stage_background'&gt;&lt;/div&gt;&quot;).appendTo('body');
+jQuery(&quot;&lt;div id = 'display_stage'&gt;&lt;/div&gt;&quot;).appendTo('body');
+</code></pre>
+<h4 id="change-4-adding-save-and-helper-functions">Change 4: Adding save and helper functions</h4>
+<pre><code class="language-js">/* Change 4: Adding save and helper functions */    
+function filter_data() {
+    var ignore_columns = ['raw_rt', 'trial_type', 'first_stimulus', 'second_stimulus', 'onset_of_first_stimulus',
+        'onset_of_second_stimulus', 'key_press', 'correct_response', 'trial_index', 'internal_node_id'
+    ];
+    var rows = {
+        trial_type: 'custom-stop-signal-plugin'
+    }; // we are only interested in our main stimulus, not fixation, feedback etc.
+    var selected_data = jsPsych.data.get().filter(rows).ignore(ignore_columns);
+    // the next piece of codes orders the columns of the data file
+    var d = selected_data.values() // get the data values
+    // make an array that specifies the order of the object properties
+    var arr = ['block_i', 'trial_i', 'stim', 'signal', 'SSD', 'response', 'rt', 'correct',
+        'focus', 'Fullscreen', 'time_elapsed', 'window_resolution'
+    ];
+    new_arr = [] // we will fill this array with the ordered data
+    function myFunction(item) { // this is function is called in the arr.forEach call below
+        new_obj[item] = obj[item]
+        return new_obj
+    }
+    // do it for the whole data array
+    for (i = 0; i &lt; d.length; i++) {
+        obj = d[i]; // get one row of data
+        new_obj = {};
+        arr.forEach(myFunction) // for each element in the array run my function
+        selected_data.values()[i] = new_obj; // insert the ordered values back in the jsPsych.data object
+    }
+    return selected_data;
+}
+
+// you must put your save_data php url here.
+// like https://users.rcc.uchicago.edu/~kywch/exp_data/save_data.php
+var save_url = &quot;&lt;PUT YOUR SAVE URL HERE&gt;&quot;;
+
+function save_data(data_dir, file_name) {
+    var selected_data = filter_data();
+    console.log(&quot;Save data function called.&quot;);
+    try {
+        jQuery.ajax({
+            type: 'post',
+            cache: false,
+            url: save_url,
+            data: {
+                data_dir: data_dir,
+                file_name: file_name + '.csv', // the file type should be added
+                exp_data: selected_data.csv()
+            }
+        });
+    } catch (err) {
+        console.log(&quot;Save data function failed.&quot;, err);
+    }
+}
+</code></pre>
+<h4 id="change-5-wrapping-jspsychinit-in-a-function">Change 5: Wrapping jsPsych.init() in a function</h4>
+<p>The main experiment codes are wrapped in the <code>initExp</code> function to make sure it runs after all the necessary library and plugin files are loaded (as defined in the <code>loadScript</code> function above).</p>
+<p>Please look carefully at the variable <code>sbj_id</code>. It first looks at Qualtrics' embedded data <code>workerId</code>. If it's empty, then the code generates a random sequence and use it as <code>sbj_id</code> so that the saved data file is almost always unique.</p>
+<pre><code class="language-js">/* Change 5: Wrapping jsPsych.init() in a function */
+function initExp() {
+
+    // experimental session-defining variables
+    flag_debug = true;
+    task_id = &quot;STOP-IT&quot;;
+    sbj_id = &quot;${e://Field/workerId}&quot;;
+    if (!sbj_id.trim()) {
+        sbj_id = Math.random().toString(36).slice(-6);
+        try {
+            Qualtrics.SurveyEngine.setEmbeddedData(&quot;workerId&quot;, sbj_id);
+        } catch (err) {
+            console.log('Warning: ', err);
+        }
+    }
+
+    // PHP-based data save function
+    // save_data needs data_dir and file_name
+    // my preference is to include the task id/name and sbj_id in the file name
+    var data_dir = task_id;
+    var file_name = task_id + '_' + sbj_id + '.csv';
+
+    // push all the procedures, which are defined in stop-it_main.js to the overall timeline
+    var timeline = []; // this array stores the events we want to run in the experiment
+    timeline.push(start_procedure, block_procedure, end_procedure);
+
+    jsPsych.init({
+        display_element: 'display_stage',
+        timeline: timeline,
+        preload_images: [fix_stim, go_stim1, go_stim2, stop_stim1, stop_stim2],
+
+        // ... omitted
+
+        }
+    });
+
+</code></pre>
+<h4 id="change-6-adding-the-clean-up-and-continue-functions">Change 6: Adding the clean up and continue functions</h4>
+<p>When the jsPsych ends, <code>display_stage</code> and <code>display_stage_background</code> should be removed. Then, the script executes the <code>clickNextButton</code> to simulate clicking the Next button and proceed to the next question.</p>
+<pre><code class="language-js">    on_finish: function () {
+        save_data(data_dir, file_name);
+
+        /* Change 6: Adding the clean up and continue functions.*/
+        // clear the stage
+        jQuery('#display_stage').remove();
+        jQuery('#display_stage_background').remove();
+
+        // simulate click on Qualtrics &quot;next&quot; button, making use of the Qualtrics JS API
+        qthis.clickNextButton();
+    }
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../rc-rage/" class="btn btn-neutral float-left" title="Embedding Reactive AGression Task"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../audio-test/" class="btn btn-neutral float-right" title="Embedding Quick Audio Test">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2020-2023 <a href="https://kywch.github.io/" target="_blank">Kyoung Whan Choe</a>. </p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../rc-rage/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../audio-test/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

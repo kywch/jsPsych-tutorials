@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://kywch.github.io/jsPsych-in-Qualtrics/participants/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Recruiting Participants - jsPsych in Qualtrics Tutorial Series</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Recruiting Participants";
+        var mkdocs_page_input_path = "participants.md";
+        var mkdocs_page_url = "/jsPsych-in-Qualtrics/participants/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-D3RPWB8SEL"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-D3RPWB8SEL');
+      </script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> jsPsych in Qualtrics Tutorial Series
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 1. The Basics</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../github-pages/">Hosting jsPsych</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../hello-world/">Embedding Hello World!</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../save-php/">Saving Data with PHP</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Recruiting Participants</a>
+    <ul class="current">
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 2. Case studies</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../rt-task/">Embedding Reaction-Time Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../flanker/">Embedding Flanker Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../choose-and-solve/">Embedding Choose-And-Solve Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../rc-rage/">Embedding Reactive AGression Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../stop-it/">Embedding Stop Signal Task (STOP-IT)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../audio-test/">Embedding Quick Audio Test</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../mood-induction/">Embedding Mood Induction</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">jsPsych in Qualtrics Tutorial Series</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Part 1. The Basics &raquo;</li>
+      <li>Recruiting Participants</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="recruiting-participants-for-your-jspsych-qualtrics-experiments">Recruiting Participants for Your jsPsych Qualtrics Experiments</h1>
+<p>The best advantage of using Qualtrics is that many participant recruiting services already offer easy tutorials for integrating Qualtrics with their services.</p>
+<p>One important thing that you must check is how <strong>participant IDs</strong> are handled, which varies from one service to another. In this tutorial, <a href="../save-php/#step-6-add-participand-id-to-qualtrics">Saving Data with PHP</a>, the Embedded Data <code>workerId</code> is determine the file name of each participant's experiment data. Should you use another name, you should also replace <code>workerId</code> with the name you use in the Qualtrics code <code>var sbj_id = "${e://Field/workerId}";</code>.</p>
+<p><strong>Before launching your experiment, DOUBLE CHECK if the experiment files are saved with correct participant ID.</strong> The beauty and peril of online experiments is the speed of data collection and thus the speed of spending money.</p>
+<h2>Participant recruiting services and their Qualtrics integration tutorial</h2>
+
+<p>I will keep adding the list below. If I missed something, please shoot me an email to  <code>choe_DOT_kyoung_AT_gmail_DOT_com</code>. Thanks!</p>
+<ul>
+<li>Qualtrics.com: <a href="https://www.qualtrics.com/support/survey-platform/common-use-cases-rc/assigning-randomized-ids-to-respondents/">Assigning Randomized IDs</a>, <a href="https://www.qualtrics.com/support/survey-platform/common-use-cases-rc/panel-company-integration/#ModifyingtheRedirectLinksProvicedByThePanelCompany">Panel Company Integration</a></li>
+<li>Your department's SONA System: <a href="https://www.sona-systems.com/help/qualtrics.aspx">External Study Credit Granting with Qualtrics</a> <ul>
+<li>Example tutorials from <a href="http://www.pitt.edu/~subjpool/AutoCreditGranting.pdf">Pitt.edu</a> and <a href="https://psychology.missouristate.edu/assets/Psychology/Qualtrics_to_SONA_Flowchart_October_2014.pdf">Missouristate.edu</a></li>
+</ul>
+</li>
+<li>Cloudresearch (TurkPrime): <a href="https://www.cloudresearch.com/resources/blog/workerid-and-all-mturk-fields-sent-to-qualtrics/">WorkerID (And All MTurk Fields) Sent to Qualtrics</a></li>
+<li>Prolific: <a href="https://researcher-help.prolific.co/hc/en-gb/articles/360009220993-Recording-participants-ID-in-your-study-survey">Recording participants` Prolific IDs in your study/survey</a></li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../save-php/" class="btn btn-neutral float-left" title="Saving Data with PHP"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../rt-task/" class="btn btn-neutral float-right" title="Embedding Reaction-Time Task">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2020-2023 <a href="https://kywch.github.io/" target="_blank">Kyoung Whan Choe</a>. </p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../save-php/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../rt-task/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

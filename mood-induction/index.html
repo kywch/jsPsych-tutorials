@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://kywch.github.io/jsPsych-in-Qualtrics/mood-induction/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Embedding Mood Induction - jsPsych in Qualtrics Tutorial Series</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Embedding Mood Induction";
+        var mkdocs_page_input_path = "mood-induction.md";
+        var mkdocs_page_url = "/jsPsych-in-Qualtrics/mood-induction/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-D3RPWB8SEL"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-D3RPWB8SEL');
+      </script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> jsPsych in Qualtrics Tutorial Series
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 1. The Basics</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../github-pages/">Hosting jsPsych</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../hello-world/">Embedding Hello World!</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../save-php/">Saving Data with PHP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../participants/">Recruiting Participants</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Part 2. Case studies</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../rt-task/">Embedding Reaction-Time Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../flanker/">Embedding Flanker Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../choose-and-solve/">Embedding Choose-And-Solve Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../rc-rage/">Embedding Reactive AGression Task</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../stop-it/">Embedding Stop Signal Task (STOP-IT)</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../audio-test/">Embedding Quick Audio Test</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Embedding Mood Induction</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#embedding-the-mood-induction-into-qualtrics">Embedding the Mood Induction into Qualtrics</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#hosting-the-mood-induction-scripts-in-github">Hosting the Mood Induction scripts in GitHub</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#embedding-the-task-to-qualtrics">Embedding the task to Qualtrics</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#step-1-create-a-new-qualtrics-project-and-then-a-new-question">Step 1. Create a new Qualtrics project and then a new question</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-2-open-the-question-javascript-editor-and-copy-paste-the-whole-mood-induction-qualtricsjs">Step 2. Open the Question JavaScript editor and copy paste the whole mood-induction-qualtrics.js</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-3-open-the-question-html-editor-and-copy-paste-the-below-html-code">Step 3. Open the Question HTML editor and copy paste the below html code</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-4-create-embedded-data-elements">Step 4. Create Embedded Data elements</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#step-5-publish-and-test">Step 5. Publish and test!</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#explaining-the-code">Explaining the code</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#a-working-demo-in-a-local-browser-mood-induction-demohtml">A working demo in a local browser: mood-induction-demo.html</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#change-1-using-display_element">Change 1: Using display_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-2-adding-display_stage-css-and-div">Change 2: Adding display_stage CSS and Div</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-3-adding-extra-scripts-for-qualtrics">Change 3: Adding extra scripts for Qualtrics</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#qualtrics-transformation-mood-induction-qualtricsjs">Qualtrics transformation: mood-induction-qualtrics.js</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#change-1-hiding-the-next-button">Change 1: Hiding the Next button</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-2-defining-and-load-required-resources">Change 2: Defining and load required resources</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-3-appending-the-display_stage-div-using-jquery">Change 3: Appending the display_stage Div using jQuery</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-4-adding-resources-scripts-and-helper-functions">Change 4: Adding resources, scripts, and helper functions</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-5-wrapping-jspsychinit-in-a-function">Change 5: Wrapping jsPsych.init() in a function</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#change-6-adding-the-clean-up-and-continue-functions">Change 6: Adding the clean up and continue functions</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">jsPsych in Qualtrics Tutorial Series</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Part 2. Case studies &raquo;</li>
+      <li>Embedding Mood Induction</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="embedding-mood-induction-into-qualtrics">Embedding Mood Induction into Qualtrics</h1>
+<p>The mood induction procedures by Mayer et al. (1995) and Marzillier &amp; Davey (2005), which use both music and prompts, were implemented using jsPsych: <a href="https://kywch.github.io/Mood-Induction_jsPsych/mood-induction-demo.html?mood=happy">happy</a>, <a href="https://kywch.github.io/Mood-Induction_jsPsych/mood-induction-demo.html?mood=angry">angry</a>, <a href="https://kywch.github.io/Mood-Induction_jsPsych/mood-induction-demo.html?mood=fear">fear</a>, <a href="https://kywch.github.io/Mood-Induction_jsPsych/mood-induction-demo.html?mood=sad">sad</a>, and <a href="https://kywch.github.io/Mood-Induction_jsPsych/mood-induction-demo.html?mood=neutral">neutral</a>.</p>
+<p>Before running an auditory task (like mood induction or dual n-back), you should make sure participants can listen to sound. To do so, I also made a quick audio test using jsPsych. You can first try the test by clicking <a href="https://kywch.github.io/Mood-Induction_jsPsych/audio-test-demo.html">HERE</a>. See the <a href="../audio-test/">Embedding Quick Audio Test</a> tutorial to use this in Qualtrics.</p>
+<p>I uploaded these codes on the <a href="https://github.com/kywch/Mood-Induction_jsPsych">Mood Induction repository</a>. You can either directly use these files or fork this repository to customize.</p>
+<p>This tutorial consists of two parts. (1) I will first explain how you can <a href="./#embedding-the-mood-induction-into-qualtrics">embed the mood induction in Qualtrics</a>. (2) I will then <a href="./#explaining-the-code">explain the experiment code</a>. </p>
+<hr />
+<h2 id="embedding-the-mood-induction-into-qualtrics">Embedding the Mood Induction into Qualtrics</h2>
+<h3 id="hosting-the-mood-induction-scripts-in-github">Hosting the Mood Induction scripts in GitHub</h3>
+<p>To use jsPsych in Qualtrics, the jsPsych javascript and CSS files need to be online and loadable from Qualtrics. Creating a GitHub repository for your experiment helps you do so in simple steps.</p>
+<ol>
+<li>Go to the <a href="https://github.com/kywch/Mood-Induction_jsPsych">Mood Induction repository</a>.</li>
+<li>Follow the <a href="../github-pages/">Hosting jsPsych</a> tutorial to fork it to your GitHub repository and make the scripts available online.</li>
+<li>Also make sure that sound files play on your browser.</li>
+</ol>
+<p>When you are done, you can check the online files with your browser by directly going to the <strong>jspsych.js</strong>, <strong>jspsych.css</strong>, <strong>jspsych-fullscreen.js</strong>, and <strong>jspsych-mood-induction.js</strong>.</p>
+<ul>
+<li><strong>jspsych.js</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/jspsych.js</code>, like <a href='https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/jspsych.js'>https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/jspsych.js</a>.</li>
+<li><strong>jspsych.css</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/css/jspsych.css</code>, like <a href='https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/css/jspsych.css'>https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/css/jspsych.css</a>.</li>
+<li><strong>jspsych-fullscreen.js</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/plugins/jspsych-fullscreen.js</code>, like <a href='https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/plugins/jspsych-fullscreen.js'>https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/plugins/jspsych-fullscreen.js</a>.</li>
+<li><strong>jspsych-mood-induction.js</strong> should be available at <code>https://&lt;your-github-username&gt;.github.io/Mood-Induction_jsPsych/jspsych-mood-induction.js</code>, like <a href='https://kywch.github.io/Mood-Induction_jsPsych/jspsych-mood-induction.js'>https://kywch.github.io/Mood-Induction_jsPsych/jspsych-mood-induction.js</a>.</li>
+</ul>
+<p>Sound files are stored in the <a href="https://github.com/kywch/Mood-Induction_jsPsych/tree/master/music">music folder</a> and should be available online.</p>
+<hr />
+<h3 id="embedding-the-task-to-qualtrics">Embedding the task to Qualtrics</h3>
+<p>Let's log in to Qualtrics and take a look at each step.</p>
+<h4 id="step-1-create-a-new-qualtrics-project-and-then-a-new-question">Step 1. Create a new Qualtrics project and then a new question</h4>
+<p>First, create a new Qualtrics project. Then, create a new question and (1) change its format to <strong>Text/Graphic</strong>.</p>
+<p><img alt="Add JavaScript to a Qualtrics question" src="../img/hello-world-qualtrics-Step1_add_javascript_to_question.jpg" /></p>
+<hr />
+<h4 id="step-2-open-the-question-javascript-editor-and-copy-paste-the-whole-mood-induction-qualtricsjs">Step 2. Open the Question JavaScript editor and copy paste the whole <code>mood-induction-qualtrics.js</code></h4>
+<p>Keep going in the above picture. (2) Click the gear to open the dropdown menu, and then (3) find and click <strong>Add JavaScript</strong>. </p>
+<p><img alt="Open the Question JavaScript editor" src="../img/hello-world-qualtrics-Step2_open_javascript_editor.jpg" /></p>
+<p>Then copy-paste the whole <a href="https://raw.githubusercontent.com/kywch/Mood-Induction_jsPsych/master/mood-induction-qualtrics.js"><code>mood-induction-qualtrics.js</code> (click to see the code)</a> into the editor. </p>
+<p><font color=red>ALSO CHECK WHETHER THE URL, <code>task_github</code>, IS VALID.</font></p>
+<hr />
+<h4 id="step-3-open-the-question-html-editor-and-copy-paste-the-below-html-code">Step 3. Open the Question HTML editor and copy paste the below html code</h4>
+<p>The Change 3 section of the <code>mood-induction-demo.html</code> file contains the link to jsPsych CSS file, the inline styles for <code>display_stage</code> Div, and the error message to be displayed when things go wrong.</p>
+<p>To open the HTML editor, click the <code>HTML View</code> button. </p>
+<p><img alt="Open the Question HTML editor" src="../img/hello-world-qualtrics-Step3_open_question_html_editor.jpg" /></p>
+<p>Then, copy paste the portion of <code>mood-induction-demo.html</code> to the HTML editor, starting from <code>&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;</code> to <code>&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;</code>. </p>
+<pre><code class="language-html">&lt;!-- Change 3: Adding extra scripts for Qualtrics --&gt;
+&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;
+&lt;link href=&quot;https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/css/jspsych.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;
+&lt;/link&gt;
+&lt;div&gt;
+    &lt;span style=&quot;font-size: 24px;&quot;&gt;
+        &lt;br&gt;&lt;br&gt;
+        If you are seeing this message for &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;
+            &lt;b&gt;more than 5 minutes&lt;/b&gt;&lt;/span&gt;,&lt;br&gt;
+        please screen-capture this screen and send the image to us.
+        &lt;br&gt;&lt;br&gt;
+        &lt;span style=&quot;font-size: 28px;&quot;&gt;We are very sorry for the inconvenience.&lt;/span&gt;
+    &lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Change 2: Adding `display_stage` CSS and Div --&gt;
+&lt;style&gt;
+    #display_stage_background {
+        width: 100vw;
+        background-color: white;
+        z-index: -1;
+    }
+
+    #display_stage {
+        position: fixed;
+        left: 1vw;
+        top: 1vh;
+        height: 98vh;
+        width: 98vw;
+        background-color: white;
+        box-shadow: 1px 1px 1px #999;
+        border-radius: 15px;
+        z-index: 0;
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+
+    #centerbox {
+        width: 80vh;
+        height: 20vh;
+        position: relative;
+        top: 40%;
+        font-size: 22pt;
+        line-height: normal;
+    }
+&lt;/style&gt;
+&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;
+</code></pre>
+<p>After copy pasting, you should see something like below.</p>
+<p><img alt="After copy-paste" src="../img/hello-world-qualtrics-Step3_after_copy_paste.jpg" /></p>
+<hr />
+<h4 id="step-4-create-embedded-data-elements">Step 4. Create Embedded Data elements</h4>
+<p>To store the addition details about this audio test, you need to create the Embedded Data elements named <strong>mood</strong>, <strong>mood_script_order</strong> and <strong>mood_spent_time</strong> in your survey by following <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-flow/standard-elements/embedded-data/#CreatingAnEmbeddedDataElement">this Qualtrics tutorial</a>. </p>
+<ol>
+<li>Click <strong>Survey Flow</strong> from the Survey tab</li>
+<li>Click <strong>Add a New Element Here</strong></li>
+<li>Choose <strong>Embedded Data</strong> </li>
+<li>Click <strong>Create New Field or Choose From Dropdown</strong> and type <strong>mood</strong></li>
+<li>Click <strong>Add a New Field</strong> and type <strong>mood_script_order</strong></li>
+<li>Click <strong>Add a New Field</strong> and type <strong>mood_spent_time</strong></li>
+<li>Click <strong>Move</strong> of the new blocks you created (<code>Set Embedded Data</code> and <code>Then Branch If</code>) and move these blocks the top of Survey Flow</li>
+</ol>
+<hr />
+<h4 id="step-5-publish-and-test">Step 5. Publish and test!</h4>
+<p>Publish the survey by following <a href="https://www.qualtrics.com/support/survey-platform/survey-module/survey-publishing-versions/#PublishingNew">this Qualtrics tutorial</a>. Then, an anonymous Qualtrics link is generated. If you click this link, you should be able to see the same Audio Test running in Qualtrics. For example, try <a href="https://ssd.az1.qualtrics.com/jfe/form/SV_4YjlIFFZpmVxtwV">this Qualtrics link</a>.</p>
+<hr />
+<h2 id="explaining-the-code">Explaining the code</h2>
+<p>For the basics, please read the <a href="../hello-world/">Hello world tutorial</a>.</p>
+<h3 id="a-working-demo-in-a-local-browser-mood-induction-demohtml">A working demo in a local browser: mood-induction-demo.html</h3>
+<p>Adding the <code>display_element</code> parameter in the <code>jsPsych.init()</code> and having additional control over the display element is important for embedding jsPsych into Qualtrics. The changes in <a href="https://github.com/kywch/Mood-Induction_jsPsych/blob/master/mood-induction-demo.html"><code>mood-induction-demo.html</code> (click to see the code)</a> are in the same order as in the <a href="../hello-world/">Hello world tutorial</a>. You should be able to run the audio test simply by opening <code>mood-induction-demo.html</code> in a browser.</p>
+<p>Let's look at each change.</p>
+<h4 id="change-1-using-display_element">Change 1: Using <code>display_element</code></h4>
+<p>By adding the <code>display_element</code> parameter in the <code>jsPsych.init()</code> like below, jsPsych will render the experiment in the <code>&lt;div&gt;</code> called <code>display_stage</code>, which the current script does not have yet. So, let's add the <code>display_stage</code>.</p>
+<pre><code class="language-js">    /* Change 1: Using `display_element` */
+    jsPsych.init({
+        timeline: timeline,
+        display_element: 'display_stage'
+    })
+</code></pre>
+<h4 id="change-2-adding-display_stage-css-and-div">Change 2: Adding <code>display_stage</code> CSS and Div</h4>
+<p>The <code>display_stage</code> needs below CSS and HTML code after the <code>&lt;body&gt;</code> tag, which also include the <code>display_stage_background</code>. Both are necessary to function well. </p>
+<p>The <code>centerbox</code> is where we put the text prompts. </p>
+<pre><code class="language-html">&lt;!-- Change 2: Adding `display_stage` CSS and Div --&gt;
+&lt;style&gt;
+    #display_stage_background {
+        width: 100vw;
+        background-color: white;
+        z-index: -1;
+    }
+
+    #display_stage {
+        position: fixed;
+        left: 1vw;
+        top: 1vh;
+        height: 98vh;
+        width: 98vw;
+        background-color: white;
+        box-shadow: 1px 1px 1px #999;
+        border-radius: 15px;
+        z-index: 0;
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+
+    #centerbox {
+        width: 80vh;
+        height: 20vh;
+        position: relative;
+        top: 40%;
+        font-size: 22pt;
+        line-height: normal;
+    }
+&lt;/style&gt;
+&lt;!-- COPY PASTE TO QUALTRICS UP TO HERE --&gt;
+
+&lt;div id='display_stage_background'&gt;&lt;/div&gt;
+&lt;div id='display_stage'&gt;&lt;/div&gt;
+</code></pre>
+<h4 id="change-3-adding-extra-scripts-for-qualtrics">Change 3: Adding extra scripts for Qualtrics</h4>
+<p>The below scripts are not necessary to run this task, but you need to copy-paste these in Qualtrics later. </p>
+<p>One critical point is that now we use the jsPsych stylesheet hosted in the GitHub Pages (explained above in the <a href="../rt-task/#step-4-enable-github-pages-for-your-experiment">Hosting jsPsych</a> section) instead of the CSS file in your computer. This is important because Qualtrics can also access the GitHub-hosted files.</p>
+<pre><code class="language-html">&lt;!-- Change 3: Adding extra scripts for Qualtrics --&gt;
+&lt;!-- COPY PASTE TO QUALTRICS FROM HERE --&gt;
+&lt;link href=&quot;https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/css/jspsych.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;
+&lt;/link&gt;
+&lt;div&gt;
+    &lt;span style=&quot;font-size: 24px;&quot;&gt;
+        &lt;br&gt;&lt;br&gt;
+        If you are seeing this message for &lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;
+            &lt;b&gt;more than 5 minutes&lt;/b&gt;&lt;/span&gt;,&lt;br&gt;
+        please screen-capture this screen and send the image to us.
+        &lt;br&gt;&lt;br&gt;
+        &lt;span style=&quot;font-size: 28px;&quot;&gt;We are very sorry for the inconvenience.&lt;/span&gt;
+    &lt;/span&gt;
+&lt;/div&gt;
+</code></pre>
+<h3 id="qualtrics-transformation-mood-induction-qualtricsjs">Qualtrics transformation: mood-induction-qualtrics.js</h3>
+<p>To make your jsPsych experiment work in Qualtrics, you need to add your code to the below skeleton provided by Qualtrics Question JavaScript Editor. For details, see the <a href="https://www.qualtrics.com/support/survey-platform/survey-module/question-options/add-javascript/">Add JavaScript help page</a>.</p>
+<pre><code class="language-js">Qualtrics.SurveyEngine.addOnload(function()
+{
+    /*Place your JavaScript here to run when the page loads*/
+
+});
+
+Qualtrics.SurveyEngine.addOnReady(function()
+{
+    /*Place your JavaScript here to run when the page is fully displayed*/
+
+});
+
+Qualtrics.SurveyEngine.addOnUnload(function()
+{
+    /*Place your JavaScript here to run when the page is unloaded*/
+
+});
+</code></pre>
+<p>Let's look at each change.</p>
+<h4 id="change-1-hiding-the-next-button">Change 1: Hiding the Next button</h4>
+<p>The below javascript code hides the Next button and puts the javascript code in the driving seat.</p>
+<pre><code class="language-js">/* Change 1: Hiding the Next button */
+// Retrieve Qualtrics object and save in qthis
+var qthis = this;
+
+// Hide buttons
+qthis.hideNextButton();
+</code></pre>
+<h4 id="change-2-defining-and-load-required-resources">Change 2: Defining and load required resources</h4>
+<p>The below javascript defines where the necessary files are so that Qualtrics can load these. If you enabled GitHub Pages of your repository, Qualtrics can load the necessary JS, CSS, and image files right away.</p>
+<p><font color=red>AFTER TESTING, CHANGE the <code>flag_debug</code> variable to <code>false</code>.</font></p>
+<pre><code class="language-js">/* Change 2: Defining and load required resources */
+// task-related variables
+var flag_debug = true;
+var time_unit = 1000; // ms
+var mood_spent_time = '';
+var script_order = '';
+
+// requiredResources must include all the required JS files
+var task_github = &quot;https://kywch.github.io/Mood-Induction_jsPsych/&quot;; // https://&lt;your-github-username&gt;.github.io/&lt;your-experiment-name&gt;
+var requiredResources = [
+    task_github + &quot;jspsych-6.1.0/jspsych.js&quot;,
+    task_github + &quot;jspsych-6.1.0/plugins/jspsych-fullscreen.js&quot;,
+    task_github + &quot;jspsych-mood-induction.js&quot;
+];
+
+function loadScript(idx) {
+    console.log(&quot;Loading &quot;, requiredResources[idx]);
+    jQuery.getScript(requiredResources[idx], function () {
+        if ((idx + 1) &lt; requiredResources.length) {
+            loadScript(idx + 1);
+        } else {
+            initExp();
+        }
+    });
+}
+
+if (window.Qualtrics &amp;&amp; (!window.frameElement || window.frameElement.id !== &quot;mobile-preview-view&quot;)) {
+    loadScript(0);
+}
+</code></pre>
+<h4 id="change-3-appending-the-display_stage-div-using-jquery">Change 3: Appending the display_stage Div using jQuery</h4>
+<p>In Qualtrics, jQuery (loaded by default) is used to append the <code>display_stage_background</code> and <code>display_stage</code> Divs. The CSS for these elements will be added directly to Question HTML later in this tutorial.</p>
+<pre><code class="language-js">/* Change 3: Appending the display_stage Div using jQuery */
+// jQuery is loaded in Qualtrics by default
+jQuery(&quot;&lt;div id = 'display_stage_background'&gt;&lt;/div&gt;&quot;).appendTo('body');
+jQuery(&quot;&lt;div id = 'display_stage'&gt;&lt;/div&gt;&quot;).appendTo('body');
+</code></pre>
+<h4 id="change-4-adding-resources-scripts-and-helper-functions">Change 4: Adding resources, scripts, and helper functions</h4>
+<p>Note that the music-only duration is set to 60 s (or 6 s when <code>flag_debug</code> is <code>true</code>) and the prompt duration is set to 30 s (or 3 s when <code>flag_debug</code> is <code>true</code>). See inside the function <code>generate_mood_induction</code> to modify these.</p>
+<pre><code class="language-js">/* Change 4: Adding resouces, scripts, and helper functions */
+var mood_music = {
+    happy: task_github + 'music/Mazurka_HappyMIP.mp3', // happy
+    angry: task_github + 'music/NightOnBaldMountain_AngerMIP.mp3', // angry
+    fear: task_github + 'music/PsychoTheme_FearMIP.mp3', // fear
+    sad: task_github + 'music/ChopinOpus28no6_SadMIP.mp3', // sad
+    neutral: task_github + 'music/ChopinWaltz11_NeutralMIP.mp3' // neutral
+};
+var mood_scripts = {};
+
+mood_scripts['happy'] = [ // happy
+    &quot;You just got a new job, and it's even better than you expected.&quot;,
+    &quot;You wake up on a Saturday after a number of wintry-cold rainy days, and the temperature is in the high sixties.&quot;,
+    &quot;You buy a lottery ticket and you win $100.00 instantly.&quot;,
+    &quot;You and a friend go to a nice restaurant. The meal, the conversation and the atmosphere are all perfect.&quot;,
+    &quot;You get out of class or work early. It’s a beautiful day and you and some friends go out for ice cream.&quot;,
+    &quot;You spend a day in the mountains; the air is clean and sharp, the day sunny, and you take a swim in a beautiful lake.&quot;,
+    &quot;You unexpectedly run into someone you like. You go for coffee and have a great conversation. You discover you think alike, and share many of the same interests.&quot;,
+    &quot;It’s your birthday and friends throw you a terrific surprise party.&quot;
+];
+
+mood_scripts['angry'] = [ // angry
+    &quot;A student stole the exam in an important course you’re taking. The teacher takes it out on everyone by making such a tough exam that you get a very low grade even though you understood the material.&quot;,
+    &quot;A friend of yours was assaulted by a convicted rapist just released on parole.&quot;,
+    &quot;Your boss decides to promote another employee who is related to him to a position he knew you wanted. He tells you that you didn’t work hard enough, even though he knows you worked much harder and better than his relative.&quot;,
+    &quot;It’s a very hot day, and you have been standing in a long, slow line at the Department of Motor Vehicles for over an hour. Kids are screaming all around you when two of the four clerks close their windows for no apparent reason.&quot;,
+    &quot;Someone put a big scratch in your car while it was parked in the lot and didn’t even bother to leave a note.&quot;,
+    &quot;The landlord doesn’t like you and has been accusing you of unsanitary conditions, even though you keep your apartment very clean. You arrive home only to see an eviction notice on your door.&quot;,
+    &quot;Somebody files false legal claim against you.&quot;,
+    &quot;You have had a long, busy day and the person you live with starts to complain about how you forgot to do something that you forgot to do.&quot;
+]
+
+mood_scripts['fear'] = [ // fear
+    &quot;You are riding alone in an elevator when a man walks in and pulls out a knife. He stares at you without saying what he wants.&quot;,
+    &quot;You’re in an overcrowded carriage at the top of a ferris wheel when the mechanism malfunctions and the wheel jams. A thunder storm is developing, and the wheel sways in the wind, it’s metal creaking.&quot;,
+    &quot;Your car breaks down on a back street in a dangerous part of the city. You start to go for help when you see several teenage boys walking toward you carrying weapons.&quot;,
+    &quot;You are driving down an unfamiliar road on a stormy night when your car skids out of control.&quot;,
+    &quot;You are driving down the road when a tractor trailer in the opposite direction crosses over into your lane.&quot;,
+    &quot;You’re in your your bedroom late at night when you hear someone enter your apartment. No one else you know has a key.&quot;,
+    &quot;You’re swimming in a dark lake and something big, slimy, and prickly brushes against your leg.&quot;,
+    &quot;You’re having a nightmare about someone chasing you and you fall into a bottomless pit. You start to scream in your sleep.&quot;
+];
+
+mood_scripts['sad'] = [ // sad
+    &quot;You read in the newspaper that a teacher you used to house-sit for recently passed away.&quot;,
+    &quot;You are told by a young relative that she has cancer and only six months to live.&quot;,
+    &quot;You have been dating someone and thought it looked quite promising, when the person calls you up and tells you he/she doesn’t want to see you anymore.&quot;,
+    &quot;A pet you were really fond of has died.&quot;,
+    &quot;Your best friend just got married and is moving far away from you.&quot;,
+    &quot;No one remembers your birthday.&quot;,
+    &quot;A relative of yours, with whom you’ve shared a close relationship, has been diagnosed as having cancer and has only a short time to live.&quot;,
+    &quot;A beloved pet dies of old age. You have very fond memories of your pet and are reminded of them every time you see a similar breed.&quot;
+];
+
+mood_scripts['neutral'] = [ // neutral
+    &quot;You get up in the morning, get dressed and have your usual breakfast.&quot;,
+    &quot;You go to the supermarket and get a week’s worth of groceries. You unload the bags from the car and put the food away.&quot;,
+    &quot;It is the evening and you are feeling tired. You have a long bath, wash your hair, and watch some television.&quot;,
+    &quot;You decide to clean your kitchen, and spend some time wiping down the counter tops and sweeping the floor.&quot;,
+    &quot;As you are driving you notice you are low on gas. You fill up your car from a nearby gas station and buy a drink while you are there.&quot;,
+    &quot;You go to a restaurant and order a starter and a main course. You have a glass of water with your meal.&quot;,
+    &quot;Whilst going for a walk you meet someone you know. You chat about the weather and your plans for the weekend.&quot;,
+    &quot;You and some friends go to your local cinema and watch a film. After it is finished you go home.&quot;
+];
+
+function generate_mood_induction(mood = 'happy') {
+
+    if (mood_music[mood] === undefined) {
+        throw 'Undefined mood was entered.';
+    }
+
+    var pages = [];
+    pages.push({
+        prompt: '&lt;div id=centerbox&gt;Please listen to the music for a minute.&lt;/div&gt;',
+        duration: 60 * time_unit
+    });
+    let order = jsPsych.randomization.shuffle([...Array(mood_scripts[mood].length).keys()])
+    for (let ii of order) {
+        pages.push({
+            prompt: &quot;&lt;div id=centerbox&gt;&quot; + mood_scripts[mood][ii] + &quot;&lt;/div&gt;&quot;,
+            duration: 30 * time_unit
+        });
+    }
+    return {
+        type: 'mood-induction',
+        background_music: mood_music[mood],
+        pages: pages,
+        on_finish: function (data) {
+            script_order = order.toString().replace(/,/g, ';');
+            mood_spent_time = data.view_history.toString().replace(/,/g, ';');
+            //console.log(pages);
+            //console.log(script_order, mood_spent_time);
+        }
+    }
+}
+</code></pre>
+<h4 id="change-5-wrapping-jspsychinit-in-a-function">Change 5: Wrapping jsPsych.init() in a function</h4>
+<p>The main experiment codes are wrapped in the <code>initExp</code> function to make sure it runs after all the necessary library and plugin files are loaded (as defined in the <code>loadScript</code> function above).</p>
+<p>You can pass <code>mood</code> via URL parameter, like <code>?mood=happy</code>, and this script can read it by piping from an Embedded Data <code>mood</code>. </p>
+<pre><code class="language-js">/* Change 5: Wrapping jsPsych.init() in a function */
+function initExp() {
+
+    var mood = &quot;${e://Field/mood}&quot;;
+
+    // experimental session-defining variables
+    if (flag_debug) {
+
+        // WARNING: WHEN DEPLOYING THIS, BE SURE TO CHANGE flag_debug to false
+
+        // if true: make the button appear faster
+        time_unit = 100; // ms instead of 1000 ms
+        console.log('Entered mood: ', mood);
+    }
+
+    // push all the procedures, which are defined in stop-it_main.js to the overall timeline
+    var timeline = []; // this array stores the events we want to run in the experiment
+
+    // use the full screen
+    // also playing sound only works after an interaction with user, like button press
+    timeline.push({
+        type: 'fullscreen',
+        message: '&lt;p&gt;Music will start to play when you press the button below.&lt;/p&gt;&lt;br&gt;',
+        fullscreen_mode: true
+    });
+
+    timeline.push(generate_mood_induction(mood));
+
+    timeline.push({
+        type: 'fullscreen',
+        fullscreen_mode: false
+    });
+
+    jsPsych.init({
+        display_element: 'display_stage',
+        timeline: timeline,
+
+        // see the Change 6
+
+    });
+}
+
+</code></pre>
+<h4 id="change-6-adding-the-clean-up-and-continue-functions">Change 6: Adding the clean up and continue functions</h4>
+<p>When the jsPsych ends, <code>display_stage</code> and <code>display_stage_background</code> should be removed. </p>
+<p>This script also saves additional data (script order and spent time)) to Qualtrics Embedded Data.</p>
+<p>After saving, the script executes the <code>clickNextButton</code> to simulate clicking the Next button and proceed to the next question.</p>
+<pre><code class="language-js">    on_finish: function () {
+
+        /* Change 6: Adding the clean up and continue functions.*/
+
+        // save the induction-related data to Qualtrics
+        Qualtrics.SurveyEngine.setEmbeddedData(&quot;mood_script_order&quot;, script_order);
+        Qualtrics.SurveyEngine.setEmbeddedData(&quot;mood_spent_time&quot;, mood_spent_time);
+        if (flag_debug) {
+            console.log('Mood script order: ', script_order);
+            console.log('Mood spent time: ', mood_spent_time);
+        }
+
+        // clear the stage
+        jQuery('#display_stage').remove();
+        jQuery('#display_stage_background').remove();
+
+        // simulate click on Qualtrics &quot;next&quot; button, making use of the Qualtrics JS API
+        qthis.clickNextButton();
+    }
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../audio-test/" class="btn btn-neutral float-left" title="Embedding Quick Audio Test"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2020-2023 <a href="https://kywch.github.io/" target="_blank">Kyoung Whan Choe</a>. </p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../audio-test/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
